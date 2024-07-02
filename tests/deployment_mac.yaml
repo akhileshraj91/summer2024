@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consumer
+spec:
+  selector:
+    matchLabels:
+      app: consumer
+  template:
+    metadata:
+      labels:
+        app: consumer
+    spec:
+      hostNetwork: true
+      containers:
+      - name: consumer
+        image: akhileshraj/nrm_ubuntu:mac
+        ports:
+        - containerPort: 9100
+        env:
+        # TODO: we need to test this to make sure the pod can see the host's NRM daemon
+        - name: NRM_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        - name: NRM_RPC_PORT
+          value: "3456"
+        - name: NRM_PUB_PORT
+          value: "2345"
+

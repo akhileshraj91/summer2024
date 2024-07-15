@@ -11,14 +11,14 @@ import tarfile
 
 
 
-#ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136.0, 141.0, 147.0, 153.0, 159.0, 165.0]
-ACTIONS = [78.0]
-
+ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136.0, 141.0, 147.0, 153.0, 159.0, 165.0]
+# ACTIONS = [78.0]
 
 # argument parser for the application
 
 i = 0
-APPLICATION = 'ones-stream-full'
+# APPLICATION = 'ones-stream-full'
+APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale']
 while i < len(sys.argv):
     if sys.argv[i] == '--application':
         APPLICATION = sys.argv[i+1]
@@ -27,25 +27,14 @@ while i < len(sys.argv):
 
 # define the problem size and iterations based on the applications
 
-if APPLICATION == 'ones-stream-full':
-    PROBLEM_SIZE = 33554432
-    ITERATIONS = 1000
+# if APPLICATION == 'ones-stream-full':
+PROBLEM_SIZE = 33554432
+ITERATIONS = 1000
 
 # initialize the nrm clients
 
 client = nrm.Client()
 actuators = client.list_actuators()
-
-
-
-# start the experiment 
-experiment = 'identification'
-EXP_DIR = f'./experiment_data/{experiment}/{APPLICATION}'
-if os.path.exists(EXP_DIR):
-    print("Directories exist")
-else:
-    os.makedirs(EXP_DIR)
-    print("Directory '%s' created") 
 
 
 # For post processing
@@ -63,10 +52,8 @@ def compress_files(iteration):
 
     print(f'Compressed files into {tar_file}')
 
-# def organize_files(iteration):
 
-
-def experiment_for(PCAP):
+def experiment_for(PCAP, APPLICATION, EXP_DIR):
     with open(f'{EXP_DIR}/measured_power.csv', mode='w', newline='') as power_file, open(f'{EXP_DIR}/progress.csv', mode='w', newline='') as progress_file, open(f'{EXP_DIR}/energy.csv', mode='w', newline='') as energy_file, open(f'{EXP_DIR}/parameters.yaml', mode='w', newline='') as parameter_file, open(f'{EXP_DIR}/papi.csv', mode='w', newline='') as papi_file:
         power_writer = csv.writer(power_file)
         progress_writer = csv.writer(progress_file)
@@ -94,13 +81,14 @@ def experiment_for(PCAP):
                 # print(scope[-1])
                 energy_writer.writerow([timestamp, scope[-1], value])
             elif "PAPI" in sensor:
-                # print(args)
+                print(args)
                 papi_writer.writerow([timestamp, sensor, value])
 
 
         client.set_event_listener(cb)
         client.start_event_listener("") 
-        process = subprocess.Popen(['sudo', 'nrm-papiwrapper', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCR', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_L3_TCM', '--', 'ones-stream-full', '33554432', '1000'])
+        process = subprocess.Popen(['nrm-papiwrapper', '-i' , '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', '33554432', '1000'])
+        #process = subprocess.Popen(['sudo','nrm-papiwrapper', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCR', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_L3_TCM', '--', 'ones-stream-full', '33554432', '1000'])
         # -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e ###PAPI_VEC_INS### -e PAPI_L3_TCR -e PAPI_L3_TCM
         client.actuate(actuators[0],PCAP)
         while True:
@@ -112,9 +100,23 @@ def experiment_for(PCAP):
     print("----------------------------------")
 
 
+# start the experiment 
+
+
+
+   
+
 if __name__ == "__main__":
-    for PCAP in ACTIONS:
-        experiment_for(PCAP)
+    for APPLICATION in APPLICATIONS:
+        experiment = 'identification'
+        EXP_DIR = f'./experiment_data/{experiment}/{APPLICATION}'
+        if os.path.exists(EXP_DIR):
+            print(f"Directories {EXP_DIR} exist")
+        else:
+            os.makedirs(EXP_DIR)
+            print(f"Directory {EXP_DIR} created") 
+        for PCAP in ACTIONS:
+            experiment_for(PCAP, APPLICATION, EXP_DIR)
 
 
 

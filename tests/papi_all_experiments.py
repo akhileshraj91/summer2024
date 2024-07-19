@@ -11,8 +11,8 @@ import tarfile
 
 
 
-ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136.0, 141.0, 147.0, 153.0, 159.0, 165.0]
-# ACTIONS = [78.0]
+# ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136.0, 141.0, 147.0, 153.0, 159.0, 165.0]
+ACTIONS = [78.0]
 
 # argument parser for the application
 
@@ -87,9 +87,14 @@ def experiment_for(PCAP, APPLICATION, EXP_DIR):
 
         client.set_event_listener(cb)
         client.start_event_listener("") 
-        process = subprocess.Popen(['nrm-papiwrapper', '-i' , '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', '33554432', '1000'])
+        process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', '33554432', '1000'])
         #process = subprocess.Popen(['sudo','nrm-papiwrapper', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCR', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_L3_TCM', '--', 'ones-stream-full', '33554432', '1000'])
         # -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e ###PAPI_VEC_INS### -e PAPI_L3_TCR -e PAPI_L3_TCM
+        # process = subprocess.Popen(['nrm-papiwrapper', '-i' , '-e', 'PAPI_L3_TCR', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', '33554432', '1000'])
+        # process = subprocess.Popen(['nrm-papiwrapper', '-i' , '-e', 'PAPI_VEC_INS', '--', f'{APPLICATION}', '33554432', '1000'])
+        # process = subprocess.Popen(['nrm-papiwrapper', '-i' , '-e', 'PAPI_L3_TCR', '--', f'{APPLICATION}', '33554432', '1000'])
+
+
         client.actuate(actuators[0],PCAP)
         while True:
             time.sleep(1)

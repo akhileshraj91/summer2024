@@ -11,8 +11,8 @@ import tarfile
 
 
 
-ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136.0, 141.0, 147.0, 153.0, 159.0, 165.0]
-# ACTIONS = [78.0]
+#ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136.0, 141.0, 147.0, 153.0, 159.0, 165.0]
+ACTIONS = [159.0]
 
 
 # argument parser for the application
@@ -29,7 +29,7 @@ while i < len(sys.argv):
 
 if APPLICATION == 'ones-stream-full':
     PROBLEM_SIZE = 33554432
-    ITERATIONS = 1000
+    ITERATIONS = 10000
 
 # initialize the nrm clients
 
@@ -96,7 +96,7 @@ def experiment_for(PCAP):
 
         client.set_event_listener(cb)
         client.start_event_listener("") 
-        process = subprocess.Popen(['ones-stream-full', '33554432', '1000'])
+        process = subprocess.Popen(['ones-stream-full', '33554432', '10000'])
         client.actuate(actuators[0],PCAP)
         while True:
             time.sleep(1)

@@ -32,6 +32,13 @@
         - matplotlib
         - pandas
 
+
+  - name: Add the geopm PPA repository
+    apt_repository:
+      repo: 'ppa:geopm/release'
+      state: present
+      codename: jammy
+
   - name: Install apt dependencies
     ansible.builtin.apt:
       name:
@@ -168,7 +175,7 @@
   - name: Configure PYTHONPATH for user
     ansible.builtin.lineinfile:
       path: ~{{ ansible_user }}/.bashrc
-      regexp: 'export PYTHONPATH=/usr/lib/python3.10/site-packages:$PYTHONPATH'
+      regexp: '^export PYTHONPATH='
       line: 'export PYTHONPATH=/usr/lib/python3.10/site-packages:$PYTHONPATH # Added by ansible'
       state: present
 
@@ -183,5 +190,4 @@
       ./autogen.sh
       ./configure
       make -j
-      make install
-  
+      make install  

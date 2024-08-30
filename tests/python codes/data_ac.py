@@ -42,7 +42,7 @@ with open('measured_power.csv', mode='w', newline='') as power_file, open('progr
     client.start_event_listener("") 
     actuators = client.list_actuators()
     # Run the terminal command in the background
-    process = subprocess.Popen(['ones-stream-full', '33554432', '1000'])
+    process = subprocess.Popen(['ones-solvers-bicgstab', '10000', 'poor', '0', '1000'])
 
     # Keep the main script running
     while True:

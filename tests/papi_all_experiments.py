@@ -11,14 +11,14 @@ import tarfile
 
 
 
-# ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136.0, 141.0, 147.0, 153.0, 159.0, 165.0]
-ACTIONS = [78.0]
+ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136.0, 141.0, 147.0, 153.0, 159.0, 165.0]
+# ACTIONS = [78.0]
 
 # argument parser for the application
 
 i = 0
-# APPLICATION = 'ones-stream-full'
-APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale']
+APPLICATIONS = ['ones-npb-ep', 'ones-solvers-cg', 'ones-solvers-bicgstab']
+# APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale', 'ones-npb-ep', 'ones-solvers-cg', 'ones-solvers-bicgstab']
 while i < len(sys.argv):
     if sys.argv[i] == '--application':
         APPLICATION = sys.argv[i+1]
@@ -27,9 +27,8 @@ while i < len(sys.argv):
 
 # define the problem size and iterations based on the applications
 
-# if APPLICATION == 'ones-stream-full':
-PROBLEM_SIZE = 33554432
-ITERATIONS = 1000
+
+
 
 # initialize the nrm clients
 
@@ -54,6 +53,15 @@ def compress_files(iteration):
 
 
 def experiment_for(PCAP, APPLICATION, EXP_DIR):
+    if "stream" in APPLICATION:
+        PROBLEM_SIZE = 33554432
+        ITERATIONS = 10000
+    elif "solvers" in APPLICATION:
+        PROBLEM_SIZE = 10000
+        ITERATIONS = 1000
+    elif "ep" in APPLICATION:
+        PROBLEM_SIZE = 22
+        ITERATIONS = 10000
     with open(f'{EXP_DIR}/measured_power.csv', mode='w', newline='') as power_file, open(f'{EXP_DIR}/progress.csv', mode='w', newline='') as progress_file, open(f'{EXP_DIR}/energy.csv', mode='w', newline='') as energy_file, open(f'{EXP_DIR}/parameters.yaml', mode='w', newline='') as parameter_file, open(f'{EXP_DIR}/papi.csv', mode='w', newline='') as papi_file:
         power_writer = csv.writer(power_file)
         progress_writer = csv.writer(progress_file)
@@ -64,7 +72,7 @@ def experiment_for(PCAP, APPLICATION, EXP_DIR):
         progress_writer.writerow(['time', 'value'])
         energy_writer.writerow(['time', 'scope', 'value'])
         parameter_file.write(f"PCAP: {PCAP}\n")
-        papi_writer.writerow(['time','scope','value']) 
+        papi_writer.writerow(['time','scope','value'])
 
         def cb(*args):
             # print(args)
@@ -81,13 +89,17 @@ def experiment_for(PCAP, APPLICATION, EXP_DIR):
                 # print(scope[-1])
                 energy_writer.writerow([timestamp, scope[-1], value])
             elif "PAPI" in sensor:
-                print(args)
+                # print(args)
                 papi_writer.writerow([timestamp, sensor, value])
 
 
         client.set_event_listener(cb)
         client.start_event_listener("") 
-        process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', '33554432', '1000'])
+        if "solvers" in APPLICATION:
+            process = subprocess.Popen(['sudo', 'nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', 'poor', '0', f'{ITERATIONS}'])
+        else:    
+            process = subprocess.Popen(['sudo', 'nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'{ITERATIONS}'])
+
         #process = subprocess.Popen(['sudo','nrm-papiwrapper', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCR', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_L3_TCM', '--', 'ones-stream-full', '33554432', '1000'])
         # -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e ###PAPI_VEC_INS### -e PAPI_L3_TCR -e PAPI_L3_TCM
         # process = subprocess.Popen(['nrm-papiwrapper', '-i' , '-e', 'PAPI_L3_TCR', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', '33554432', '1000'])

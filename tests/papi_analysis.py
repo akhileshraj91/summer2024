@@ -26,6 +26,11 @@ fig_pow, axs_pow = plt.subplots(1,1)
 # Create a colormap
 colormap = plt.cm.get_cmap('tab10', len(apps))
 
+def calculate_power_with_wraparound(current, previous, time_diff, wraparound_value=262143.328850):
+    diff = current - previous
+    if diff < 0:  # Wraparound detected
+        diff = (wraparound_value - previous) + current
+    return diff / time_diff
 
 def compute_power(pubEnergy):
     power = {}
@@ -36,9 +41,23 @@ def compute_power(pubEnergy):
         else:
             geopm_sensor1 = pd.concat([geopm_sensor1, pd.DataFrame([{'timestamp': row['time'], 'value': row['value']}])], ignore_index=True)
 
-    power['geopm_power_0'] = [(geopm_sensor0['value'][i] - geopm_sensor0['value'][i-1])/(geopm_sensor0['timestamp'][i] - geopm_sensor0['timestamp'][i-1]) for i in range(1,len(geopm_sensor0))]
-    power['geopm_power_1'] = [(geopm_sensor1['value'][i] - geopm_sensor1['value'][i-1])/(geopm_sensor1['timestamp'][i] - geopm_sensor1['timestamp'][i-1]) for i in range(1,len(geopm_sensor1))]
-    power['timestamp'] = (geopm_sensor0['timestamp'] + geopm_sensor1['timestamp']) / 2
+
+    power['geopm_power_0'] = [
+        calculate_power_with_wraparound(
+            geopm_sensor0['value'][i],
+            geopm_sensor0['value'][i-1],
+            geopm_sensor0['timestamp'][i] - geopm_sensor0['timestamp'][i-1]
+        ) for i in range(1, len(geopm_sensor0))
+    ]
+
+    # Apply the same logic to geopm_power_1
+    power['geopm_power_1'] = [
+        calculate_power_with_wraparound(
+            geopm_sensor1['value'][i],
+            geopm_sensor1['value'][i-1],
+            geopm_sensor1['timestamp'][i] - geopm_sensor1['timestamp'][i-1]
+        ) for i in range(1, len(geopm_sensor1))
+    ]
 
     min_length = min(len(power['geopm_power_0']), len(power['geopm_power_1']))
     geopm_power_0 = power['geopm_power_0'][:min_length]
@@ -64,9 +83,9 @@ for app_index, app in enumerate(apps):
                 tar = tarfile.open(cwd + '/' + fname, "r")
                 tar.extractall(path=cwd + '/' + fname[:-4])
                 tar.close()
-    traces[app] = next(os.walk(cwd))[1]
+    traces[app] = {'directories': next(os.walk(cwd))[1]}
     data = {}
-    for trace in traces[app]:
+    for trace in traces[app]['directories']:
         data[trace] = {}
         pwd = f'{cwd}/{trace}'
         papi_file = pd.read_csv(f'{pwd}/papi.csv')
@@ -116,12 +135,17 @@ for app_index, app in enumerate(apps):
         axs_pow.scatter(data[trace]['PCAP'],np.mean(data[trace]['power_calculated']['average_power']), label=f'{app}', color=colormap(app_index))
         if np.mean(data[trace]['power_calculated']['average_power']) < 0:
             print("pause")
+    traces[app]['data'] = data
 fig.legend(legend_handles, legend_labels, loc='upper center', ncol=4, fontsize=8)  # Adjust legend position and font size
+plt.grid(True)  # Add grid to the main figure
 fig.savefig(f'{current_working_directory}/average_plot.pdf')
-# fig_pow.legend(legend_handles, legend_labels, loc='upper right', ncols=4, fontsize=8)
+
+fig_pow.legend(legend_handles, legend_labels, loc='upper right', ncols=4, fontsize=8)
+axs_pow.grid(True)  # Add grid to the power figure
 fig_pow.savefig(f'{current_working_directory}/power_relation.pdf')
-
-
 
 plt.tight_layout()  # Adjust layout to prevent overlap
 plt.show()
+
+# Remove or comment out this line as it's no longer needed
+# plt.grid(True)

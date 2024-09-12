@@ -1,0 +1,4006 @@
+version: 1
+actions:
+- time: 0
+  action: set_rapl_powercap
+  args:
+  - 120
+- time: 5
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 10
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 15
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 20
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 25
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 30
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 35
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 40
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 45
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 50
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 55
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 60
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 65
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 70
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 75
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 80
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 85
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 90
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 95
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 100
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 105
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 110
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 115
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 120
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 125
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 130
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 135
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 140
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 145
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 150
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 155
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 160
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 165
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 170
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 175
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 180
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 185
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 190
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 195
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 200
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 205
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 210
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 215
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 220
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 225
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 230
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 235
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 240
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 245
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 250
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 255
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 260
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 265
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 270
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 275
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 280
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 285
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 290
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 295
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 300
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 305
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 310
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 315
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 320
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 325
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 330
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 335
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 340
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 345
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 350
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 355
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 360
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 365
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 370
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 375
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 380
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 385
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 390
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 395
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 400
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 405
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 410
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 415
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 420
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 425
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 430
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 435
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 440
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 445
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 450
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 455
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 460
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 465
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 470
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 475
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 480
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 485
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 490
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 495
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 500
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 505
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 510
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 515
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 520
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 525
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 530
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 535
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 540
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 545
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 550
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 555
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 560
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 565
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 570
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 575
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 580
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 585
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 590
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 595
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 600
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 605
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 610
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 615
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 620
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 625
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 630
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 635
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 640
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 645
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 650
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 655
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 660
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 665
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 670
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 675
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 680
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 685
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 690
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 695
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 700
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 705
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 710
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 715
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 720
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 725
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 730
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 735
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 740
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 745
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 750
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 755
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 760
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 765
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 770
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 775
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 780
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 785
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 790
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 795
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 800
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 805
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 810
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 815
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 820
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 825
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 830
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 835
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 840
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 845
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 850
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 855
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 860
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 865
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 870
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 875
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 880
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 885
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 890
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 895
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 900
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 905
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 910
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 915
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 920
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 925
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 930
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 935
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 940
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 945
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 950
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 955
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 960
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 965
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 970
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 975
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 980
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 985
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 990
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 995
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 1000
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 1005
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 1010
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 1015
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 1020
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 1025
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 1030
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 1035
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 1040
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 1045
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 1050
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 1055
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 1060
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 1065
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 1070
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 1075
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 1080
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 1085
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 1090
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 1095
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 1100
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 1105
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 1110
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 1115
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 1120
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 1125
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 1130
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 1135
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 1140
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 1145
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 1150
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 1155
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 1160
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 1165
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 1170
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 1175
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 1180
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 1185
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 1190
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 1195
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 1200
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 1205
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 1210
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 1215
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 1220
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 1225
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 1230
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 1235
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 1240
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 1245
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 1250
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 1255
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 1260
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 1265
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 1270
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 1275
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 1280
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 1285
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 1290
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 1295
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 1300
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 1305
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 1310
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 1315
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 1320
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 1325
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 1330
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 1335
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 1340
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 1345
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 1350
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 1355
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 1360
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 1365
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 1370
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 1375
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 1380
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 1385
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 1390
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 1395
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 1400
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 1405
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 1410
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 1415
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 1420
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 1425
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 1430
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 1435
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 1440
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 1445
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 1450
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 1455
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 1460
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 1465
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 1470
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 1475
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 1480
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 1485
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 1490
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 1495
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 1500
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 1505
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 1510
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 1515
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 1520
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 1525
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 1530
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 1535
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 1540
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 1545
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 1550
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 1555
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 1560
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 1565
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 1570
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 1575
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 1580
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 1585
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 1590
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 1595
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 1600
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 1605
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 1610
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 1615
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 1620
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 1625
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 1630
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 1635
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 1640
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 1645
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 1650
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 1655
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 1660
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 1665
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 1670
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 1675
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 1680
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 1685
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 1690
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 1695
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 1700
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 1705
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 1710
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 1715
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 1720
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 1725
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 1730
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 1735
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 1740
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 1745
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 1750
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 1755
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 1760
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 1765
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 1770
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 1775
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 1780
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 1785
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 1790
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 1795
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 1800
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 1805
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 1810
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 1815
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 1820
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 1825
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 1830
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 1835
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 1840
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 1845
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 1850
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 1855
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 1860
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 1865
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 1870
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 1875
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 1880
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 1885
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 1890
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 1895
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 1900
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 1905
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 1910
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 1915
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 1920
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 1925
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 1930
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 1935
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 1940
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 1945
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 1950
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 1955
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 1960
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 1965
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 1970
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 1975
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 1980
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 1985
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 1990
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 1995
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 2000
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 2005
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 2010
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 2015
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 2020
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 2025
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 2030
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 2035
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 2040
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 2045
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 2050
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 2055
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 2060
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 2065
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 2070
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 2075
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 2080
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 2085
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 2090
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 2095
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 2100
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 2105
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 2110
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 2115
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 2120
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 2125
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 2130
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 2135
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 2140
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 2145
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 2150
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 2155
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 2160
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 2165
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 2170
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 2175
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 2180
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 2185
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 2190
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 2195
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 2200
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 2205
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 2210
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 2215
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 2220
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 2225
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 2230
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 2235
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 2240
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 2245
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 2250
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 2255
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 2260
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 2265
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 2270
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 2275
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 2280
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 2285
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 2290
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 2295
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 2300
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 2305
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 2310
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 2315
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 2320
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 2325
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 2330
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 2335
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 2340
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 2345
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 2350
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 2355
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 2360
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 2365
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 2370
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 2375
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 2380
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 2385
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 2390
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 2395
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 2400
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 2405
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 2410
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 2415
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 2420
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 2425
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 2430
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 2435
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 2440
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 2445
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 2450
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 2455
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 2460
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 2465
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 2470
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 2475
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 2480
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 2485
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 2490
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 2495
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 2500
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 2505
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 2510
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 2515
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 2520
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 2525
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 2530
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 2535
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 2540
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 2545
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 2550
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 2555
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 2560
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 2565
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 2570
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 2575
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 2580
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 2585
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 2590
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 2595
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 2600
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 2605
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 2610
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 2615
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 2620
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 2625
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 2630
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 2635
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 2640
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 2645
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 2650
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 2655
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 2660
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 2665
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 2670
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 2675
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 2680
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 2685
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 2690
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 2695
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 2700
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 2705
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 2710
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 2715
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 2720
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 2725
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 2730
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 2735
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 2740
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 2745
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 2750
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 2755
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 2760
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 2765
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 2770
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 2775
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 2780
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 2785
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 2790
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 2795
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 2800
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 2805
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 2810
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 2815
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 2820
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 2825
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 2830
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 2835
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 2840
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 2845
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 2850
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 2855
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 2860
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 2865
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 2870
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 2875
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 2880
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 2885
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 2890
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 2895
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 2900
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 2905
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 2910
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 2915
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 2920
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 2925
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 2930
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 2935
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 2940
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 2945
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 2950
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 2955
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 2960
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 2965
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 2970
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 2975
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 2980
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 2985
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 2990
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 2995
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 3000
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 3005
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 3010
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 3015
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 3020
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 3025
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 3030
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 3035
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 3040
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 3045
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 3050
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 3055
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 3060
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 3065
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 3070
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 3075
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 3080
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 3085
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 3090
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 3095
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 3100
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 3105
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 3110
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 3115
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 3120
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 3125
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 3130
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 3135
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 3140
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 3145
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 3150
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 3155
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 3160
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 3165
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 3170
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 3175
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 3180
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 3185
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 3190
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 3195
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 3200
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 3205
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 3210
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 3215
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 3220
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 3225
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 3230
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 3235
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 3240
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 3245
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 3250
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 3255
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 3260
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 3265
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 3270
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 3275
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 3280
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 3285
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 3290
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 3295
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 3300
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 3305
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 3310
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 3315
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 3320
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 3325
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 3330
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 3335
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 3340
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 3345
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 3350
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 3355
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 3360
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 3365
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 3370
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 3375
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 3380
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 3385
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 3390
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 3395
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 3400
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 3405
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 3410
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 3415
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 3420
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 3425
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 3430
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 3435
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 3440
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 3445
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 3450
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 3455
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 3460
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 3465
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 3470
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 3475
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 3480
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 3485
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 3490
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 3495
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 3500
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 3505
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 3510
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 3515
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 3520
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 3525
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 3530
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 3535
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 3540
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 3545
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 3550
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 3555
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 3560
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 3565
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 3570
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 3575
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 3580
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 3585
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 3590
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 3595
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 3600
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 3605
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 3610
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 3615
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 3620
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 3625
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 3630
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 3635
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 3640
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 3645
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 3650
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 3655
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 3660
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 3665
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 3670
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 3675
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 3680
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 3685
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 3690
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 3695
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 3700
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 3705
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 3710
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 3715
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 3720
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 3725
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 3730
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 3735
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 3740
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 3745
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 3750
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 3755
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 3760
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 3765
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 3770
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 3775
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 3780
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 3785
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 3790
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 3795
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 3800
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 3805
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 3810
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 3815
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 3820
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 3825
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 3830
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 3835
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 3840
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 3845
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 3850
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 3855
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 3860
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 3865
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 3870
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 3875
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 3880
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 3885
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 3890
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 3895
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 3900
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 3905
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 3910
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 3915
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 3920
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 3925
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 3930
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 3935
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 3940
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 3945
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 3950
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 3955
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 3960
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 3965
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 3970
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 3975
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 3980
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 3985
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 3990
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 3995
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 4000
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 4005
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 4010
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 4015
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 4020
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 4025
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 4030
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 4035
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 4040
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 4045
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 4050
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 4055
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 4060
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 4065
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 4070
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 4075
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 4080
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 4085
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 4090
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 4095
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 4100
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 4105
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 4110
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 4115
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 4120
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 4125
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 4130
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 4135
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 4140
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 4145
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 4150
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 4155
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 4160
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 4165
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 4170
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 4175
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 4180
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 4185
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 4190
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 4195
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 4200
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 4205
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 4210
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 4215
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 4220
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 4225
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 4230
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 4235
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 4240
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 4245
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 4250
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 4255
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 4260
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 4265
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 4270
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 4275
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 4280
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 4285
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 4290
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 4295
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 4300
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 4305
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 4310
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 4315
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 4320
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 4325
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 4330
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 4335
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 4340
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 4345
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 4350
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 4355
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 4360
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 4365
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 4370
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 4375
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 4380
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 4385
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 4390
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 4395
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 4400
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 4405
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 4410
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 4415
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 4420
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 4425
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 4430
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 4435
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 4440
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 4445
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 4450
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 4455
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 4460
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 4465
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 4470
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 4475
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 4480
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 4485
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 4490
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 4495
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 4500
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 4505
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 4510
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 4515
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 4520
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 4525
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 4530
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 4535
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 4540
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 4545
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 4550
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 4555
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 4560
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 4565
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 4570
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 4575
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 4580
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 4585
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 4590
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 4595
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 4600
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 4605
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 4610
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 4615
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 4620
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 4625
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 4630
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 4635
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 4640
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 4645
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 4650
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 4655
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 4660
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 4665
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 4670
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 4675
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 4680
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 4685
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 4690
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 4695
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 4700
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 4705
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 4710
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 4715
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 4720
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 4725
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 4730
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 4735
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 4740
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 4745
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 4750
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 4755
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 4760
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 4765
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 4770
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 4775
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 4780
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 4785
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 4790
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 4795
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 4800
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 4805
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 4810
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 4815
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 4820
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 4825
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 4830
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 4835
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 4840
+  action: set_rapl_powercap
+  args:
+  - 124.0
+- time: 4845
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 4850
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 4855
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 4860
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 4865
+  action: set_rapl_powercap
+  args:
+  - 159.0
+- time: 4870
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 4875
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 4880
+  action: set_rapl_powercap
+  args:
+  - 112.0
+- time: 4885
+  action: set_rapl_powercap
+  args:
+  - 89.0
+- time: 4890
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 4895
+  action: set_rapl_powercap
+  args:
+  - 107.0
+- time: 4900
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 4905
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 4910
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 4915
+  action: set_rapl_powercap
+  args:
+  - 101.0
+- time: 4920
+  action: set_rapl_powercap
+  args:
+  - 78.0
+- time: 4925
+  action: set_rapl_powercap
+  args:
+  - 95.0
+- time: 4930
+  action: set_rapl_powercap
+  args:
+  - 83.0
+- time: 4935
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 4940
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 4945
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 4950
+  action: set_rapl_powercap
+  args:
+  - 118.0
+- time: 4955
+  action: set_rapl_powercap
+  args:
+  - 153.0
+- time: 4960
+  action: set_rapl_powercap
+  args:
+  - 147.0
+- time: 4965
+  action: set_rapl_powercap
+  args:
+  - 130.0
+- time: 4970
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 4975
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 4980
+  action: set_rapl_powercap
+  args:
+  - 141.0
+- time: 4985
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 4990
+  action: set_rapl_powercap
+  args:
+  - 165.0
+- time: 4995
+  action: set_rapl_powercap
+  args:
+  - 136.0
+- time: 5000
+  action: set_rapl_powercap
+  args:
+  - 118.0

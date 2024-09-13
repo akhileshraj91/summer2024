@@ -143,19 +143,19 @@ for app_index, app in enumerate(apps):
         data[trace]['power'] = compute_power(pubEnergy)
         data[trace]['papi'] = collect_papi(pubPAPI)
         color = cm.tab10(len(data))  # Get a color from the colormap for each trace
-        axs[0].scatter(data[trace]['progress']['elapsed_time'], data[trace]['progress']['frequency'], label=trace[-4:])  # Added label for legend
-        axs[1].scatter(data[trace]['power']['average_power']['elapsed_time'], data[trace]['power']['average_power']['average_power'], label=trace[-4:])  # Added label for legend
+        axs[0].scatter(data[trace]['progress']['elapsed_time'], data[trace]['progress']['frequency'], label=trace[-5:])  # Added label for legend
+        axs[1].scatter(data[trace]['power']['average_power']['elapsed_time'], data[trace]['power']['average_power']['average_power'], label=trace[-5:])  # Added label for legend
         axs[0].grid(True)
         axs[1].grid(True)
         axs[1].set_xlabel("Elapsed Time (s)")  # Changed to set_xlabel
         axs[0].set_ylabel("Progress")  # Changed to set_ylabel
         axs[1].set_ylabel("Power (W)")  # Changed to set_ylabel
-        axs[0].legend()  # Added legend for progress plot
-        axs[1].legend()  # Added legend for power plot
+        # axs[0].legend()  # Added legend for progress plot
+        # axs[1].legend()  # Added legend for power plot
         fig.suptitle(app)
 
         for i,scope in enumerate(data[trace]['papi'].keys()):
-            axs_PAPI[i].scatter(data[trace]['papi'][scope]['elapsed_time'], data[trace]['papi'][scope]['instantaneous_value'], label=trace[-4:])
+            axs_PAPI[i].scatter(data[trace]['papi'][scope]['elapsed_time'], data[trace]['papi'][scope]['instantaneous_value'], label=trace[-5:])
             axs_PAPI[i].grid(True)
             axs_PAPI[i].set_ylabel(f"{scope} value")
         axs_PAPI[i].set_xlabel("Elapsed Time (s)")

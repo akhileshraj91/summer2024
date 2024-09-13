@@ -7,6 +7,9 @@ import csv
 import subprocess
 import os
 import tarfile
+import random
+from datetime import datetime
+
 
 
 
@@ -53,27 +56,27 @@ def compress_files(iteration):
     print(f'Compressed files into {tar_file}')
 
 
-def experiment_for(PCAP, APPLICATION, EXP_DIR):
+def experiment_for(APPLICATION, EXP_DIR):
     if "stream" in APPLICATION:
         PROBLEM_SIZE = 33554432
-        ITERATIONS = 100
+        ITERATIONS = 10000
     elif "solvers" in APPLICATION:
         PROBLEM_SIZE = 10000
-        ITERATIONS = 100
+        ITERATIONS = 10000
     elif "ep" in APPLICATION:
         PROBLEM_SIZE = 22
-        ITERATIONS = 100
+        ITERATIONS = 10000
     with open(f'{EXP_DIR}/measured_power.csv', mode='w', newline='') as power_file, open(f'{EXP_DIR}/progress.csv', mode='w', newline='') as progress_file, open(f'{EXP_DIR}/energy.csv', mode='w', newline='') as energy_file, open(f'{EXP_DIR}/PCAP_file.csv', mode='w', newline='') as PCAP_file, open(f'{EXP_DIR}/papi.csv', mode='w', newline='') as papi_file:
         power_writer = csv.writer(power_file)
         progress_writer = csv.writer(progress_file)
         energy_writer = csv.writer(energy_file)
         papi_writer = csv.writer(papi_file)
-        PCAP_writer = csv.write(PCAP_file)
+        PCAP_writer = csv.writer(PCAP_file)
         # Write headers if files are empty
         power_writer.writerow(['time', 'scope', 'value'])
         progress_writer.writerow(['time', 'value'])
         energy_writer.writerow(['time', 'scope', 'value'])
-        PCAP_writer.write(['time', 'actuator', 'value'])
+        PCAP_writer.writerow(['time', 'actuator', 'value'])
         papi_writer.writerow(['time', 'scope', 'value'])
 
         def cb(*args):
@@ -103,13 +106,22 @@ def experiment_for(PCAP, APPLICATION, EXP_DIR):
             process = subprocess.Popen(['sudo', 'nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'{ITERATIONS}'])
 
 
+        last_pcap_change = 0
         while True:
-            client.actuate(actuators[0],PCAP)
-            time.sleep(1)
+            current_time = time.time()
+            if current_time - last_pcap_change >= 5:
+                PCAP = random.choice(ACTIONS)
+                client.actuate(actuators[0], PCAP)
+                PCAP_time = time.time()
+                PCAP_writer.writerow([PCAP_time, actuators[0], PCAP])
+                last_pcap_change = current_time
+            
+            time.sleep(0.1)  # Short sleep to prevent busy-waiting
             if process.poll() is not None:  
                 print("Process has completed.")
                 break
-    compress_files(PCAP)
+    current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
+    compress_files(current_time)
     print("----------------------------------")
 
 
@@ -118,9 +130,16 @@ def experiment_for(PCAP, APPLICATION, EXP_DIR):
    
 
 if __name__ == "__main__":
+    # Get the current file path
+    current_file_path = os.path.abspath(__file__)
+
+    # Get the directory containing the current file
+    current_dir = os.path.dirname(current_file_path)
+
+
     for APPLICATION in APPLICATIONS:
         experiment = 'data_generation'
-        EXP_DIR = f'./experiment_data/{experiment}/{APPLICATION}'
+        EXP_DIR = f'{current_dir}/experiment_data/{experiment}/{APPLICATION}'
         if os.path.exists(EXP_DIR):
             print(f"Directories {EXP_DIR} exist")
         else:

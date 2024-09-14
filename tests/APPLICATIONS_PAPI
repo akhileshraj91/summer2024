@@ -78,8 +78,9 @@ def compute_power(pubEnergy):
     return power
 
 def measure_progress(progress_data, energy_data):
+    Progress_DATA = {} 
     progress_sensor = pd.DataFrame(progress_data)
-    first_sensor_point = min(energy_data['time'][0], progress_sensor['time'][0])
+    first_sensor_point = min(energy_data['average_power']['timestamp'].iloc[0], progress_sensor['time'][0])
     progress_sensor['elapsed_time'] = progress_sensor['time'] - first_sensor_point  # New column for elapsed time
     # progress_sensor = progress_sensor.set_index('elapsed_time')
     performance_elapsed_time = progress_sensor.elapsed_time
@@ -91,7 +92,19 @@ def measure_progress(progress_data, energy_data):
     # Ensure the frequency_values length matches the index length
     frequency_values = [0] + frequency_values  # Prepend a 0 for the first index
     progress_sensor['frequency'] = frequency_values
-    return progress_sensor
+    upsampled_timestamps= energy_data['average_power']['timestamp']
+    
+    # true_count = (progress_sensor['time'] <= upsampled_timestamps.iloc[0]).sum()
+
+    progress_frequency_median = pd.DataFrame({'median': np.nanmedian(progress_sensor['frequency'].where(progress_sensor['time'] <= upsampled_timestamps.iloc[0])), 'timestamp': upsampled_timestamps.iloc[0]}, index=[0])
+    for t in range(1, len(upsampled_timestamps)):
+        progress_frequency_median = pd.concat([progress_frequency_median, pd.DataFrame({'median': [np.nanmedian(progress_sensor['frequency'].where((progress_sensor['time'] >= upsampled_timestamps.iloc[t-1]) & (progress_sensor['time'] <= upsampled_timestamps.iloc[t])))],
+        'timestamp': [upsampled_timestamps.iloc[t]]})], ignore_index=True)
+    progress_frequency_median['elapsed_time'] = progress_frequency_median['timestamp'] - progress_frequency_median['timestamp'].iloc[0]
+    # Assign progress_frequency_median as a new column
+    Progress_DATA['progress_sensor'] = progress_sensor
+    Progress_DATA['progress_frequency_median'] = progress_frequency_median
+    return Progress_DATA
 
 def collect_papi(PAPI_data):
     PAPI = {}
@@ -139,11 +152,11 @@ for app_index, app in enumerate(apps):
         pubEnergy = pd.read_csv(f'{pwd}/energy.csv')
         pubPAPI = pd.read_csv(f'{pwd}/papi.csv')
     
-        data[trace]['progress'] = measure_progress(pubProgress,pubEnergy)
         data[trace]['power'] = compute_power(pubEnergy)
+        data[trace]['progress'] = measure_progress(pubProgress,data[trace]['power'])
         data[trace]['papi'] = collect_papi(pubPAPI)
         color = cm.tab10(len(data))  # Get a color from the colormap for each trace
-        axs[0].scatter(data[trace]['progress']['elapsed_time'], data[trace]['progress']['frequency'], label=trace[-5:])  # Added label for legend
+        axs[0].scatter(data[trace]['progress']['progress_frequency_median']['elapsed_time'], data[trace]['progress']['progress_frequency_median']['median'], label=trace[-5:])  # Added label for legend
         axs[1].scatter(data[trace]['power']['average_power']['elapsed_time'], data[trace]['power']['average_power']['average_power'], label=trace[-5:])  # Added label for legend
         axs[0].grid(True)
         axs[1].grid(True)

@@ -119,9 +119,26 @@ def collect_papi(PAPI_data):
             # Normalize the instantaneous values between 0 and 10
             min_val = min(instantaneous_values)
             max_val = max(instantaneous_values)
-            PAPI[extracted_scope]['instantaneous_value'] = [(value - min_val) / (max_val - min_val) * 10 for value in instantaneous_values]
+            # PAPI[extracted_scope]['instantaneous_value'] = [(value - min_val) / (max_val - min_val) * 10 for value in instantaneous_values]
+            PAPI[extracted_scope]['instantaneous_value'] = instantaneous_values
             PAPI[extracted_scope]['elapsed_time'] = PAPI[extracted_scope]['time'] - PAPI[extracted_scope]['time'].iloc[0]
+            # PAPI[extracted_scope]['max_min'] = {}
     return PAPI
+
+def normalize(traces):
+    normalized_PAPI = {}
+    max_value = {'PAPI_L3_TCA': float('-inf'), 'PAPI_TOT_INS': float('-inf'), 'PAPI_TOT_CYC': float('-inf'), 'PAPI_RES_STL': float('-inf'), 'PAPI_L3_TCM': float('-inf')}
+    min_value = {'PAPI_L3_TCA': float('inf'), 'PAPI_TOT_INS': float('inf'), 'PAPI_TOT_CYC': float('inf'), 'PAPI_RES_STL': float('inf'), 'PAPI_L3_TCM': float('inf')}
+    for app in traces.keys():
+        for trace in traces[app]['data'].keys():
+            for scope in traces[app]['data'][trace]['papi'].keys():
+                max_value[scope] = max(max_value[scope],max(traces[app]['data'][trace]['papi'][scope]['instantaneous_value']))
+                min_value[scope] = min(min_value[scope],min(traces[app]['data'][trace]['papi'][scope]['instantaneous_value']))
+    for app in traces.keys():
+        for trace in traces[app]['data'].keys():
+            for scope in traces[app]['data'][trace]['papi'].keys():
+                traces[app]['data'][trace]['papi'][scope]['normalized_value'] = [(value - min_value[scope]) / (max_value[scope] - min_value[scope]) * 10 for value in traces[app]['data'][trace]['papi'][scope]['instantaneous_value']]
+    return traces
 
 traces = {}
 
@@ -131,33 +148,37 @@ if not os.path.exists(results_dir):
     os.makedirs(results_dir)  # Create the directory if it doesn't exist
 
 for app_index, app in enumerate(apps):
-    fig, axs = plt.subplots(2,1,figsize=(12,10))
-    fig_PAPI, axs_PAPI = plt.subplots(5,1,figsize=(12,16))
-
     cwd = root + '/' + app
     if next(os.walk(cwd))[1] == []:
         files = os.listdir(cwd)
         for fname in files:
             if fname.endswith("tar"):
-                print(fname)
+                # print(fname)
                 tar = tarfile.open(cwd + '/' + fname, "r")
                 tar.extractall(path=cwd + '/' + fname[:-4])
                 tar.close()
     traces[app] = {'directories': next(os.walk(cwd))[1]}
-    data = {}
+    traces[app]['data'] = {}
     for trace in traces[app]['directories']:
-        data[trace] = {}
+        traces[app]['data'][trace] = {}
         pwd = f'{cwd}/{trace}'
         pubProgress = pd.read_csv(f'{pwd}/progress.csv')
         pubEnergy = pd.read_csv(f'{pwd}/energy.csv')
         pubPAPI = pd.read_csv(f'{pwd}/papi.csv')
     
-        data[trace]['power'] = compute_power(pubEnergy)
-        data[trace]['progress'] = measure_progress(pubProgress,data[trace]['power'])
-        data[trace]['papi'] = collect_papi(pubPAPI)
-        color = cm.tab10(len(data))  # Get a color from the colormap for each trace
-        axs[0].scatter(data[trace]['progress']['progress_frequency_median']['elapsed_time'], data[trace]['progress']['progress_frequency_median']['median'], label=trace[-5:])  # Added label for legend
-        axs[1].scatter(data[trace]['power']['average_power']['elapsed_time'], data[trace]['power']['average_power']['average_power'], label=trace[-5:])  # Added label for legend
+        traces[app]['data'][trace]['power'] = compute_power(pubEnergy)
+        traces[app]['data'][trace]['progress'] = measure_progress(pubProgress,traces[app]['data'][trace]['power'])
+        traces[app]['data'][trace]['papi'] = collect_papi(pubPAPI)
+        
+traces = normalize(traces)
+for app in traces.keys():
+    fig, axs = plt.subplots(2,1,figsize=(12,10))
+    fig_PAPI, axs_PAPI = plt.subplots(5,1,figsize=(12,16))
+    for trace in traces[app]['data'].keys():
+        color = colormap(app_index)  # Get a color from the colormap for each trace           
+        color = cm.tab10(len(traces[app]['data']))  # Get a color from the colormap for each trace
+        axs[0].scatter(traces[app]['data'][trace]['progress']['progress_frequency_median']['elapsed_time'], traces[app]['data'][trace]['progress']['progress_frequency_median']['median'], label=trace[-5:])  # Added label for legend
+        axs[1].scatter(traces[app]['data'][trace]['power']['average_power']['elapsed_time'], traces[app]['data'][trace]['power']['average_power']['average_power'], label=trace[-5:])  # Added label for legend
         axs[0].grid(True)
         axs[1].grid(True)
         axs[1].set_xlabel("Elapsed Time (s)")  # Changed to set_xlabel
@@ -167,17 +188,14 @@ for app_index, app in enumerate(apps):
         # axs[1].legend()  # Added legend for power plot
         fig.suptitle(app)
 
-        for i,scope in enumerate(data[trace]['papi'].keys()):
-            axs_PAPI[i].scatter(data[trace]['papi'][scope]['elapsed_time'], data[trace]['papi'][scope]['instantaneous_value'], label=trace[-5:])
+        for i,scope in enumerate(traces[app]['data'][trace]['papi'].keys()):
+            axs_PAPI[i].scatter(traces[app]['data'][trace]['papi'][scope]['elapsed_time'], traces[app]['data'][trace]['papi'][scope]['normalized_value'], label=trace[-5:])
             axs_PAPI[i].grid(True)
             axs_PAPI[i].set_ylabel(f"{scope} value")
         axs_PAPI[i].set_xlabel("Elapsed Time (s)")
         fig_PAPI.suptitle(app)
-        
-        fig.savefig(f'{current_working_directory}/experiment_data/RESULTS/{app}.pdf')
-        fig_PAPI.savefig(f'{current_working_directory}/experiment_data/RESULTS/{app}_PAPI.pdf')
-
-        # data[trace]['progress']['frequency'].set_index('elapsed_time').plot(color=color, ax=axs[0], marker="+", linestyle='')
-        # data[trace]['power']['average_power'].set_index('elapsed_time').plot(color=color, ax=axs[1], marker="+", linestyle='')
-        # plt.show()
-    # print(data)
+    
+    fig.savefig(f'{current_working_directory}/experiment_data/RESULTS/{app}.pdf')
+    fig_PAPI.savefig(f'{current_working_directory}/experiment_data/RESULTS/{app}_PAPI.pdf')
+    plt.show()
+# print(data)

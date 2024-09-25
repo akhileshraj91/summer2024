@@ -14,10 +14,14 @@ import warnings
 import os
 import math
 import csv
+import utils
+import DDPG
+import gym
+import BCQ
+import argparse
 
 # Ignore all warnings
 warnings.filterwarnings('ignore')
-
 
 
 
@@ -198,8 +202,10 @@ TOTAL_ACTIONS = len(ACTIONS)                                                    
 ACTION_MIN = min(ACTIONS)                                                                                                    # Minima of control space
 ACTION_MAX = max(ACTIONS)                                                                                                     # Maxima of control space
 ACT_MID = ACTION_MIN + (ACTION_MAX - ACTION_MIN) / 2                                                                    # Midpoint of the control space to compute the normalized action space
-OBS_MAX = 300                                                                                                           # Maxima of observation space (performance)
-OBS_MIN = 0                                                                                                             # Minima of observation space
+# OBS_MAX = 300                                                                                                           # Maxima of observation space (performance)
+# OBS_MIN = 0                           
+OBS_MIN = np.zeros((7,))  # Shape should be (7,)
+OBS_MAX = np.array([300,165,10,10,10,10,10])                                                                                 # Minima of observation space
 OBS_MID = OBS_MIN + (OBS_MAX - OBS_MIN) / 2
 EXEC_ITERATIONS = 10000
 TOTAL_OBS = OBS_MAX - OBS_MIN
@@ -213,41 +219,10 @@ class SYS(object):
     def __init__(self,observation_type=OBS_ONEHOT,dim_obs=1,teps=0.0):
         super(SYS,self).__init__()
 
-        self.num_states = TOTAL_OBS
         self.num_actions = TOTAL_ACTIONS
-        self.obs_type = observation_type
-        # self.model = TransitionDynamics(eps=teps)
-        # self._transition_matrix = None
-        # self._transition_matrix = self.transition_matrix()
-        self.current_step = 0
+        self.action_space = gym.spaces.Discrete(17)  # 17 discrete actions
+        self.observation_space = gym.spaces.Box(low=OBS_MIN, high=OBS_MAX, shape=(7,), dtype=np.float32)  # Infinite observation space with 8 dimensions
 
-        if self.obs_type == OBS_RANDOM:
-          self.dim_obs = dim_obs
-          self.obs_matrix = np.random.randn(self.num_states, self.dim_obs)
-        elif self.obs_type == OBS_SMOOTH:
-          self.dim_obs = dim_obs
-          self.obs_matrix = np.random.randn(self.num_states, self.dim_obs)
-        #   trans_matrix = np.sum(self._transition_matrix, axis=1) / self.num_actions
-        #   for k in range(10):
-            # cur_obs_mat = self.obs_matrix[:,:]
-            # for state in range(self.num_states):
-                # new_obs = trans_matrix[state].dot(cur_obs_mat)
-                # self.obs_matrix[state] = new_obs
-        # else:
-        #   self.dim_obs = self.gs.width+self.gs.height
-
-
-    def observation(self, s):
-        if self.obs_type == OBS_ONEHOT:
-          xy_vec = np.zeros(self.gs.width+self.gs.height)
-          xy = self.gs.idx_to_xy(s)
-          xy_vec[xy[0]] = 1.0
-          xy_vec[xy[1]+self.gs.width] = 1.0
-          return xy_vec
-        elif self.obs_type == OBS_RANDOM or self.obs_type == OBS_SMOOTH:
-          return self.obs_matrix[s]
-        else:
-          raise ValueError("Invalid obs type %s" % self.obs_type)
     
     def reward(self, s, a, ns, measured_power):
         """ 
@@ -356,7 +331,135 @@ with open(csv_file_path, 'w', newline='') as csvfile:
 
 print(f"Training dataset has been saved to {csv_file_path}")
 
-# Helper function to get ROI data
+
+def eval_policy(policy, env_name, seed, eval_episodes=10):
+	eval_env = gym.make(env_name)
+	eval_env.seed(seed + 100)
+
+	avg_reward = 0.
+	for _ in range(eval_episodes):
+		state, done = eval_env.reset(), False
+		while not done:
+			action = policy.select_action(np.array(state))
+			state, reward, done, _ = eval_env.step(action)
+			avg_reward += reward
+
+	avg_reward /= eval_episodes
+
+	print("---------------------------------------")
+	print(f"Evaluation over {eval_episodes} episodes: {avg_reward:.3f}")
+	print("---------------------------------------")
+	return avg_reward
+
+
+# Trains BCQ offline
+def train_BCQ(state_dim, action_dim, max_action, device, args, replay_buffer):
+	# For saving files
+	setting = f"{args.env}_{args.seed}"
+	buffer_name = f"{args.buffer_name}_{setting}"
+
+	# Initialize policy
+	policy = BCQ.BCQ(state_dim, action_dim, max_action, device, args.discount, args.tau, args.lmbda, args.phi)
+
+	# Load buffer
+	# replay_buffer = utils.ReplayBuffer(state_dim, action_dim, device)
+	# replay_buffer.load(f"./buffers/{buffer_name}")
+	
+	evaluations = []
+	episode_num = 0
+	done = True 
+	training_iters = 0
+	
+	while training_iters < args.max_timesteps: 
+		pol_vals = policy.train(replay_buffer, iterations=int(args.eval_freq), batch_size=args.batch_size)
+
+		evaluations.append(eval_policy(policy, args.env, args.seed))
+		np.save(f"./results/BCQ_{setting}", evaluations)
+
+		training_iters += args.eval_freq
+		print(f"Training iterations: {training_iters}")
+
+
+BATCH_SIZE = 2500
+state_dim = 7
+action_dim = 1
+
+device = torch.device("cpu")
+max_action = ACTION_MAX
+max_timesteps = 2500
+episode_reward = 0
+episode_timesteps = 0
+episode_num = 0
+policy = DDPG.DDPG(state_dim, action_dim, max_action, device)#, args.discount, args.tau)
+replay_buffer = utils.ReplayBuffer(state_dim, action_dim, device)
+# Assuming training_dataset is a list of tuples
+
+
+	
+parser = argparse.ArgumentParser()
+parser.add_argument("--env", default="SYS")               # OpenAI gym environment name
+parser.add_argument("--seed", default=0, type=int)              # Sets Gym, PyTorch and Numpy seeds
+parser.add_argument("--buffer_name", default="Robust")          # Prepends name to filename
+parser.add_argument("--eval_freq", default=5e3, type=float)     # How often (time steps) we evaluate
+parser.add_argument("--max_timesteps", default=1e6, type=int)   # Max time steps to run environment or train for (this defines buffer size)
+parser.add_argument("--start_timesteps", default=25e3, type=int)# Time steps initial random policy is used before training behavioral
+parser.add_argument("--rand_action_p", default=0.3, type=float) # Probability of selecting random action during batch generation
+parser.add_argument("--gaussian_std", default=0.3, type=float)  # Std of Gaussian exploration noise (Set to 0.1 if DDPG trains poorly)
+parser.add_argument("--batch_size", default=100, type=int)      # Mini batch size for networks
+parser.add_argument("--discount", default=0.99)                 # Discount factor
+parser.add_argument("--tau", default=0.005)                     # Target network update rate
+parser.add_argument("--lmbda", default=0.75)                    # Weighting for clipped double Q-learning in BCQ
+parser.add_argument("--phi", default=0.05)                      # Max perturbation hyper-parameter for BCQ
+parser.add_argument("--train_behavioral", action="store_true")  # If true, train behavioral (DDPG)
+parser.add_argument("--generate_buffer", action="store_true")   # If true, generate buffer
+args = parser.parse_args()
+
+
+
+for i in range(len(training_dataset) - 1):  # Avoid index out of range
+    current_state, action, reward, next_state = training_dataset[i]
+    next_state_info,_,_,_, = training_dataset[i + 1]  # Access the next line
+    if next_state_info[0] == 0:
+        done = float(True)
+    else:
+        done = float(False)
+    replay_buffer.add(current_state, action, next_state, reward, done)
+    episode_reward += reward
+    print(done)
+    if done == 1.0: 
+        # +1 to account for 0 indexing. +0 on ep_timesteps since it will increment +1 even if done=True
+        print(f"Total T:{i} Episode Num: {episode_num+1} Episode T: {episode_timesteps} Reward: {episode_reward:.3f}")
+        # Reset environment
+        # state, done = env.reset(), False
+        done = False
+        episode_reward = 0
+        episode_timesteps = 0
+        episode_num += 1
+    
+train_BCQ(state_dim, action_dim, max_action, device, args, replay_buffer)
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #@ Plotting tools

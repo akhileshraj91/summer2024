@@ -220,7 +220,9 @@ class SYS(object):
         super(SYS,self).__init__()
 
         self.num_actions = TOTAL_ACTIONS
-        self.action_space = gym.spaces.Discrete(17)  # 17 discrete actions
+        self.action_space = gym.spaces.Discrete(len(ACTIONS))  # Use the length of the ACTIONS list for discrete actions
+        # Map the selected index to the corresponding action
+        self.actions = ACTIONS  # Store the actions for later use
         self.observation_space = gym.spaces.Box(low=OBS_MIN, high=OBS_MAX, shape=(7,), dtype=np.float32)  # Infinite observation space with 8 dimensions
 
     
@@ -369,12 +371,12 @@ def train_BCQ(state_dim, action_dim, max_action, device, args, replay_buffer):
 	episode_num = 0
 	done = True 
 	training_iters = 0
-	
+
 	while training_iters < args.max_timesteps: 
 		pol_vals = policy.train(replay_buffer, iterations=int(args.eval_freq), batch_size=args.batch_size)
-
-		evaluations.append(eval_policy(policy, args.env, args.seed))
-		np.save(f"./results/BCQ_{setting}", evaluations)
+		if "results" not in os.listdir():  # Check for the directory without "./"
+			os.makedirs("results", exist_ok=True)  # Create the directory if it doesn't exist
+		np.save(f"./results/BCQ_{setting}", pol_vals)  # Save the results
 
 		training_iters += args.eval_freq
 		print(f"Training iterations: {training_iters}")
@@ -401,7 +403,7 @@ parser.add_argument("--env", default="SYS")               # OpenAI gym environme
 parser.add_argument("--seed", default=0, type=int)              # Sets Gym, PyTorch and Numpy seeds
 parser.add_argument("--buffer_name", default="Robust")          # Prepends name to filename
 parser.add_argument("--eval_freq", default=5e3, type=float)     # How often (time steps) we evaluate
-parser.add_argument("--max_timesteps", default=1e6, type=int)   # Max time steps to run environment or train for (this defines buffer size)
+parser.add_argument("--max_timesteps", default=1e4, type=int)   # Max time steps to run environment or train for (this defines buffer size)
 parser.add_argument("--start_timesteps", default=25e3, type=int)# Time steps initial random policy is used before training behavioral
 parser.add_argument("--rand_action_p", default=0.3, type=float) # Probability of selecting random action during batch generation
 parser.add_argument("--gaussian_std", default=0.3, type=float)  # Std of Gaussian exploration noise (Set to 0.1 if DDPG trains poorly)
@@ -425,7 +427,7 @@ for i in range(len(training_dataset) - 1):  # Avoid index out of range
         done = float(False)
     replay_buffer.add(current_state, action, next_state, reward, done)
     episode_reward += reward
-    print(done)
+    # print(done)
     if done == 1.0: 
         # +1 to account for 0 indexing. +0 on ep_timesteps since it will increment +1 even if done=True
         print(f"Total T:{i} Episode Num: {episode_num+1} Episode T: {episode_timesteps} Reward: {episode_reward:.3f}")
@@ -437,242 +439,3 @@ for i in range(len(training_dataset) - 1):  # Avoid index out of range
         episode_num += 1
     
 train_BCQ(state_dim, action_dim, max_action, device, args, replay_buffer)
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#@ Plotting tools
-
-PLT_NOOP = np.array([[-0.1,0.1], [-0.1,-0.1], [0.1,-0.1], [0.1,0.1]])
-PLT_UP = np.array([[0,0], [0.5,0.5], [-0.5,0.5]])
-PLT_LEFT = np.array([[0,0], [-0.5,0.5], [-0.5,-0.5]])
-PLT_RIGHT = np.array([[0,0], [0.5,0.5], [0.5,-0.5]])
-PLT_DOWN = np.array([[0,0], [0.5,-0.5], [-0.5,-0.5]])
-
-TXT_OFFSET_VAL = 0.3
-TXT_CENTERING = np.array([-0.08, -0.05])
-TXT_NOOP = np.array([0.0,0])+TXT_CENTERING
-TXT_UP = np.array([0,TXT_OFFSET_VAL])+TXT_CENTERING
-TXT_LEFT = np.array([-TXT_OFFSET_VAL,0])+TXT_CENTERING
-TXT_RIGHT = np.array([TXT_OFFSET_VAL,0])+TXT_CENTERING
-TXT_DOWN = np.array([0,-TXT_OFFSET_VAL])+TXT_CENTERING
-
-
-
-ACT_OFFSETS = [[i,TXT_NOOP] for i in range(0,TOTAL_ACTIONS)]
-
-PLOT_CMAP = cm.RdYlBu
-
-
-
-
-def plot_sa_values(env, q_values, text_values=True, 
-                   invert_y=True, update=False,
-                   title=None):
-  w = TOTAL_OBS
-  h = TOTAL_ACTIONS
-  
-  if update:
-    clear_output(wait=True)
-  plt.figure(figsize=(2*w, 2*h))
-  ax = plt.gca()
-  normalized_values = q_values
-  normalized_values = normalized_values - np.min(normalized_values)
-  normalized_values = normalized_values/np.max(normalized_values)
-  for x, y in itertools.product(range(w), range(h)):
-    #   state_idx = env.gs.xy_to_idx((x, y))
-    #   if invert_y:
-        #   y = h-y-1
-      xy = np.array([x, y])
-      xy3 = np.expand_dims(xy, axis=0)
-      state_idx = x
-    #   print(x)
-
-      for a in range(ACTION_MAX-1,ACTION_MIN,-1):
-          a = a - ACTION_MIN
-        #   print(a)
-          val = normalized_values[state_idx,a]
-          og_val = q_values[state_idx,a]
-          patch_offset, txt_offset = ACT_OFFSETS[a]
-          if text_values:
-              xy_text = xy+txt_offset
-              ax.text(xy_text[0], xy_text[1], '%.2f'%og_val, size='small')
-          color = PLOT_CMAP(val)
-          ax.add_patch(Polygon(xy3+patch_offset, True,
-                                     color=color))
-  ax.set_xticks(np.arange(-1, w+1, 1))
-  ax.set_yticks(np.arange(-1, h+1, 1))
-  plt.grid()
-  if title:
-    plt.title(title)
-  # plt.draw()
-  # frame_number+=1
-  plt.savefig(f'{title}.png')
-  frame_number += 1
-  # plt.close()
-
-def plot_sa_values_simple(env, q_values, text_values=True, 
-                   invert_y=True, update=False,
-                   title=None):
-  w = TOTAL_OBS
-  h = TOTAL_ACTIONS
-  
-  # plt.figure(figsize=(2*w, 2*h))
-  # ax = plt.gca()
-  normalized_values = q_values
-  normalized_values = normalized_values - np.min(normalized_values)
-  normalized_values = normalized_values/np.max(normalized_values)
-  
-  img = plt.imshow(normalized_values, cmap=PLOT_CMAP, interpolation='nearest', aspect='auto')
-  ax = plt.gca()
-  for x, y in itertools.product(range(h), range(w)):
-      # a = x + ACTION_MIN
-      # val = normalized_values[x,y]
-      og_val = q_values[y,x]
-      # print(og_val)
-      _, txt_offset = TXT_NOOP
-      if text_values:
-          xy_text = np.array([x, y])+txt_offset
-          # print(xy_text,np.array([x,y]))
-          ax.text(xy_text[0], xy_text[1], '%.2f'%og_val, fontsize=2)
-  ax.set_xticks(np.arange(-1, h+1, 1))
-  ax.set_yticks(np.arange(-1, w+1, 1))
-  plt.grid()
-  if title:
-    plt.title(title)
-  # plt.draw()
-  # frame_number+=1
-  plt.savefig(f'{title}.png')
-  # frame_number += 1
-  # plt.close()  
-
-def plot_s_values(env, v_values, text_values=True, 
-                  invert_y=True, update=False,
-                  title=None):
-  w = TOTAL_OBS
-  h = TOTAL_OBS
-  if update:
-    clear_output(wait=True)
-  plt.figure(figsize=(2*w, 2*h))
-  ax = plt.gca()
-  normalized_values = v_values
-  normalized_values = normalized_values - np.min(normalized_values)
-  normalized_values = normalized_values/np.max(normalized_values)
-  for x, y in itertools.product(range(w), range(h)):
-      state_idx = x
-
-      xy = np.array([x, y])
-
-      val = normalized_values[state_idx]
-      og_val = v_values[state_idx]
-      if text_values:
-          xy_text = xy
-          ax.text(xy_text[0], xy_text[1], '%.2f'%og_val, size='small')
-      color = PLOT_CMAP(val)
-      ax.add_patch(Rectangle(xy-0.5, 1, 1, color=color))
-  ax.set_xticks(np.arange(-1, w+1, 1))
-  ax.set_yticks(np.arange(-1, h+1, 1))
-  plt.grid()  
-  if title:
-    plt.title(title)
-  plt.draw()
-  plt.savefig(f'frame_{frame_number}.png')
-  # plt.close()
-# print(training_dataset)
-  
-def plot_test_actions(env, q_values, text_values=True, 
-                   invert_y=True, update=False,
-                   title=None):
-  h = TOTAL_OBS
-  w = TOTAL_ACTIONS          # ax.add_patch(Polygon(xy3+patch_offset, True,
-          #                            color=color))
-  
-  if update:
-    clear_output(wait=True)
-  # plt.figure(figsize=(2*w, 2*h))
-  # ax1 = plt.gca()
-  # plt.figure(figsize=(2*w, 2*h))
-  # ax2 = plt.gca()
-  fig1,ax1 = plt.subplots()
-  fig2,ax2 = plt.subplots()
-  normalized_values = q_values
-  normalized_values = normalized_values - np.min(normalized_values)
-  normalized_values = normalized_values/np.max(normalized_values)
-  # for x, y in itertools.product(range(w), range(h)):
-    #   state_idx = env.gs.xy_to_idx((x, y))
-    #   if invert_y:
-        #   y = h-y-1
-      # xy = np.array([x, y])
-      # xy3 = np.expand_dims(xy, axis=0)
-      # state_idx = x
-    #   print(x)
-  complete = False
-  new_s = 0
-  count = 0
-  RUNTIME = 100
-  PROGRESS = []
-  PCAP = []
-  TIME = []
-  while not complete:
-      state_idx = new_s
-      # for a in range(ACTION_MAX-1,ACTION_MIN,-1):
-          # a = a - ACTION_MIN
-        #   print(a)
-      # val = normalized_values[state_idx,a]
-      og_act = np.max(q_values[state_idx,:])
-      act = np.argmax(q_values[state_idx,:])+ACTION_MIN
-      new_s,_,MP = progress_funct(state_idx,act)
-      PROGRESS.append(new_s)
-      PCAP.append(act)
-      TIME.append(count)
-      # ax1.plot(state_idx,act,'r--')
-      # ax2.plot(MP,act,'k.')
-      # print(count)
-      if count == RUNTIME:
-         complete = True
-      count += 1
-  ax1.scatter(TIME,PCAP,marker='.', color='k', s=30, label=f'{"PCAP"}')
-  ax1.grid(True)
-  ax1.set_ylabel('PCAP',fontsize = 15)
-  ax1.set_xlabel('time [s]', fontsize = 15)
-  ax1.tick_params(axis='x', labelsize=8)
-  ax1.tick_params(axis='y', labelsize=8)
-  ax1.legend(fontsize = 13)
-  title1 = f"{cluster}"
-  ax1.set_title(title1, fontsize=15, color = 'blue')
-  fig1.savefig(f'PCAP_{title}.png')
-
-  ax2.scatter(TIME,PROGRESS,marker='.', color='r', s=30, label=f'{"PROGRESS"}')
-  ax2.grid(True)
-  ax2.set_ylabel('PROGRESS',fontsize = 15)
-  ax2.set_xlabel('time [s]', fontsize = 15)
-  ax2.tick_params(axis='x', labelsize=8)
-  ax2.tick_params(axis='y', labelsize=8)
-  ax2.legend(fontsize = 13)
-  title1 = f"{cluster}"
-  ax2.set_title(title1, fontsize=15, color = 'blue')
-  fig2.savefig(f'progress_{title}.png')
-
-  print(f"Total energy consumed is {sum(PCAP)} kJ")
-

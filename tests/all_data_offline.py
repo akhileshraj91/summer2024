@@ -116,9 +116,9 @@ def collect_papi(PAPI_data):
             PAPI[extracted_scope] = PAPI_data[PAPI_data['scope'] == scope]
             instantaneous_values = [0] + [PAPI[extracted_scope]['value'].iloc[k] - PAPI[extracted_scope]['value'].iloc[k-1] for k in range(1,len(PAPI[extracted_scope]))]
             # Normalize the instantaneous values between 0 and 10
-            min_val = min(instantaneous_values)
-            max_val = max(instantaneous_values)
-            PAPI[extracted_scope]['instantaneous_value'] = [(value - min_val) / (max_val - min_val) * 10 for value in instantaneous_values]
+            # min_val = min(instantaneous_values)
+            # max_val = max(instantaneous_values)
+            PAPI[extracted_scope]['instantaneous_value'] = instantaneous_values
             PAPI[extracted_scope]['elapsed_time'] = PAPI[extracted_scope]['time'] - PAPI[extracted_scope]['time'].iloc[0]
     return PAPI
 
@@ -376,7 +376,7 @@ def train_BCQ(state_dim, action_dim, max_action, device, args, replay_buffer):
 		pol_vals = policy.train(replay_buffer, iterations=int(args.eval_freq), batch_size=args.batch_size)
 		if "results" not in os.listdir():  # Check for the directory without "./"
 			os.makedirs("results", exist_ok=True)  # Create the directory if it doesn't exist
-		np.save(f"./results/BCQ_{setting}", pol_vals)  # Save the results
+		torch.save(policy, f"./results/BCQ_{setting}.pt")  # Save the results
 
 		training_iters += args.eval_freq
 		print(f"Training iterations: {training_iters}")

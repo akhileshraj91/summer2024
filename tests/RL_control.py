@@ -9,7 +9,7 @@ import os
 import tarfile
 import random
 from datetime import datetime
-# import torch
+import torch
 
 i = 0
 APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale', 'ones-npb-ep']
@@ -22,7 +22,8 @@ while i < len(sys.argv):
 client = nrm.Client()
 actuators = client.list_actuators()
 ACTIONS = actuators[0].list_choices()
-policy = np.load('/home/cc/summer2024/results/BCQ_SYS_0.npy', allow_pickle=True)
+policy = torch.load('/home/cc/summer2024/results/BCQ_SYS_0.pt')
+max_values = {'PAPI_L3_TCA': 2519860487.0, 'PAPI_TOT_INS': 108949748763.0, 'PAPI_TOT_CYC': 297655869900.0, 'PAPI_RES_STL': 259228596139.0, 'PAPI_L3_TCM': 2370673711.0}
 
 def compress_files(iteration):
     tar_file = EXP_DIR+f'/compressed_iteration_{iteration}.tar'
@@ -83,16 +84,17 @@ def collect_papi(PAPI_data):
     PAPI = {}
     # print(PAPI_data)
     for scope in PAPI_data.keys():
+        print(scope)
         if "PAPI_L3_TCA" in scope:
-            L3_TCA = np.mean([val for t, val in PAPI_data[scope]])  # Extracted value
+            L3_TCA = np.mean([(PAPI_data[scope][k+1][1] - PAPI_data[scope][k][1])/max_values[scope] for k, cum in enumerate(PAPI_data[scope][:-1])])  # Extracted value
         if "PAPI_TOT_INS" in scope:
-            TOT_INS = np.mean([val for t, val in PAPI_data[scope]])  # Extracted value
+            TOT_INS = np.mean([(PAPI_data[scope][k+1][1] - PAPI_data[scope][k][1])/max_values[scope] for k, cum in enumerate(PAPI_data[scope][:-1])])  # Extracted value
         if 'PAPI_TOT_CYC' in scope:
-            TOT_CYC = np.mean([val for t, val in PAPI_data[scope]])  # Extracted value
+            TOT_CYC = np.mean([(PAPI_data[scope][k+1][1] - PAPI_data[scope][k][1])/max_values[scope] for k, cum in enumerate(PAPI_data[scope][:-1])])  # Extracted value
         if 'PAPI_RES_STL' in scope:
-            RES_STL = np.mean([val for t, val in PAPI_data[scope]])  # Extracted value
+            RES_STL = np.mean([(PAPI_data[scope][k+1][1] - PAPI_data[scope][k][1])/max_values[scope] for k, cum in enumerate(PAPI_data[scope][:-1])])  # Extracted value
         if 'PAPI_L3_TCM' in scope:
-            L3_TCM = np.mean([val for t, val in PAPI_data[scope]])  # Extracted value
+            L3_TCM = np.mean([(PAPI_data[scope][k+1][1] - PAPI_data[scope][k][1])/max_values[scope] for k, cum in enumerate(PAPI_data[scope][:-1])])  # Extracted value
     return [L3_TCA, TOT_INS, TOT_CYC, RES_STL, L3_TCM]
     
 def process_callback(states):
@@ -131,13 +133,13 @@ def experiment_for(APPLICATION, EXP_DIR):
     state_dict = initialize_state_dict() 
     if "stream" in APPLICATION:
         PROBLEM_SIZE = 33554432
-        ITERATIONS = 100
+        ITERATIONS = 1000
     elif "solvers" in APPLICATION:
         PROBLEM_SIZE = 10000
-        ITERATIONS = 100
+        ITERATIONS = 1000
     elif "ep" in APPLICATION:
         PROBLEM_SIZE = 22
-        ITERATIONS = 100
+        ITERATIONS = 1000
     with open(f'{EXP_DIR}/measured_power.csv', mode='w', newline='') as power_file, open(f'{EXP_DIR}/progress.csv', mode='w', newline='') as progress_file, open(f'{EXP_DIR}/energy.csv', mode='w', newline='') as energy_file, open(f'{EXP_DIR}/PCAP_file.csv', mode='w', newline='') as PCAP_file, open(f'{EXP_DIR}/papi.csv', mode='w', newline='') as papi_file:
         power_writer = csv.writer(power_file)
         progress_writer = csv.writer(progress_file)
@@ -192,7 +194,7 @@ def experiment_for(APPLICATION, EXP_DIR):
         last_pcap_change = 0
         while True:
             current_time = time.time()
-            if current_time - last_pcap_change >= 2:
+            if current_time - last_pcap_change >= 5:
                 # PCAP = random.choice(ACTIONS)
                 print(state_dict)
                 if 'state_dict' in globals() and state_dict and state_dict != reference_lib:                    

@@ -100,12 +100,6 @@ def experiment_for(PCAP, APPLICATION, EXP_DIR):
         else:    
             process = subprocess.Popen(['sudo', 'nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'{ITERATIONS}'])
 
-        #process = subprocess.Popen(['sudo','nrm-papiwrapper', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCR', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_L3_TCM', '--', 'ones-stream-full', '33554432', '1000'])
-        # -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e ###PAPI_VEC_INS### -e PAPI_L3_TCR -e PAPI_L3_TCM
-        # process = subprocess.Popen(['nrm-papiwrapper', '-i' , '-e', 'PAPI_L3_TCR', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', '33554432', '1000'])
-        # process = subprocess.Popen(['nrm-papiwrapper', '-i' , '-e', 'PAPI_VEC_INS', '--', f'{APPLICATION}', '33554432', '1000'])
-        # process = subprocess.Popen(['nrm-papiwrapper', '-i' , '-e', 'PAPI_L3_TCR', '--', f'{APPLICATION}', '33554432', '1000'])
-
 
         client.actuate(actuators[0],PCAP)
         while True:

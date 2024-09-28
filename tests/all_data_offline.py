@@ -328,10 +328,32 @@ with open(csv_file_path, 'w', newline='') as csvfile:
     
     # Write the data
     for state, action, reward, next_state in training_dataset:
+        if pd.isna(row).any():
+            training_dataset.remove((state, action, reward, next_state))
+            continue  # Skip this row if it contains NaN
         row = list(state) + [action, reward] + list(next_state)
         csv_writer.writerow(row)
 
 print(f"Training dataset has been saved to {csv_file_path}")
+
+import pandas as pd
+
+# Define the CSV file path
+csv_file_path = '/home/cc/summer2024/tests/experiment_data/data_generation/training_dataset.csv'
+
+# Load the CSV into a DataFrame
+loaded_data = pd.read_csv(csv_file_path)
+
+# Convert the DataFrame back to the original format (list of tuples)
+training_dataset_loaded = [
+    (
+        tuple(row[:7]),  # Progress, Power, L3_TCA, TOT_INS, TOT_CYC, RES_STL, L3_TCM
+        row[7],          # Action
+        row[8],          # Reward
+        tuple(row[9:])   # Next_Progress, Next_Power, Next_L3_TCA, Next_TOT_INS, Next_TOT_CYC, Next_RES_STL, Next_L3_TCM
+    )
+    for row in loaded_data.values
+]
 
 
 def eval_policy(policy, env_name, seed, eval_episodes=10):
@@ -358,18 +380,19 @@ def eval_policy(policy, env_name, seed, eval_episodes=10):
 def train_BCQ(state_dim, action_dim, max_action, device, args, replay_buffer):
 	# For saving files
 	setting = f"{args.env}_{args.seed}"
-	buffer_name = f"{args.buffer_name}_{setting}"
+	# buffer_name = f"{args.buffer_name}_{setting}"
 
 	# Initialize policy
-	policy = BCQ.BCQ(state_dim, action_dim, max_action, device, args.discount, args.tau, args.lmbda, args.phi)
+    
+	policy = BCQ.BCQ(state_dim, action_dim, max_action, device, args.discount, args.tau, args.lmbda, args.phi, seed=args.seed)
 
 	# Load buffer
 	# replay_buffer = utils.ReplayBuffer(state_dim, action_dim, device)
 	# replay_buffer.load(f"./buffers/{buffer_name}")
 	
-	evaluations = []
-	episode_num = 0
-	done = True 
+	# evaluations = []
+	# episode_num = 0
+	# done = True 
 	training_iters = 0
 
 	while training_iters < args.max_timesteps: 
@@ -392,7 +415,7 @@ max_timesteps = 2500
 episode_reward = 0
 episode_timesteps = 0
 episode_num = 0
-policy = DDPG.DDPG(state_dim, action_dim, max_action, device)#, args.discount, args.tau)
+# policy = DDPG.DDPG(state_dim, action_dim, max_action, device)#, args.discount, args.tau)
 replay_buffer = utils.ReplayBuffer(state_dim, action_dim, device)
 # Assuming training_dataset is a list of tuples
 
@@ -418,14 +441,15 @@ args = parser.parse_args()
 
 
 
-for i in range(len(training_dataset) - 1):  # Avoid index out of range
-    current_state, action, reward, next_state = training_dataset[i]
-    next_state_info,_,_,_, = training_dataset[i + 1]  # Access the next line
+for i in range(len(training_dataset_loaded) - 1):  # Avoid index out of range
+    current_state, action, reward, next_state = training_dataset_loaded[i]
+    next_state_info,_,_,_, = training_dataset_loaded[i + 1]  # Access the next line
     if next_state_info[0] == 0:
         done = float(True)
     else:
         done = float(False)
     replay_buffer.add(current_state, action, next_state, reward, done)
+    # print(current_state,reward)
     episode_reward += reward
     # print(done)
     if done == 1.0: 

@@ -3,6 +3,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import csv
 
 
 class Actor(nn.Module):
@@ -99,7 +100,7 @@ class VAE(nn.Module):
 
 
 class BCQ(object):
-	def __init__(self, state_dim, action_dim, max_action, device, discount=0.99, tau=0.005, lmbda=0.75, phi=0.05):
+	def __init__(self, state_dim, action_dim, max_action, device, discount=0.99, tau=0.005, lmbda=0.75, phi=0.05, seed=None):
 		latent_dim = action_dim * 2
 
 		self.actor = Actor(state_dim, action_dim, max_action, phi).to(device)
@@ -119,6 +120,7 @@ class BCQ(object):
 		self.tau = tau
 		self.lmbda = lmbda
 		self.device = device
+		self.seed = seed
 
 
 	def select_action(self, state):		
@@ -131,6 +133,11 @@ class BCQ(object):
 
 
 	def train(self, replay_buffer, iterations, batch_size=100):
+
+		# Open a CSV file to store losses with seed in the filename
+		loss_file = open(f'./losses_seed_{self.seed}.csv', mode='w', newline='')
+		loss_writer = csv.writer(loss_file)
+		loss_writer.writerow(['iteration', 'actor_loss', 'critic_loss'])
 
 		for it in range(iterations):
 			# Sample replay buffer / batch
@@ -180,7 +187,8 @@ class BCQ(object):
 			self.actor_optimizer.zero_grad()
 			actor_loss.backward()
 			self.actor_optimizer.step()
-
+			
+			
 
 			# Update Target Networks 
 			for param, target_param in zip(self.critic.parameters(), self.critic_target.parameters()):
@@ -188,3 +196,6 @@ class BCQ(object):
 
 			for param, target_param in zip(self.actor.parameters(), self.actor_target.parameters()):
 				target_param.data.copy_(self.tau * param.data + (1 - self.tau) * target_param.data)
+
+			# Store losses in CSV
+			loss_writer.writerow([it, actor_loss.item(), critic_loss.item()])

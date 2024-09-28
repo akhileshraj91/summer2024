@@ -22,7 +22,7 @@ while i < len(sys.argv):
 client = nrm.Client()
 actuators = client.list_actuators()
 ACTIONS = actuators[0].list_choices()
-policy = torch.load('/home/cc/summer2024/results/BCQ_SYS_0.pt')
+policy = torch.load('/home/cc/summer2024/tests/results/BCQ_SYS_0.pt')
 max_values = {'PAPI_L3_TCA': 2519860487.0, 'PAPI_TOT_INS': 108949748763.0, 'PAPI_TOT_CYC': 297655869900.0, 'PAPI_RES_STL': 259228596139.0, 'PAPI_L3_TCM': 2370673711.0}
 
 def compress_files(iteration):
@@ -202,6 +202,7 @@ def experiment_for(APPLICATION, EXP_DIR):
                     print(state)
                     state = np.array(state)
                     PCAP = policy.select_action(np.array(state))
+                    PCAP = min(ACTIONS, key=lambda x: abs(x-PCAP))
                 else: 
                     PCAP = 78.0
                 print(PCAP)
@@ -233,7 +234,7 @@ if __name__ == "__main__":
 
 
     for APPLICATION in APPLICATIONS:
-        experiment = 'data_generation'
+        experiment = 'Control'
         EXP_DIR = f'{current_dir}/experiment_data/{experiment}/{APPLICATION}'
         if os.path.exists(EXP_DIR):
             print(f"Directories {EXP_DIR} exist")

@@ -59,13 +59,13 @@ def compress_files(iteration):
 def experiment_for(APPLICATION, EXP_DIR):
     if "stream" in APPLICATION:
         PROBLEM_SIZE = 33554432
-        ITERATIONS = 10000
+        ITERATIONS = 100000
     elif "solvers" in APPLICATION:
         PROBLEM_SIZE = 10000
-        ITERATIONS = 10000
+        ITERATIONS = 100000
     elif "ep" in APPLICATION:
         PROBLEM_SIZE = 22
-        ITERATIONS = 10000
+        ITERATIONS = 100000
     with open(f'{EXP_DIR}/measured_power.csv', mode='w', newline='') as power_file, open(f'{EXP_DIR}/progress.csv', mode='w', newline='') as progress_file, open(f'{EXP_DIR}/energy.csv', mode='w', newline='') as energy_file, open(f'{EXP_DIR}/PCAP_file.csv', mode='w', newline='') as PCAP_file, open(f'{EXP_DIR}/papi.csv', mode='w', newline='') as papi_file:
         power_writer = csv.writer(power_file)
         progress_writer = csv.writer(progress_file)
@@ -101,9 +101,9 @@ def experiment_for(APPLICATION, EXP_DIR):
         client.set_event_listener(cb)
         client.start_event_listener("") 
         if "solvers" in APPLICATION:
-            process = subprocess.Popen(['sudo', 'nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', 'poor', '0', f'{ITERATIONS}'])
+            process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', 'poor', '0', f'{ITERATIONS}'])
         else:    
-            process = subprocess.Popen(['sudo', 'nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'{ITERATIONS}'])
+            process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'{ITERATIONS}'])
 
 
         last_pcap_change = 0

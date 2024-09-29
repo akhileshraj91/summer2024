@@ -14,8 +14,8 @@ data = pd.read_csv(csv_file)
 fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 10))
 
 # Plot initial data
-line1, = ax1.plot(data['iteration'], data['actor_loss'], label='Actor Loss')
-line2, = ax2.plot(data['iteration'], data['critic_loss'], label='Critic Loss')
+line1, = ax1.plot(data.index, data['actor_loss'], label='Actor Loss')
+line2, = ax2.plot(data.index, data['critic_loss'], label='Critic Loss')
 
 # Set up the axes
 ax1.set_xlabel('Iteration')
@@ -34,8 +34,8 @@ def update(frame):
     new_data = pd.read_csv(csv_file)
     if len(new_data) > len(data):
         # Update data
-        line1.set_data(new_data['iteration'], new_data['actor_loss'])
-        line2.set_data(new_data['iteration'], new_data['critic_loss'])
+        line1.set_data(new_data.index, new_data['actor_loss'])
+        line2.set_data(new_data.index, new_data['critic_loss'])
         
         # Adjust axes limits if necessary
         ax1.relim()

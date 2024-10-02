@@ -13,16 +13,24 @@ import torch
 
 i = 0
 APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale', 'ones-npb-ep']
+policy_folder = '/home/cc/summer2024/main_codes/results/'  # Default policy file
+policy_file = os.path.join(policy_folder,'BCQ_SYS_0_20240929_183736.pt')
 while i < len(sys.argv):
     if sys.argv[i] == '--application':
         APPLICATION = sys.argv[i+1]
         i += 1
+    elif sys.argv[i] == '--policy':
+        policy_name = sys.argv[i+1]  # Update policy file from argument
+        policy_file = os.path.join(policy_folder, policy_name)
+        i += 1
     i +=1
+
+
 
 client = nrm.Client()
 actuators = client.list_actuators()
 ACTIONS = actuators[0].list_choices()
-policy = torch.load('/home/cc/summer2024/main_codes/results/BCQ_SYS_0_20240929_183736.pt')
+policy = torch.load(policy_file)  # Load policy from the specified file
 max_values = {'PAPI_L3_TCA': 2519860487.0, 'PAPI_TOT_INS': 108949748763.0, 'PAPI_TOT_CYC': 297655869900.0, 'PAPI_RES_STL': 259228596139.0, 'PAPI_L3_TCM': 2370673711.0}
 
 def compress_files(iteration):

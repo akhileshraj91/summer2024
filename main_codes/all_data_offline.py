@@ -238,7 +238,7 @@ class SYS(object):
             # self.current_step += ns
             # reward = - 5*a
             # reward = 2*ns/(((a)/measured_power)+measured_power) # Check the behaviour across the states
-            reward = -ns/(2*a**2+1)
+            reward = ns/(a**2+1)
             # reward = 5*a
         else:
             reward = -100

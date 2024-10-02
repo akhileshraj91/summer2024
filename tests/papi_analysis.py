@@ -17,12 +17,13 @@ os.chdir(current_working_directory)
 
 exp_type = 'identification' 
 experiment_dir = f'{current_working_directory}/experiment_data/{exp_type}/'
-
+print(experiment_dir)
 root, apps, files = next(os.walk(experiment_dir))
 num_subs = len(apps)
 
 fig, axs = plt.subplots(2, 2, figsize=(12, 8))  
 fig_pow, axs_pow = plt.subplots(1,1)
+fig_inst, axs_inst = plt.subplots(2,3, figsize=(12, 8))
 # Create a colormap
 colormap = plt.cm.get_cmap('tab10', len(apps))
 
@@ -120,12 +121,14 @@ for app_index, app in enumerate(apps):
             if scope not in ['PCAP', 'power_calculated']:
                 data[trace][scope]['instantaneous_values'] = [data[trace][scope]['value'][0]]
                 data[trace][scope]['instantaneous_values'].extend([data[trace][scope]['value'][t] - data[trace][scope]['value'][t-1] for t in range(1,len(data[trace][scope]['value']))])
+                data[trace][scope]['elapsed_time'] = [t - data[trace][scope]['timestamp'][0] for t in data[trace][scope]['timestamp']]
                 data[trace][scope]['average'] = sum(data[trace][scope]['instantaneous_values']) / len(data[trace][scope]['instantaneous_values'])   
                 ax = axs[round((count+1)/4), count%2]
                 scatter = ax.scatter(data[trace]['PCAP'], data[trace][scope]['average'], label=f'{app}', color=colormap(app_index))
                 ax.set_xlabel('PCAP', fontsize=10)  # Adjust font size
                 ax.set_ylabel(f'{scope} - Average', fontsize=10)  # Adjust font size
                 count += 1
+                ax.grid(True)
 
                 # Collect handles and labels for the combined legend
                 print(app,legend_labels)
@@ -145,7 +148,26 @@ axs_pow.grid(True)  # Add grid to the power figure
 fig_pow.savefig(f'{current_working_directory}/power_relation.pdf')
 
 plt.tight_layout()  # Adjust layout to prevent overlap
-plt.show()
 
 # Remove or comment out this line as it's no longer needed
 # plt.grid(True)
+app_count = 0
+# app_count = {}
+scope_name = "PAPI_TOT_INS"
+for app in traces.keys():
+    for trace in traces[app]['data'].keys():
+        print(app,trace)
+        if traces[app]['data'][trace]['PCAP'] == 165.0 or traces[app]['data'][trace]['PCAP'] == 78.0:
+            axs_inst[int(app_count/3), int(app_count%3)].scatter(traces[app]['data'][trace][f"{scope_name}"]['elapsed_time'], traces[app]['data'][trace][scope_name]['instantaneous_values'], label = f"{traces[app]['data'][trace]['PCAP']}")
+    axs_inst[int(app_count/3), int(app_count%3)].legend()
+    axs_inst[int(app_count/3), int(app_count%3)].set_title(app)
+    axs_inst[int(app_count/3), int(app_count%3)].set_xlabel('Elapsed Time', fontsize=10)  # Set x-axis label
+    axs_inst[int(app_count/3), int(app_count%3)].set_ylabel('Instantaneous Values', fontsize=10)  # Set y-axis label
+    axs_inst[int(app_count/3), int(app_count%3)].grid(True)
+    app_count += 1
+fig_inst.savefig(f'{current_working_directory}/{scope_name}_vs_time.pdf')
+plt.tight_layout()  # Adjust layout to prevent overlap
+
+
+
+plt.show()

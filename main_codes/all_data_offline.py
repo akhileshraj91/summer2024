@@ -400,7 +400,7 @@ def train_BCQ(state_dim, action_dim, max_action, device, args, replay_buffer):
 
 	while training_iters < args.max_timesteps: 
 		pol_vals = policy.train(replay_buffer, loss_writer, iterations=int(args.eval_freq), batch_size=args.batch_size)
-		torch.save(policy, f"./results/BCQ_{setting}.pt")  # Save the results
+		torch.save(policy, f"./results/BCQ_{setting}_{current_time}.pt")  # Save the results
 
 		training_iters += args.eval_freq
 		print(f"Training iterations: {training_iters}")
@@ -423,17 +423,17 @@ replay_buffer = utils.ReplayBuffer(state_dim, action_dim, device)
 
 	
 parser = argparse.ArgumentParser()
-parser.add_argument("--env", default="SYS")               # OpenAI gym environment name
+parser.add_argument("--env", default="SYS")                     # OpenAI gym environment name
 parser.add_argument("--seed", default=0, type=int)              # Sets Gym, PyTorch and Numpy seeds
 parser.add_argument("--buffer_name", default="Robust")          # Prepends name to filename
-parser.add_argument("--eval_freq", default=5e3, type=float)     # How often (time steps) we evaluate
+parser.add_argument("--eval_freq", default=1e3, type=float)     # How often (time steps) we evaluate
 parser.add_argument("--max_timesteps", default=3e4, type=int)   # Max time steps to run environment or train for (this defines buffer size)
 parser.add_argument("--start_timesteps", default=25e3, type=int)# Time steps initial random policy is used before training behavioral
 parser.add_argument("--rand_action_p", default=0.3, type=float) # Probability of selecting random action during batch generation
 parser.add_argument("--gaussian_std", default=0.3, type=float)  # Std of Gaussian exploration noise (Set to 0.1 if DDPG trains poorly)
 parser.add_argument("--batch_size", default=100, type=int)      # Mini batch size for networks
 parser.add_argument("--discount", default=0.99)                 # Discount factor
-parser.add_argument("--tau", default=0.005)                     # Target network update rate
+parser.add_argument("--tau", default=0.005, type=float)         # Target network update rate
 parser.add_argument("--lmbda", default=0.75)                    # Weighting for clipped double Q-learning in BCQ
 parser.add_argument("--phi", default=0.05)                      # Max perturbation hyper-parameter for BCQ
 parser.add_argument("--train_behavioral", action="store_true")  # If true, train behavioral (DDPG)

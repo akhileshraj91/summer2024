@@ -191,6 +191,7 @@ class BCQ(object):
 
 			# Update Target Networks 
 			for param, target_param in zip(self.critic.parameters(), self.critic_target.parameters()):
+				# print("--------",self.tau,type(self.tau))
 				target_param.data.copy_(self.tau * param.data + (1 - self.tau) * target_param.data)
 
 			for param, target_param in zip(self.actor.parameters(), self.actor_target.parameters()):

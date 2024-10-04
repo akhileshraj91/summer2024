@@ -12,6 +12,7 @@ import re
 warnings.filterwarnings('ignore')
 
 current_working_directory = os.path.dirname(os.path.abspath(__file__))
+plt.rcParams.update({'font.size': 12, "font.weight": "bold", 'axes.labelsize': 'x-large'})
 
 os.chdir(current_working_directory)
 
@@ -23,7 +24,6 @@ num_subs = len(apps)
 
 fig, axs = plt.subplots(2, 2, figsize=(12, 8))  
 fig_pow, axs_pow = plt.subplots(1,1)
-fig_inst, axs_inst = plt.subplots(2,3, figsize=(12, 8))
 # Create a colormap
 colormap = plt.cm.get_cmap('tab10', len(apps))
 
@@ -151,23 +151,153 @@ plt.tight_layout()  # Adjust layout to prevent overlap
 
 # Remove or comment out this line as it's no longer needed
 # plt.grid(True)
-app_count = 0
-# app_count = {}
-scope_name = "PAPI_TOT_INS"
-for app in traces.keys():
-    for trace in traces[app]['data'].keys():
-        print(app,trace)
-        if traces[app]['data'][trace]['PCAP'] == 165.0 or traces[app]['data'][trace]['PCAP'] == 78.0:
-            axs_inst[int(app_count/3), int(app_count%3)].scatter(traces[app]['data'][trace][f"{scope_name}"]['elapsed_time'], traces[app]['data'][trace][scope_name]['instantaneous_values'], label = f"{traces[app]['data'][trace]['PCAP']}")
-    axs_inst[int(app_count/3), int(app_count%3)].legend()
-    axs_inst[int(app_count/3), int(app_count%3)].set_title(app)
-    axs_inst[int(app_count/3), int(app_count%3)].set_xlabel('Elapsed Time', fontsize=10)  # Set x-axis label
-    axs_inst[int(app_count/3), int(app_count%3)].set_ylabel('Instantaneous Values', fontsize=10)  # Set y-axis label
-    axs_inst[int(app_count/3), int(app_count%3)].grid(True)
-    app_count += 1
-fig_inst.savefig(f'{current_working_directory}/{scope_name}_vs_time.pdf')
+for scope_name in data[trace].keys():
+    if "PAPI" in scope_name:  # Check if "PAPI" is in the scope name
+        fig_inst, axs_inst = plt.subplots(2, 3, figsize=(12, 8))
+        app_count = 0
+        legend_handles = []  # Collect handles for the legend
+        legend_labels = []   # Collect labels for the legend
+        # Use a colormap with higher color differentiation
+        colormap = plt.cm.get_cmap('tab20', len(set(data[trace].keys())))  # Changed to 'tab20'
+        color_map = {scope_name: colormap(i) for i, scope_name in enumerate(set(data[trace].keys()))}
+        for app in traces.keys():
+            for trace in traces[app]['data'].keys():
+                # print(app, trace)
+                scatter = axs_inst[int(app_count/3), int(app_count%3)].scatter(
+                    traces[app]['data'][trace][f"{scope_name}"]['elapsed_time'],
+                    traces[app]['data'][trace][scope_name]['instantaneous_values'],
+                    label=f"{traces[app]['data'][trace]['PCAP']}"
+                )
+                if f"{traces[app]['data'][trace]['PCAP']}" not in legend_labels:
+                    legend_handles.append(scatter)  # Add scatter handle to legend
+                    legend_labels.append(f"{traces[app]['data'][trace]['PCAP']}")  # Add label to legend
+            axs_inst[int(app_count/3), int(app_count%3)].set_title(app)
+            axs_inst[int(app_count/3), int(app_count%3)].set_xlabel('Elapsed Time', fontsize=10)  # Set x-axis label
+            axs_inst[int(app_count/3), int(app_count%3)].set_ylabel('Instantaneous Values', fontsize=10)  # Set y-axis label
+            axs_inst[int(app_count/3), int(app_count%3)].grid(True)
+            app_count += 1
+        
+        # Adjust layout to minimize empty space
+        fig_inst.suptitle(f'Instantaneous Values for {scope_name}', fontsize=14)  # Add title to the figure
+        fig_inst.subplots_adjust(left=0.05, right=0.95, top=0.90, bottom=0.06, hspace=0.3, wspace=0.2)  # Adjust margins to leave space for title
+        fig_inst.legend(legend_handles, legend_labels, loc='upper right', ncol=1, fontsize=8)
+        fig_inst.savefig(f'{current_working_directory}/{scope_name}_vs_time.pdf')
+        plt.tight_layout()  # Adjust layout to prevent overlap
+
+fig_stat, axs_stat = plt.subplots(2, 3, figsize=(12, 8))
+legend_handles = []  # Collect handles for the legend
+legend_labels = []   # Collect labels for the legend
+for scope_name in data[trace].keys():
+    if "PAPI" in scope_name:  # Check if "PAPI" is in the scope name
+        app_count = 0
+        # Define a color mapping for each scope_name
+        color_map = {scope_name: colormap(i) for i, scope_name in enumerate(set(data[trace].keys()))}
+        for app in traces.keys():
+            for trace in traces[app]['data'].keys():
+                # Use the same color for the same scope_name
+                color = color_map[scope_name]  # Get color from the mapping
+                mean_values = np.mean(traces[app]['data'][trace][scope_name]['instantaneous_values'])
+                std_values = np.std(traces[app]['data'][trace][scope_name]['instantaneous_values'])
+                fmt = 'o' if "L3_TCA" in scope_name else 'x'  # Set fmt based on scope_name
+                scatter = axs_stat[int(app_count/3), int(app_count%3)].errorbar(
+                    traces[app]['data'][trace]['PCAP'],
+                    mean_values, std_values,
+                    label=f"{scope_name}", fmt=fmt, color=color
+                )
+                if f"{scope_name}" not in legend_labels:
+                    legend_handles.append(scatter)  # Add scatter handle to legend
+                    legend_labels.append(f"{scope_name}")  # Add label to legend
+            axs_stat[int(app_count/3), int(app_count%3)].set_title(app)
+            axs_stat[int(app_count/3), int(app_count%3)].set_xlabel('PCAP', fontsize=10)  # Set x-axis label
+            axs_stat[int(app_count/3), int(app_count%3)].set_ylabel('Mean and variance of data in one experiment', fontsize=10)  # Set y-axis label
+            axs_stat[int(app_count/3), int(app_count%3)].grid(True)
+            # axs_stat[int(app_count/3), int(app_count%3)].set_ylim(-100, 100)  # Set y-axis limits for larger range
+            app_count += 1
+        
+fig_stat.suptitle(f'mu and sigma of HC params over each execution with varying PCAPs', fontsize=14)  # Add title to the figure
+fig_stat.subplots_adjust(left=0.05, right=0.95, top=0.90, bottom=0.06, hspace=0.3, wspace=0.2)  # Adjust margins to leave space for title
+fig_stat.legend(legend_handles, legend_labels, loc='upper right', ncol=1, fontsize=8)
+fig_stat.savefig(f'{current_working_directory}/One_stat_vs_Power.pdf')
 plt.tight_layout()  # Adjust layout to prevent overlap
 
+
+fig_der1, axs_der1 = plt.subplots(2, 3, figsize=(12, 8))
+fig_der2, axs_der2 = plt.subplots(2, 3, figsize=(12, 8))
+fig_der3, axs_der3 = plt.subplots(2, 3, figsize=(12, 8))
+fig_der4, axs_der4 = plt.subplots(2, 3, figsize=(12, 8))
+
+
+legend_handles = []  # Collect handles for the legend
+legend_labels = []   # Collect labels for the legend
+# for scope_name in data[trace].keys():
+# if "PAPI" in scope_name:  # Check if "PAPI" is in the scope name
+app_count = 0
+    # Define a color mapping for each scope_name
+    # color_map = {scope_name: colormap(i) for i, scope_name in enumerate(set(data[trace].keys()))}
+for app in traces.keys():
+    for trace in traces[app]['data'].keys():
+        # Use the same color for the same scope_name
+        # color = color_map[scope_name]  # Get color from the mapping
+        # mean_values = np.mean(traces[app]['data'][trace][scope_name]['instantaneous_values'])
+        # std_values = np.std(traces[app]['data'][trace][scope_name]['instantaneous_values'])
+        # fmt = 'o' if "L3_TCA" in scope_name else 'x'  # Set fmt based on scope_name
+        scatter1 = axs_der1[int(app_count/3), int(app_count%3)].scatter(traces[app]['data'][trace]['PAPI_TOT_INS']['elapsed_time'],
+            np.array(traces[app]['data'][trace]['PAPI_TOT_INS']['instantaneous_values']) / 
+            np.array(traces[app]['data'][trace]['PAPI_TOT_CYC']['instantaneous_values']),
+            label=f"{traces[app]['data'][trace]['PCAP']}"
+        )
+        scatter2 = axs_der2[int(app_count/3), int(app_count%3)].scatter(traces[app]['data'][trace]['PAPI_TOT_INS']['elapsed_time'],
+            np.array(traces[app]['data'][trace]['PAPI_TOT_CYC']['instantaneous_values']) / 
+            np.array(traces[app]['data'][trace]['PAPI_TOT_INS']['instantaneous_values']),
+            label=f"{traces[app]['data'][trace]['PCAP']}"
+        )
+        scatter3 = axs_der3[int(app_count/3), int(app_count%3)].scatter(traces[app]['data'][trace]['PAPI_TOT_INS']['elapsed_time'],
+            np.array(traces[app]['data'][trace]['PAPI_L3_TCM']['instantaneous_values']) / 
+            np.array(traces[app]['data'][trace]['PAPI_L3_TCA']['instantaneous_values']),
+            label=f"{traces[app]['data'][trace]['PCAP']}"
+        )
+        scatter4 = axs_der4[int(app_count/3), int(app_count%3)].scatter(traces[app]['data'][trace]['PAPI_TOT_INS']['elapsed_time'],
+            np.array(traces[app]['data'][trace]['PAPI_RES_STL']['instantaneous_values']) / 
+            np.array(traces[app]['data'][trace]['PAPI_TOT_CYC']['instantaneous_values']),
+            label=f"{traces[app]['data'][trace]['PCAP']}"
+        )
+        if f"{traces[app]['data'][trace]['PCAP']}" not in legend_labels:
+            legend_handles.append(scatter1)  # Add scatter handle to legend
+            legend_labels.append(f"{traces[app]['data'][trace]['PCAP']}")  # Add label to legend
+    axs_der1[int(app_count/3), int(app_count%3)].set_title(app)
+    axs_der1[int(app_count/3), int(app_count%3)].set_xlabel('time', fontsize=10)  # Set x-axis label
+    axs_der1[int(app_count/3), int(app_count%3)].set_ylabel(r'$\frac{\text{Total Instructions}}{\text{Total Cycles}}$', fontsize=10)  # Set y-axis label
+    axs_der1[int(app_count/3), int(app_count%3)].grid(True)
+    axs_der2[int(app_count/3), int(app_count%3)].set_title(app)
+    axs_der2[int(app_count/3), int(app_count%3)].set_xlabel('time', fontsize=10)  # Set x-axis label
+    axs_der2[int(app_count/3), int(app_count%3)].set_ylabel(r'$\frac{\text{Total Cycles}}{\text{Total Instructions}}$', fontsize=10)  # Set y-axis label
+    axs_der2[int(app_count/3), int(app_count%3)].grid(True)
+    axs_der3[int(app_count/3), int(app_count%3)].set_title(app)
+    axs_der3[int(app_count/3), int(app_count%3)].set_xlabel('time', fontsize=10)  # Set x-axis label
+    axs_der3[int(app_count/3), int(app_count%3)].set_ylabel(r'$\frac{\text{L3 TCM}}{\text{L3 TCA}}$', fontsize=10)  # Set y-axis label
+    axs_der3[int(app_count/3), int(app_count%3)].grid(True)
+    axs_der4[int(app_count/3), int(app_count%3)].set_title(app)
+    axs_der4[int(app_count/3), int(app_count%3)].set_xlabel('time', fontsize=10)  # Set x-axis label
+    axs_der4[int(app_count/3), int(app_count%3)].set_ylabel(r'$\frac{\text{RES STL}}{\text{Total Cycles}}$', fontsize=10)  # Set y-axis label
+    axs_der4[int(app_count/3), int(app_count%3)].grid(True)
+    # axs_stat[int(app_count/3), int(app_count%3)].set_ylim(-100, 100)  # Set y-axis limits for larger range
+    app_count += 1
+
+plt.tight_layout()  # Adjust layout to prevent overlap
+
+# fig_der1.suptitle(f'Total i', fontsize=14)  # Add title to the figure
+fig_der1.subplots_adjust(left=0.05, right=0.95, top=0.90, bottom=0.06, hspace=0.3, wspace=0.3)  # Adjust margins to leave space for title
+fig_der1.legend(legend_handles, legend_labels, loc='upper right', ncol=1, fontsize=8)
+fig_der1.savefig(f'{current_working_directory}/derived_ins_cyc.pdf')
+fig_der2.subplots_adjust(left=0.05, right=0.95, top=0.90, bottom=0.06, hspace=0.3, wspace=0.3)  # Adjust margins to leave space for title
+fig_der2.legend(legend_handles, legend_labels, loc='upper right', ncol=1, fontsize=8)
+fig_der2.savefig(f'{current_working_directory}/derived_cyc_ins.pdf')
+fig_der3.subplots_adjust(left=0.05, right=0.95, top=0.90, bottom=0.06, hspace=0.3, wspace=0.3)  # Adjust margins to leave space for title
+fig_der3.legend(legend_handles, legend_labels, loc='upper right', ncol=1, fontsize=8)
+fig_der3.savefig(f'{current_working_directory}/derived_L3.pdf')
+fig_der4.subplots_adjust(left=0.05, right=0.95, top=0.90, bottom=0.06, hspace=0.3, wspace=0.3)  # Adjust margins to leave space for title
+fig_der4.legend(legend_handles, legend_labels, loc='upper right', ncol=1, fontsize=8)
+fig_der4.savefig(f'{current_working_directory}/derived_cyc.pdf')
 
 
 plt.show()

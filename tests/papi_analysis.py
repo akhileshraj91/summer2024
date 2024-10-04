@@ -18,7 +18,7 @@ os.chdir(current_working_directory)
 
 exp_type = 'identification' 
 experiment_dir = f'{current_working_directory}/experiment_data/{exp_type}/'
-print(experiment_dir)
+# print(experiment_dir)
 root, apps, files = next(os.walk(experiment_dir))
 num_subs = len(apps)
 
@@ -80,7 +80,7 @@ for app_index, app in enumerate(apps):
         files = os.listdir(cwd)
         for fname in files:
             if fname.endswith("tar"):
-                print(fname)
+                # print(fname)
                 tar = tarfile.open(cwd + '/' + fname, "r")
                 tar.extractall(path=cwd + '/' + fname[:-4])
                 tar.close()
@@ -131,7 +131,7 @@ for app_index, app in enumerate(apps):
                 ax.grid(True)
 
                 # Collect handles and labels for the combined legend
-                print(app,legend_labels)
+                # print(app,legend_labels)
                 if app not in legend_labels:
                     legend_handles.append(scatter)
                     legend_labels.append(f'{app}')
@@ -299,5 +299,70 @@ fig_der4.subplots_adjust(left=0.05, right=0.95, top=0.90, bottom=0.06, hspace=0.
 fig_der4.legend(legend_handles, legend_labels, loc='upper right', ncol=1, fontsize=8)
 fig_der4.savefig(f'{current_working_directory}/derived_cyc.pdf')
 
+
+
+fig_derstat, axs_derstat = plt.subplots(2, 3, figsize=(12, 8))
+legend_handles = []  # Collect handles for the legend
+legend_labels = []   # Collect labels for the legend
+app_count = 0
+high_contrast_colors = plt.cm.tab10.colors[:4]
+
+for app in traces.keys():
+    for trace in traces[app]['data'].keys():
+        # print(legend_labels)
+        POI = np.array(traces[app]['data'][trace]['PAPI_TOT_INS']['instantaneous_values']) / np.array(traces[app]['data'][trace]['PAPI_TOT_CYC']['instantaneous_values'])
+        mean = np.mean(POI)
+        std = np.std(POI)
+        label1=r'$\frac{\text{Total Instructions}}{\text{Total Cycles}}$'
+        scatter1 = axs_derstat[int(app_count/3), int(app_count%3)].errorbar(traces[app]['data'][trace]['PCAP'],
+            mean, std,
+            label=label1, elinewidth=2,fmt='o', color = high_contrast_colors[0]  # Increased error bar size
+        )
+        POI = np.array(traces[app]['data'][trace]['PAPI_TOT_CYC']['instantaneous_values']) / np.array(traces[app]['data'][trace]['PAPI_TOT_INS']['instantaneous_values'])
+        mean = np.mean(POI)
+        std = np.std(POI)
+        label2=r'$\frac{\text{Total Cycles}}{\text{Total Instructions}}$'
+        scatter2 = axs_derstat[int(app_count/3), int(app_count%3)].errorbar(traces[app]['data'][trace]['PCAP'],
+            mean,std,
+            label=label2, elinewidth=2,fmt='o', color = high_contrast_colors[1]  # Increased error bar size
+        )
+        POI = np.array(np.array(traces[app]['data'][trace]['PAPI_L3_TCM']['instantaneous_values']) / np.array(traces[app]['data'][trace]['PAPI_L3_TCA']['instantaneous_values']))
+        mean = np.mean(POI)
+        std = np.std(POI)
+        label3=r'$\frac{\text{L3 TCM}}{\text{L3 TCA}}$'
+        scatter3 = axs_derstat[int(app_count/3), int(app_count%3)].errorbar(traces[app]['data'][trace]['PCAP'],
+            mean,std,
+            label=label3, elinewidth=2,fmt='o', color = high_contrast_colors[2]  # Increased error bar size
+        )
+        POI = np.array(np.array(traces[app]['data'][trace]['PAPI_RES_STL']['instantaneous_values']) / 
+            np.array(traces[app]['data'][trace]['PAPI_TOT_CYC']['instantaneous_values']))
+        mean = np.mean(POI)
+        std = np.std(POI)
+        label4=r'$\frac{\text{RES STL}}{\text{Total Cycles}}$'
+        scatter4 = axs_derstat[int(app_count/3), int(app_count%3)].errorbar(traces[app]['data'][trace]['PCAP'],
+            mean,std,
+            label=label4, elinewidth=2,fmt='o', color = high_contrast_colors[3]  # Increased error bar size
+        )
+    axs_derstat[int(app_count/3), int(app_count%3)].set_title(app)
+    axs_derstat[int(app_count/3), int(app_count%3)].set_xlabel('PCAP', fontsize=10)  # Set x-axis label
+    axs_derstat[int(app_count/3), int(app_count%3)].set_ylabel('Mean and variance of derived data for each exp', fontsize=10)  # Set y-axis label
+    axs_derstat[int(app_count/3), int(app_count%3)].grid(True)
+    app_count += 1
+legend_handles = [scatter1,scatter2,scatter3,scatter4]  # Add scatter handle to legend
+legend_labels = [label1, label2, label3, label4]  # Add label to legend
+# axs_derstat[0,2].legend(loc='upper right', ncol=1, fontsize=8)  # Set legend
+ 
+# Set the legend only once after all error bars are plotted
+fig_derstat.suptitle(f'mu and sigma of derived HC params with varying PCAPs', fontsize=14)  # Add title to the figure
+fig_derstat.subplots_adjust(left=0.05, right=0.95, top=0.90, bottom=0.06, hspace=0.3, wspace=0.2)  # Adjust margins to leave space for title
+fig_derstat.legend(legend_handles, legend_labels, loc='upper right', ncol=1, fontsize=8)
+plt.tight_layout()  # Adjust layout to prevent overlap
+
+for app_count in range(2):  # Adjust the range based on the number of rows in axs_derstat
+    for ax in axs_derstat[app_count]:
+        ax.grid(True)  # Enable grid for each axis
+
+# Generate four high-contrast colors
+fig_derstat.savefig(f'{current_working_directory}/derived_One_stat_vs_Power.pdf')
 
 plt.show()

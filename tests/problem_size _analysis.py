@@ -106,24 +106,24 @@ def measure_progress(progress_data, energy_data):
     Progress_DATA['progress_frequency_median'] = progress_frequency_median
     return Progress_DATA
 
-# def collect_papi(PAPI_data):
-#     PAPI = {}
-#     for scope in PAPI_data['scope'].unique():
-#         # Extract the string between the 3rd and 4th dots
-#         scope_parts = scope.split('.')
-#         if len(scope_parts) > 4:  # Ensure there are enough parts
-#             extracted_scope = scope_parts[3]
-#             # Aggregate the data for the extracted scope using pd.concat
-#             PAPI[extracted_scope] = PAPI_data[PAPI_data['scope'] == scope]
-#             instantaneous_values = [0] + [PAPI[extracted_scope]['value'].iloc[k] - PAPI[extracted_scope]['value'].iloc[k-1] for k in range(1,len(PAPI[extracted_scope]))]
-#             # Normalize the instantaneous values between 0 and 10
-#             min_val = min(instantaneous_values)
-#             max_val = max(instantaneous_values)
-#             # PAPI[extracted_scope]['instantaneous_value'] = [(value - min_val) / (max_val - min_val) * 10 for value in instantaneous_values]
-#             PAPI[extracted_scope]['instantaneous_value'] = instantaneous_values
-#             PAPI[extracted_scope]['elapsed_time'] = PAPI[extracted_scope]['time'] - PAPI[extracted_scope]['time'].iloc[0]
-#             # PAPI[extracted_scope]['max_min'] = {}
-#     return PAPI
+def collect_papi(PAPI_data):
+    PAPI = {}
+    for scope in PAPI_data['scope'].unique():
+        # Extract the string between the 3rd and 4th dots
+        scope_parts = scope.split('.')
+        if len(scope_parts) > 4:  # Ensure there are enough parts
+            extracted_scope = scope_parts[3]
+            # Aggregate the data for the extracted scope using pd.concat
+            PAPI[extracted_scope] = PAPI_data[PAPI_data['scope'] == scope]
+            instantaneous_values = [0] + [PAPI[extracted_scope]['value'].iloc[k] - PAPI[extracted_scope]['value'].iloc[k-1] for k in range(1,len(PAPI[extracted_scope]))]
+            # Normalize the instantaneous values between 0 and 10
+            min_val = min(instantaneous_values)
+            max_val = max(instantaneous_values)
+            # PAPI[extracted_scope]['instantaneous_value'] = [(value - min_val) / (max_val - min_val) * 10 for value in instantaneous_values]
+            PAPI[extracted_scope]['instantaneous_value'] = instantaneous_values
+            PAPI[extracted_scope]['elapsed_time'] = PAPI[extracted_scope]['time'] - PAPI[extracted_scope]['time'].iloc[0]
+            # PAPI[extracted_scope]['max_min'] = {}
+    return PAPI
 
 def normalize(traces):
     normalized_PAPI = {}
@@ -164,19 +164,19 @@ for app_index, app in enumerate(apps):
         pwd = f'{cwd}/{trace}'
         pubProgress = pd.read_csv(f'{pwd}/progress.csv')
         pubEnergy = pd.read_csv(f'{pwd}/energy.csv')
-        # pubPAPI = pd.read_csv(f'{pwd}/papi.csv')
+        pubPAPI = pd.read_csv(f'{pwd}/papi.csv')
         parameters = yaml.safe_load(open(f'{pwd}/parameters.yaml'))  # Load parameters from YAML file
 
         traces[app]['data'][trace]['power'] = compute_power(pubEnergy)
         traces[app]['data'][trace]['progress'] = measure_progress(pubProgress,traces[app]['data'][trace]['power'])
-        # traces[app]['data'][trace]['papi'] = collect_papi(pubPAPI)
+        traces[app]['data'][trace]['papi'] = collect_papi(pubPAPI)
         traces[app]['data'][trace]['PARAMS'] = parameters
         
 # traces = normalize(traces)
 for app in traces.keys():
     fig, axs = plt.subplots(2,1,figsize=(12,10))
     fig_avg, axs_avg = plt.subplots(2,1,figsize=(12,10))
-    # fig_PAPI, axs_PAPI = plt.subplots(5,1,figsize=(12,16))
+    fig_PAPI, axs_PAPI = plt.subplots(5,1,figsize=(12,16))
     for trace in traces[app]['data'].keys():
         color = colormap(app_index)  # Get a color from the colormap for each trace           
         color = cm.tab10(len(traces[app]['data']))  # Get a color from the colormap for each trace
@@ -190,23 +190,23 @@ for app in traces.keys():
         # axs[0].legend()  # Added legend for progress plot
         # axs[1].legend()  # Added legend for power plot
         fig.suptitle(app)
-        axs_avg[0].scatter(traces[app]['data'][trace]['PARAMS']['PROBLEM_SIZE'],np.mean(traces[app]['data'][trace]['progress']['progress_frequency_median']), color='r', s=50)
-        axs_avg[1].scatter(traces[app]['data'][trace]['PARAMS']['PROBLEM_SIZE'],traces[app]['data'][trace]['progress']['progress_frequency_median']['elapsed_time'].iloc[-1], color='g', s=50)
+        axs_avg[0].scatter(traces[app]['data'][trace]['PARAMS']['PROBLEM_SIZE'],np.mean(traces[app]['data'][trace]['progress']['progress_frequency_median']), color='r', s=60)
+        axs_avg[1].scatter(traces[app]['data'][trace]['PARAMS']['PROBLEM_SIZE'],traces[app]['data'][trace]['progress']['progress_frequency_median']['elapsed_time'].iloc[-1], color='g', s=60)
         axs_avg[0].grid(True)
         axs_avg[1].grid(True)
         axs_avg[0].set_ylabel('Average Progress Reported')
         axs_avg[1].set_ylabel('Execution Time Reported')
         axs_avg[1].set_xlabel('Problem Size')
         fig_avg.suptitle(f'{app} problem size vs performance')
-        # for i,scope in enumerate(traces[app]['data'][trace]['papi'].keys()):
-        #     axs_PAPI[i].scatter(traces[app]['data'][trace]['papi'][scope]['elapsed_time'], traces[app]['data'][trace]['papi'][scope]['normalized_value'], label=trace[-5:])
-        #     axs_PAPI[i].grid(True)
-        #     axs_PAPI[i].set_ylabel(f"{scope} value")
-        # axs_PAPI[i].set_xlabel("Elapsed Time (s)")
-        # fig_PAPI.suptitle(app)
+        for i,scope in enumerate(traces[app]['data'][trace]['papi'].keys()):
+            axs_PAPI[i].scatter(traces[app]['data'][trace]['PARAMS']['PROBLEM_SIZE'], np.mean(traces[app]['data'][trace]['papi'][scope]['instantaneous_value']), label=trace[-5:], s=60)
+            axs_PAPI[i].grid(True)
+            axs_PAPI[i].set_ylabel(f"{scope} value")
+        axs_PAPI[i].set_xlabel("Problem Size")
+        fig_PAPI.suptitle(app)
     
     fig.savefig(f'{current_working_directory}/experiment_data/RESULTS/{app}.pdf')
     fig_avg.savefig(f'{current_working_directory}/experiment_data/RESULTS/{app}_performance_vs_problemsize.pdf')
-    # fig_PAPI.savefig(f'{current_working_directory}/experiment_data/RESULTS/{app}_PAPI.pdf')
+    fig_PAPI.savefig(f'{current_working_directory}/experiment_data/RESULTS/{app}_PAPI.pdf')
     plt.show()
 # print(data)

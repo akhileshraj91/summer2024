@@ -14,6 +14,7 @@ ACTIONS = [165.0]
 PROBLEM_SIZE_ARRAY = [1000, 5000, 10000, 50000, 100000, 500000, 1000000, 5000000, 10000000, 25000000, 33554432]
 PCAP = ACTIONS[-1]
 # argument parser for the application
+ITERATIONS = 10000
 
 i = 0
 APPLICATION = 'ones-stream-full'
@@ -62,16 +63,18 @@ def compress_files(iteration):
 
 
 def experiment_for(PROBLEM_SIZE):
-    with open(f'{EXP_DIR}/measured_power.csv', mode='w', newline='') as power_file, open(f'{EXP_DIR}/progress.csv', mode='w', newline='') as progress_file, open(f'{EXP_DIR}/energy.csv', mode='w', newline='') as energy_file, open(f'{EXP_DIR}/parameters.yaml', 'w') as parameter_file:
+    with open(f'{EXP_DIR}/measured_power.csv', mode='w', newline='') as power_file, open(f'{EXP_DIR}/progress.csv', mode='w', newline='') as progress_file, open(f'{EXP_DIR}/energy.csv', mode='w', newline='') as energy_file, open(f'{EXP_DIR}/parameters.yaml', 'w') as parameter_file, open(f'{EXP_DIR}/papi.csv', mode='w', newline='') as papi_file:
         power_writer = csv.writer(power_file)
         progress_writer = csv.writer(progress_file)
         energy_writer = csv.writer(energy_file)
+        papi_writer = csv.writer(papi_file)
 
         # Write headers if files are empty
         power_writer.writerow(['time', 'scope', 'value'])
         progress_writer.writerow(['time', 'value'])
         energy_writer.writerow(['time', 'scope', 'value'])
-        
+        papi_writer.writerow(['time','scope','value'])
+
         # Create a dictionary to hold the parameters
         parameters = {
             'PCAP': PCAP,
@@ -95,10 +98,15 @@ def experiment_for(PROBLEM_SIZE):
             elif sensor == "nrm.geopm.CPU_ENERGY":
                 # print(scope[-1])
                 energy_writer.writerow([timestamp, scope[-1], value])
+            elif "PAPI" in sensor:
+                # print(args)
+                papi_writer.writerow([timestamp, sensor, value])
+
 
         client.set_event_listener(cb)
         client.start_event_listener("") 
-        process = subprocess.Popen(['ones-stream-full', f'{PROBLEM_SIZE}', '10000'])
+        # process = subprocess.Popen(['ones-stream-full', f'{PROBLEM_SIZE}', '10000'])
+        process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'{ITERATIONS}'])
         client.actuate(actuators[0],PCAP)
         while True:
             time.sleep(1)

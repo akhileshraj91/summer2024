@@ -19,12 +19,9 @@ current_working_directory = os.path.dirname(os.path.abspath(__file__))
 os.chdir(current_working_directory)
 
 exp_type = 'problem_size_identification' 
-experiment_dir = f'{current_working_directory}/experiment_data/{exp_type}/'
-
-root, apps, files = next(os.walk(experiment_dir))
-num_subs = len(apps)
-
-colormap = plt.cm.get_cmap('tab10', len(apps))
+# fig, axs = plt.subplots(2, 1, figsize=(12, 10))
+# fig_avg, axs_avg = plt.subplots(2, 1, figsize=(12, 10))
+# fig_PAPI, axs_PAPI = plt.subplots(5, 1, figsize=(12, 16))
 
 def calculate_power_with_wraparound(current, previous, time_diff, wraparound_value=262143.328850):
     diff = current - previous
@@ -140,73 +137,88 @@ def normalize(traces):
                 traces[app]['data'][trace]['papi'][scope]['normalized_value'] = [(value - min_value[scope]) / (max_value[scope] - min_value[scope]) * 10 for value in traces[app]['data'][trace]['papi'][scope]['instantaneous_value']]
     return traces
 
-traces = {}
+def main(folder):  # Define the main function
+    experiment_dir = f'{current_working_directory}/experiment_data/{folder}/{exp_type}/'
 
-# Check if RESULTS directory exists, if not, create it
-results_dir = f'{current_working_directory}/experiment_data/RESULTS'
-if not os.path.exists(results_dir):
-    os.makedirs(results_dir)  # Create the directory if it doesn't exist
+    print(experiment_dir)
+    root, apps, files = next(os.walk(experiment_dir))
+    num_subs = len(apps)
 
-for app_index, app in enumerate(apps):
-    cwd = root + '/' + app
-    if next(os.walk(cwd))[1] == []:
-        files = os.listdir(cwd)
-        for fname in files:
-            if fname.endswith("tar"):
-                # print(fname)
-                tar = tarfile.open(cwd + '/' + fname, "r")
-                tar.extractall(path=cwd + '/' + fname[:-4])
-                tar.close()
-    traces[app] = {'directories': next(os.walk(cwd))[1]}
-    traces[app]['data'] = {}
-    for trace in traces[app]['directories']:
-        traces[app]['data'][trace] = {}
-        pwd = f'{cwd}/{trace}'
-        pubProgress = pd.read_csv(f'{pwd}/progress.csv')
-        pubEnergy = pd.read_csv(f'{pwd}/energy.csv')
-        pubPAPI = pd.read_csv(f'{pwd}/papi.csv')
-        parameters = yaml.safe_load(open(f'{pwd}/parameters.yaml'))  # Load parameters from YAML file
-
-        traces[app]['data'][trace]['power'] = compute_power(pubEnergy)
-        traces[app]['data'][trace]['progress'] = measure_progress(pubProgress,traces[app]['data'][trace]['power'])
-        traces[app]['data'][trace]['papi'] = collect_papi(pubPAPI)
-        traces[app]['data'][trace]['PARAMS'] = parameters
-        
-# traces = normalize(traces)
-for app in traces.keys():
-    fig, axs = plt.subplots(2,1,figsize=(12,10))
-    fig_avg, axs_avg = plt.subplots(2,1,figsize=(12,10))
-    fig_PAPI, axs_PAPI = plt.subplots(5,1,figsize=(12,16))
-    for trace in traces[app]['data'].keys():
-        color = colormap(app_index)  # Get a color from the colormap for each trace           
-        color = cm.tab10(len(traces[app]['data']))  # Get a color from the colormap for each trace
-        axs[0].scatter(traces[app]['data'][trace]['progress']['progress_frequency_median']['elapsed_time'], traces[app]['data'][trace]['progress']['progress_frequency_median']['median'], label=trace[-5:])  # Added label for legend
-        axs[1].scatter(traces[app]['data'][trace]['power']['average_power']['elapsed_time'], traces[app]['data'][trace]['power']['average_power']['average_power'], label=trace[-5:])  # Added label for legend
-        axs[0].grid(True)
-        axs[1].grid(True)
-        axs[1].set_xlabel("Elapsed Time (s)")  # Changed to set_xlabel
-        axs[0].set_ylabel("Progress")  # Changed to set_ylabel
-        axs[1].set_ylabel("Power (W)")  # Changed to set_ylabel
-        # axs[0].legend()  # Added legend for progress plot
-        # axs[1].legend()  # Added legend for power plot
-        fig.suptitle(app)
-        axs_avg[0].scatter(traces[app]['data'][trace]['PARAMS']['PROBLEM_SIZE'],np.mean(traces[app]['data'][trace]['progress']['progress_frequency_median']), color='r', s=60)
-        axs_avg[1].scatter(traces[app]['data'][trace]['PARAMS']['PROBLEM_SIZE'],traces[app]['data'][trace]['progress']['progress_frequency_median']['elapsed_time'].iloc[-1], color='g', s=60)
-        axs_avg[0].grid(True)
-        axs_avg[1].grid(True)
-        axs_avg[0].set_ylabel('Average Progress Reported')
-        axs_avg[1].set_ylabel('Execution Time Reported')
-        axs_avg[1].set_xlabel('Problem Size')
-        fig_avg.suptitle(f'{app} problem size vs performance')
-        for i,scope in enumerate(traces[app]['data'][trace]['papi'].keys()):
-            axs_PAPI[i].scatter(traces[app]['data'][trace]['PARAMS']['PROBLEM_SIZE'], np.mean(traces[app]['data'][trace]['papi'][scope]['instantaneous_value']), label=trace[-5:], s=60)
-            axs_PAPI[i].grid(True)
-            axs_PAPI[i].set_ylabel(f"{scope} value")
-        axs_PAPI[i].set_xlabel("Problem Size")
-        fig_PAPI.suptitle(app)
+    colormap = plt.cm.get_cmap('tab10', len(apps))
     
-    fig.savefig(f'{current_working_directory}/experiment_data/RESULTS/{app}.pdf')
-    fig_avg.savefig(f'{current_working_directory}/experiment_data/RESULTS/{app}_performance_vs_problemsize.pdf')
-    fig_PAPI.savefig(f'{current_working_directory}/experiment_data/RESULTS/{app}_PAPI.pdf')
+    traces = {}
+
+    # Check if RESULTS directory exists, if not, create it
+    results_dir = f'{current_working_directory}/experiment_data/RESULTS'
+    if not os.path.exists(results_dir):
+        os.makedirs(results_dir)  # Create the directory if it doesn't exist
+
+    for app_index, app in enumerate(apps):
+        cwd = root + '/' + app
+        if next(os.walk(cwd))[1] == []:
+            files = os.listdir(cwd)
+            for fname in files:
+                if fname.endswith("tar"):
+                    tar = tarfile.open(cwd + '/' + fname, "r")
+                    tar.extractall(path=cwd + '/' + fname[:-4])
+                    tar.close()
+        traces[app] = {'directories': next(os.walk(cwd))[1]}
+        traces[app]['data'] = {}
+        for trace in traces[app]['directories']:
+            traces[app]['data'][trace] = {}
+            pwd = f'{cwd}/{trace}'
+            pubProgress = pd.read_csv(f'{pwd}/progress.csv')
+            pubEnergy = pd.read_csv(f'{pwd}/energy.csv')
+            pubPAPI = pd.read_csv(f'{pwd}/papi.csv')
+            parameters = yaml.safe_load(open(f'{pwd}/parameters.yaml'))  # Load parameters from YAML file
+
+            traces[app]['data'][trace]['power'] = compute_power(pubEnergy)
+            traces[app]['data'][trace]['progress'] = measure_progress(pubProgress, traces[app]['data'][trace]['power'])
+            traces[app]['data'][trace]['papi'] = collect_papi(pubPAPI)
+            traces[app]['data'][trace]['PARAMS'] = parameters
+    return traces
+
+    # traces = normalize(traces)
+
+
+
+
+if __name__ == "__main__":  # Ensure the main function runs when the script is executed
+    root, exps, files = next(os.walk(os.path.join(current_working_directory, 'experiment_data')))
+    PLOT_DATA = {}
+    for exp in exps:
+        if "exp" in exp:
+            PLOT_DATA[exp] = main(exp)
+    print(PLOT_DATA)
+    indieces = PLOT_DATA['experiment_data_3']['ones-stream-full']['data'].keys()     
+    scopes = PLOT_DATA['experiment_data_3']['ones-stream-full']['data']['compressed_iteration_100000']['papi'].keys()
+    plot_dict = {i:{j:[] for j in scopes}for i  in indieces}
+    for traces in PLOT_DATA.keys():
+        for app in PLOT_DATA[traces].keys():
+            for trace in PLOT_DATA[traces][app]['data'].keys():
+                for scope in PLOT_DATA[traces][app]['data'][trace]['papi'].keys():
+                    plot_dict[trace][scope].append(np.mean(PLOT_DATA[traces][app]['data'][trace]['papi'][scope]['instantaneous_value']))
+                
+    # print(plot_dict)
+    high_contrast_colors = plt.cm.tab10.colors[:4]
+    fig, axs = plt.subplots(5,1,figsize=(12,10))
+    for x in plot_dict.keys():
+        count = 0
+        for y in plot_dict[x].keys():
+            ps = int(re.search(r'\d+', x).group())
+            mean = np.mean(plot_dict[x][y])
+            std = np.std(plot_dict[x][y])
+            
+            axs[count].errorbar(ps, mean, std, label=x, elinewidth=2,fmt='o', color = high_contrast_colors[0])
+            axs[count].set_title(y)  # Add title for each subplot
+            axs[count].grid(True)
+            
+            axs[count].tick_params(labelbottom=False)  # Keep y-axis ticks visible
+            if count == 4:
+                axs[count].tick_params(labelbottom=True)  # Keep x-axis ticks visible for the 5th subplot
+            else:
+                axs[count].tick_params(labelbottom=False)  # Hide x-axis ticks for other subplots
+            count += 1
+
+    plt.savefig('output_problem_size_PAPI.png')  # Save the figure as a PNG file
     plt.show()
-# print(data)

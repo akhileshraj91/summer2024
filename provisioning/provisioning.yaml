@@ -95,7 +95,7 @@
     ansible.builtin.git:
       repo: 'https://github.com/anlsys/libnrm.git'
       dest: ~{{ ansible_user }}/dependencies/libnrm
-      version: feature/prometheus-exporter
+      version: master
   
   - name: Install bats
     ansible.builtin.shell: |
@@ -165,6 +165,7 @@
       sudo geopmaccess -w < /tmp/allaccess
       sudo systemctl restart nrmd.service
       sudo systemctl restart geopm.service
+      sudo sysctl kernel.perf_event_paranoid=-1
 
 
   # - name: Start geopm service

@@ -31,7 +31,10 @@
         - numpy
         - matplotlib
         - pandas
-
+        - ruamel.yaml
+        - IPython
+        - torch
+        - gym
 
   - name: Add the geopm PPA repository
     apt_repository:

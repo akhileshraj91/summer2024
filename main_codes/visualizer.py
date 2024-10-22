@@ -8,7 +8,10 @@ import os
 import csv
 import sys 
 
-filename = 'losses_seed_2.csv'
+filepath = os.path.abspath(__file__)
+print(filepath)
+
+filename = 'losses_seed_20241019_175808.csv'
 i = 0
 while i < len(sys.argv):
     if sys.argv[i] == '--filename':
@@ -31,11 +34,11 @@ fig, axs = plt.subplots(2, 1, figsize=(10, 6))
 FS = 12
 
 data = pd.read_csv(data_path)
-axs[0].scatter(data["iteration"], data["actor_loss"], color='red')  # Changed to scatter plot with red color
+axs[0].scatter(range(len(data)), data["actor_loss"], color='red')  # Changed to scatter plot with red color
 # axs[0].set_title('Actor Loss')  # {{ edit_1 }}
 axs[0].grid(True)
 axs[0].set_ylabel("Actor Loss")
-axs[1].scatter(data["iteration"], data["critic_loss"], color='green')  # Changed to scatter plot with green color
+axs[1].scatter(range(len(data)), data["critic_loss"], color='green')  # Changed to scatter plot with green color
 axs[1].grid(True)
 axs[1].set_xlabel("Iteration")
 axs[1].set_ylabel("Critic Loss")

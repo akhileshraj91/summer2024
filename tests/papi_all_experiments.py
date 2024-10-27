@@ -17,8 +17,8 @@ ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136
 # argument parser for the application
 
 i = 0
-APPLICATIONS = ['ones-npb-ep']
-# APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale', 'ones-npb-ep', 'ones-solvers-cg', 'ones-solvers-bicgstab']
+# APPLICATIONS = ['ones-npb-ep']
+APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale', 'ones-npb-ep']
 while i < len(sys.argv):
     if sys.argv[i] == '--application':
         APPLICATION = sys.argv[i+1]

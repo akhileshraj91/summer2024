@@ -220,5 +220,5 @@ if __name__ == "__main__":  # Ensure the main function runs when the script is e
                 axs[count].tick_params(labelbottom=False)  # Hide x-axis ticks for other subplots
             count += 1
 
-    plt.savefig('output_problem_size_PAPI.png')  # Save the figure as a PNG file
+    plt.savefig('output_problem_size_PAPI.pdf')  # Save the figure as a PNG file
     plt.show()

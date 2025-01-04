@@ -9,6 +9,7 @@
   # TODO: we would want to check if the host OS is Debian/Ubuntu
   - name: Install base packages
     ansible.builtin.apt:
+      update_cache: yes
       pkg:
       - curl
       - python3-pip
@@ -20,10 +21,6 @@
     ansible.builtin.pip:
       name: pip
       state: latest
-
-  - name: Update the apt package list
-    ansible.builtin.apt:
-      update_cache: yes
 
   - name: Update the pip list
     ansible.builtin.pip:
@@ -131,24 +128,24 @@
         [Install]
         WantedBy=multi-user.target
 
-  # - name: Create systemd service unit file for nrm-geopm
-  #   ansible.builtin.copy:
-  #     dest: /etc/systemd/system/nrm-geopm.service
-  #     content: |
-  #       [Unit]
-  #       Description=NRMD Service
+  - name: Create systemd service unit file for nrm-geopm
+    ansible.builtin.copy:
+      dest: /etc/systemd/system/nrm-geopm.service
+      content: |
+        [Unit]
+        Description=NRMD Service
 
-  #       [Service]
-  #       Type=simple
+        [Service]
+        Type=simple
         
-  #       ExecStart=/usr/bin/nrm-geopm -e CPU_ENERGY -e CPU_POWER
-  #       Restart=always
-  #       User=cc
-  #       StandardOutput=journal
-  #       StandardError=journal
+        ExecStart=/usr/bin/nrm-geopm -e CPU_ENERGY -e CPU_POWER
+        Restart=always
+        User=cc
+        StandardOutput=journal
+        StandardError=journal
 
-  #       [Install]
-  #       WantedBy=multi-user.target
+        [Install]
+        WantedBy=multi-user.target
 
   - name: Reload systemd to recognize the new service
     ansible.builtin.command: systemctl daemon-reload
@@ -164,17 +161,18 @@
       sudo systemctl restart geopm.service 
       echo "CPU_POWER_LIMIT_CONTROL" > /tmp/ouraccess
       sudo geopmaccess -a > /tmp/allaccess
+      echo "CPU_POWER_LIMIT_CONTROL" | sudo geopmaccess -w -c
       sudo geopmaccess -w -c < /tmp/ouraccess
-      sudo geopmaccess -w < /tmp/allaccess
+      sudo geopmaccess -w < /tmp/ouraccess
       sudo systemctl restart nrmd.service
       sudo systemctl restart geopm.service
       sudo sysctl kernel.perf_event_paranoid=-1
 
 
-  # - name: Start geopm service
-  #   ansible.builtin.systemd:
-  #     name: nrm-geopm
-  #     state: started
+  - name: Start nrm-geopm service
+    ansible.builtin.systemd:
+      name: nrm-geopm
+      state: started
 
   - name: Configure PYTHONPATH for user
     ansible.builtin.lineinfile:

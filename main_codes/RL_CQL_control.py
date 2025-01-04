@@ -236,13 +236,11 @@ def experiment_for(APPLICATION, EXP_DIR):
         last_pcap_change = 0
         while True:
             current_time = time.time()
-            # actions = model(s).detach().numpy()
-            # argmax = np.argmax(actions, axis=-1)
             if current_time - last_pcap_change >= 5:
                 # PCAP = random.choice(ACTIONS)
-                print(state_dict)
+                # print(state_dict)
                 if 'state_dict' in globals() and state_dict and state_dict != reference_lib:                    
-                    # state = process_callback(state_dict)
+                    state = process_callback(state_dict)
                     print(state)
                     state = np.array(state)
                     OUT = model(np.array(state))

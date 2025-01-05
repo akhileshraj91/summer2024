@@ -205,7 +205,7 @@ def experiment_for(APPLICATION, EXP_DIR):
             # print(f"----------{state_dict}---------")
             if sensor == "nrm.benchmarks.progress":
                 progress_writer.writerow([timestamp, value])
-                state_dict["progress"].append(timestamp,value)
+                state_dict["progress"].append([timestamp,value])
                 # print("1")
             elif sensor == "nrm.geopm.CPU_POWER":
                 power_writer.writerow([timestamp, scope[-1], value])
@@ -277,15 +277,15 @@ if __name__ == "__main__":
     current_dir = os.path.dirname(current_file_path)
 
 
-    for APPLICATION in APPLICATIONS:
-        experiment = 'Control'
-        EXP_DIR = f'{current_dir}/experiment_data/{experiment}/{APPLICATION}'
-        if os.path.exists(EXP_DIR):
-            print(f"Directories {EXP_DIR} exist")
-        else:
-            os.makedirs(EXP_DIR)
-            print(f"Directory {EXP_DIR} created") 
-        experiment_for(APPLICATION, EXP_DIR)
+    # for APPLICATION in APPLICATIONS:
+    experiment = 'Control'
+    EXP_DIR = f'{current_dir}/experiment_data/{experiment}/{APPLICATION}'
+    if os.path.exists(EXP_DIR):
+        print(f"Directories {EXP_DIR} exist")
+    else:
+        os.makedirs(EXP_DIR)
+        print(f"Directory {EXP_DIR} created") 
+    experiment_for(APPLICATION, EXP_DIR)
 
 
 

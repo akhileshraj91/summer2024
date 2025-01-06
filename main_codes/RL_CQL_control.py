@@ -62,7 +62,7 @@ ACTIONS = actuators[0].list_choices()
 # policy = torch.load(policy_file)  # Load policy from the specified file
 model.load_state_dict(torch.load(policy_file))
 model.eval()
-max_values = {'PAPI_L3_TCA': 2519860487.0, 'PAPI_TOT_INS': 108949748763.0, 'PAPI_TOT_CYC': 297655869900.0, 'PAPI_RES_STL': 259228596139.0, 'PAPI_L3_TCM': 2370673711.0}
+# max_values = {'PAPI_L3_TCA': 2519860487.0, 'PAPI_TOT_INS': 108949748763.0, 'PAPI_TOT_CYC': 297655869900.0, 'PAPI_RES_STL': 259228596139.0, 'PAPI_L3_TCM': 2370673711.0}
 
 def compress_files(iteration):
     tar_file = EXP_DIR+f'/compressed_iteration_{iteration}.tar'
@@ -125,15 +125,15 @@ def collect_papi(PAPI_data):
     for scope in PAPI_data.keys():
         print(scope)
         if "PAPI_L3_TCA" in scope:
-            L3_TCA = np.mean([(PAPI_data[scope][k+1][1] - PAPI_data[scope][k][1])/max_values[scope] for k, cum in enumerate(PAPI_data[scope][:-1])])  # Extracted value
+            L3_TCA = np.mean([(PAPI_data[scope][k+1][1] - PAPI_data[scope][k][1]) for k, cum in enumerate(PAPI_data[scope][:-1])])  # Extracted value
         if "PAPI_TOT_INS" in scope:
-            TOT_INS = np.mean([(PAPI_data[scope][k+1][1] - PAPI_data[scope][k][1])/max_values[scope] for k, cum in enumerate(PAPI_data[scope][:-1])])  # Extracted value
+            TOT_INS = np.mean([(PAPI_data[scope][k+1][1] - PAPI_data[scope][k][1]) for k, cum in enumerate(PAPI_data[scope][:-1])])  # Extracted value
         if 'PAPI_TOT_CYC' in scope:
-            TOT_CYC = np.mean([(PAPI_data[scope][k+1][1] - PAPI_data[scope][k][1])/max_values[scope] for k, cum in enumerate(PAPI_data[scope][:-1])])  # Extracted value
+            TOT_CYC = np.mean([(PAPI_data[scope][k+1][1] - PAPI_data[scope][k][1]) for k, cum in enumerate(PAPI_data[scope][:-1])])  # Extracted value
         if 'PAPI_RES_STL' in scope:
-            RES_STL = np.mean([(PAPI_data[scope][k+1][1] - PAPI_data[scope][k][1])/max_values[scope] for k, cum in enumerate(PAPI_data[scope][:-1])])  # Extracted value
+            RES_STL = np.mean([(PAPI_data[scope][k+1][1] - PAPI_data[scope][k][1]) for k, cum in enumerate(PAPI_data[scope][:-1])])  # Extracted value
         if 'PAPI_L3_TCM' in scope:
-            L3_TCM = np.mean([(PAPI_data[scope][k+1][1] - PAPI_data[scope][k][1])/max_values[scope] for k, cum in enumerate(PAPI_data[scope][:-1])])  # Extracted value
+            L3_TCM = np.mean([(PAPI_data[scope][k+1][1] - PAPI_data[scope][k][1]) for k, cum in enumerate(PAPI_data[scope][:-1])])  # Extracted value
     TOT_INS_PER_CYC = TOT_INS/TOT_CYC
     L3_TCM_PER_TCA = L3_TCM/L3_TCA
     TOT_STL_PER_CYC = RES_STL/TOT_CYC

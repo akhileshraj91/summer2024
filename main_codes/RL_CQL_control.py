@@ -41,7 +41,7 @@ class FCNetwork(torch.nn.Module):
 model = FCNetwork(layers=[20, 20])
 
 i = 0
-APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale', 'ones-npb-ep']
+APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale']
 policy_folder = '/home/cc/summer2024/main_codes/results/'  # Default policy file
 # policy_file = os.path.join(policy_folder,'BCQ_SYS_0_20240929_183736.pt')
 while i < len(sys.argv):
@@ -175,7 +175,7 @@ def experiment_for(APPLICATION, EXP_DIR):
     state_dict = initialize_state_dict() 
     if "stream" in APPLICATION: 
         PROBLEM_SIZE = 33554432
-        ITERATIONS = 10000
+        ITERATIONS = 100000
     elif "solvers" in APPLICATION:
         PROBLEM_SIZE = 10000
         ITERATIONS = 10000
@@ -220,11 +220,6 @@ def experiment_for(APPLICATION, EXP_DIR):
                 state_dict[scope_parts[3]].append((timestamp,value))
             # print(f"------4-----------")
 
-
-            
-            
-
-
         client.set_event_listener(cb)
         client.start_event_listener("") 
         if "solvers" in APPLICATION:
@@ -236,7 +231,7 @@ def experiment_for(APPLICATION, EXP_DIR):
         last_pcap_change = 0
         while True:
             current_time = time.time()
-            if current_time - last_pcap_change >= 5:
+            if current_time - last_pcap_change >= 2:
                 # PCAP = random.choice(ACTIONS)
                 # print(state_dict)
                 if 'state_dict' in globals() and state_dict and state_dict != reference_lib:                    
@@ -260,6 +255,9 @@ def experiment_for(APPLICATION, EXP_DIR):
             if process.poll() is not None:  
                 print("Process has completed.")
                 break
+            if process.poll() is not None:  
+                print("Process has completed.")
+                break
     current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
     compress_files(current_time)
     print("----------------------------------")
@@ -277,15 +275,15 @@ if __name__ == "__main__":
     current_dir = os.path.dirname(current_file_path)
 
 
-    # for APPLICATION in APPLICATIONS:
-    experiment = 'Control'
-    EXP_DIR = f'{current_dir}/experiment_data/{experiment}/{APPLICATION}'
-    if os.path.exists(EXP_DIR):
-        print(f"Directories {EXP_DIR} exist")
-    else:
-        os.makedirs(EXP_DIR)
-        print(f"Directory {EXP_DIR} created") 
-    experiment_for(APPLICATION, EXP_DIR)
+    for APPLICATION in APPLICATIONS:
+        experiment = 'Control'
+        EXP_DIR = f'{current_dir}/experiment_data/{experiment}/{APPLICATION}'
+        if os.path.exists(EXP_DIR):
+            print(f"Directories {EXP_DIR} exist")
+        else:
+            os.makedirs(EXP_DIR)
+            print(f"Directory {EXP_DIR} created") 
+        experiment_for(APPLICATION, EXP_DIR)
 
 
 

@@ -1,0 +1,17 @@
+execution_times.log filter=lfs diff=lfs merge=lfs -text
+identification_inputs filter=lfs diff=lfs merge=lfs -text
+main_codes filter=lfs diff=lfs merge=lfs -text
+results filter=lfs diff=lfs merge=lfs -text
+tests filter=lfs diff=lfs merge=lfs -text
+SPEC_omp_data filter=lfs diff=lfs merge=lfs -text
+SPEC_data_raw.pdf filter=lfs diff=lfs merge=lfs -text
+analysis.py filter=lfs diff=lfs merge=lfs -text
+data_generation filter=lfs diff=lfs merge=lfs -text
+experiment_data filter=lfs diff=lfs merge=lfs -text
+plotting_SPEC_data.py filter=lfs diff=lfs merge=lfs -text
+README.md filter=lfs diff=lfs merge=lfs -text
+provisioning filter=lfs diff=lfs merge=lfs -text
+execute_identification.sh filter=lfs diff=lfs merge=lfs -text
+identification.py filter=lfs diff=lfs merge=lfs -text
+s10586-023-04151-2.pdf filter=lfs diff=lfs merge=lfs -text
+SPEC_data_smooth.pdf filter=lfs diff=lfs merge=lfs -text

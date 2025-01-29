@@ -41,7 +41,8 @@ class FCNetwork(torch.nn.Module):
 model = FCNetwork(layers=[20, 20])
 
 i = 0
-APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale']
+# APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale']
+APPLICATIONS = ['ones-solvers-cg']
 policy_folder = '/home/cc/summer2024/main_codes/results/'  # Default policy file
 # policy_file = os.path.join(policy_folder,'BCQ_SYS_0_20240929_183736.pt')
 while i < len(sys.argv):
@@ -175,7 +176,7 @@ def experiment_for(APPLICATION, EXP_DIR):
     state_dict = initialize_state_dict() 
     if "stream" in APPLICATION: 
         PROBLEM_SIZE = 33554432
-        ITERATIONS = 100000
+        ITERATIONS = 10000
     elif "solvers" in APPLICATION:
         PROBLEM_SIZE = 10000
         ITERATIONS = 10000
@@ -223,7 +224,10 @@ def experiment_for(APPLICATION, EXP_DIR):
         client.set_event_listener(cb)
         client.start_event_listener("") 
         if "solvers" in APPLICATION:
-            process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', 'poor', '0', f'{ITERATIONS}'])
+            process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', 'poor', '100', f'{ITERATIONS}'])
+        elif "phases" in APPLICATION:   
+            print("phases experiment started") 
+            process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'10', '10000'])
         else:    
             process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'{ITERATIONS}'])
 

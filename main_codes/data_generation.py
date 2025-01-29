@@ -15,12 +15,12 @@ from datetime import datetime
 
 
 # ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136.0, 141.0, 147.0, 153.0, 159.0, 165.0]
-# ACTIONS = [78.0]
+ACTIONS = [165.0]
 
 # argument parser for the application
 
 i = 0
-APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale', 'ones-npb-ep']
+APPLICATIONS = ['phases-stream-full']
 # APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale', 'ones-npb-ep', 'ones-solvers-cg', 'ones-solvers-bicgstab']
 while i < len(sys.argv):
     if sys.argv[i] == '--application':
@@ -37,7 +37,7 @@ while i < len(sys.argv):
 
 client = nrm.Client()
 actuators = client.list_actuators()
-ACTIONS = actuators[0].list_choices()
+# ACTIONS = actuators[0].list_choices()
 
 
 # For post processing
@@ -59,13 +59,13 @@ def compress_files(iteration):
 def experiment_for(APPLICATION, EXP_DIR):
     if "stream" in APPLICATION:
         PROBLEM_SIZE = 33554432
-        ITERATIONS = 100000
+        ITERATIONS = 10000
     elif "solvers" in APPLICATION:
         PROBLEM_SIZE = 10000
-        ITERATIONS = 100000
+        ITERATIONS = 10000
     elif "ep" in APPLICATION:
         PROBLEM_SIZE = 22
-        ITERATIONS = 100000
+        ITERATIONS = 10000
     with open(f'{EXP_DIR}/measured_power.csv', mode='w', newline='') as power_file, open(f'{EXP_DIR}/progress.csv', mode='w', newline='') as progress_file, open(f'{EXP_DIR}/energy.csv', mode='w', newline='') as energy_file, open(f'{EXP_DIR}/PCAP_file.csv', mode='w', newline='') as PCAP_file, open(f'{EXP_DIR}/papi.csv', mode='w', newline='') as papi_file:
         power_writer = csv.writer(power_file)
         progress_writer = csv.writer(progress_file)
@@ -102,7 +102,11 @@ def experiment_for(APPLICATION, EXP_DIR):
         client.start_event_listener("") 
         if "solvers" in APPLICATION:
             process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', 'poor', '0', f'{ITERATIONS}'])
+        elif "phases" in APPLICATION:    
+            print(f"Starting Execution of phases {APPLICATION, PROBLEM_SIZE, ITERATIONS}")
+            process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'10', '10000'])
         else:    
+            print(f"Starting Execution of {APPLICATION, PROBLEM_SIZE, ITERATIONS}")
             process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'{ITERATIONS}'])
 
 
@@ -111,6 +115,7 @@ def experiment_for(APPLICATION, EXP_DIR):
             current_time = time.time()
             if current_time - last_pcap_change >= 5:
                 PCAP = random.choice(ACTIONS)
+                print(PCAP)
                 client.actuate(actuators[0], PCAP)
                 PCAP_time = time.time()
                 PCAP_writer.writerow([PCAP_time, actuators[0], PCAP])

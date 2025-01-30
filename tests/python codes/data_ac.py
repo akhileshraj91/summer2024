@@ -50,9 +50,15 @@ with open('measured_power.csv', mode='w', newline='') as power_file, open('progr
 
 
     # Keep the main script running
+    switch = True
     while True:
         actuators = client.list_actuators()
-        client.actuate(actuators[0],78.0)
+        if switch:
+            client.actuate(actuators[0], 165.0)
+            switch = False
+        else:
+            client.actuate(actuators[0], 165.0)
+            switch = True
         print(actuators)
         time.sleep(1)
         if process.poll() is not None:  # Process has completed

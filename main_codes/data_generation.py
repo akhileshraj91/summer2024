@@ -15,13 +15,15 @@ from datetime import datetime
 
 
 # ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136.0, 141.0, 147.0, 153.0, 159.0, 165.0]
-ACTIONS = [165.0]
+ACTIONS = [78.0, 165.0]
+# ACTIONS = [165.0]
 
 # argument parser for the application
 
 i = 0
-APPLICATIONS = ['phases-stream-full']
-# APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale', 'ones-npb-ep', 'ones-solvers-cg', 'ones-solvers-bicgstab']
+APPLICATIONS = ['ones-npb-ep']
+# APPLICATIONS = ['ones-npb-ep', 'ones-stream-full']
+# APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale','ones-npb-ep', 'phases-stream-full', 'ones-npb-is']
 while i < len(sys.argv):
     if sys.argv[i] == '--application':
         APPLICATION = sys.argv[i+1]
@@ -56,16 +58,16 @@ def compress_files(iteration):
     print(f'Compressed files into {tar_file}')
 
 
-def experiment_for(APPLICATION, EXP_DIR):
+def experiment_for(APPLICATION, EXP_DIR, ACTION):
     if "stream" in APPLICATION:
         PROBLEM_SIZE = 33554432
         ITERATIONS = 10000
     elif "solvers" in APPLICATION:
         PROBLEM_SIZE = 10000
         ITERATIONS = 10000
-    elif "ep" in APPLICATION:
-        PROBLEM_SIZE = 22
-        ITERATIONS = 10000
+    elif "npb" in APPLICATION:
+        PROBLEM_SIZE = 26
+        ITERATIONS = 1000
     with open(f'{EXP_DIR}/measured_power.csv', mode='w', newline='') as power_file, open(f'{EXP_DIR}/progress.csv', mode='w', newline='') as progress_file, open(f'{EXP_DIR}/energy.csv', mode='w', newline='') as energy_file, open(f'{EXP_DIR}/PCAP_file.csv', mode='w', newline='') as PCAP_file, open(f'{EXP_DIR}/papi.csv', mode='w', newline='') as papi_file:
         power_writer = csv.writer(power_file)
         progress_writer = csv.writer(progress_file)
@@ -104,7 +106,7 @@ def experiment_for(APPLICATION, EXP_DIR):
             process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', 'poor', '0', f'{ITERATIONS}'])
         elif "phases" in APPLICATION:    
             print(f"Starting Execution of phases {APPLICATION, PROBLEM_SIZE, ITERATIONS}")
-            process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'10', '10000'])
+            process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'5', '1000'])
         else:    
             print(f"Starting Execution of {APPLICATION, PROBLEM_SIZE, ITERATIONS}")
             process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'{ITERATIONS}'])
@@ -114,7 +116,7 @@ def experiment_for(APPLICATION, EXP_DIR):
         while True:
             current_time = time.time()
             if current_time - last_pcap_change >= 5:
-                PCAP = random.choice(ACTIONS)
+                PCAP = ACTION
                 print(PCAP)
                 client.actuate(actuators[0], PCAP)
                 PCAP_time = time.time()
@@ -140,17 +142,18 @@ if __name__ == "__main__":
 
     # Get the directory containing the current file
     current_dir = os.path.dirname(current_file_path)
-
-
-    for APPLICATION in APPLICATIONS:
-        experiment = 'data_generation'
-        EXP_DIR = f'{current_dir}/experiment_data/{experiment}/{APPLICATION}'
-        if os.path.exists(EXP_DIR):
-            print(f"Directories {EXP_DIR} exist")
-        else:
-            os.makedirs(EXP_DIR)
-            print(f"Directory {EXP_DIR} created") 
-        experiment_for(APPLICATION, EXP_DIR)
+    for REPEAT in range(10):
+        print(f">>>>>>>>>>>>>>>>>>>>>>>>>>{REPEAT}")
+        for ACTION in ACTIONS:
+            for APPLICATION in APPLICATIONS:
+                experiment = 'data_generation'
+                EXP_DIR = f'{current_dir}/experiment_data/{experiment}/{APPLICATION}'
+                if os.path.exists(EXP_DIR):
+                    print(f"Directories {EXP_DIR} exist")
+                else:
+                    os.makedirs(EXP_DIR)
+                    print(f"Directory {EXP_DIR} created") 
+                experiment_for(APPLICATION, EXP_DIR, ACTION)
 
 
 

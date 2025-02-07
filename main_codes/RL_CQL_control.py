@@ -41,8 +41,9 @@ class FCNetwork(torch.nn.Module):
 model = FCNetwork(layers=[20, 20])
 
 i = 0
-# APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale']
-APPLICATIONS = ['ones-solvers-cg']
+# APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale', 'phases-stream-full']
+APPLICATIONS = ['ones-npb-ep']
+# APPLICATIONS = ['phases-stream-full']
 policy_folder = '/home/cc/summer2024/main_codes/results/'  # Default policy file
 # policy_file = os.path.join(policy_folder,'BCQ_SYS_0_20240929_183736.pt')
 while i < len(sys.argv):
@@ -179,10 +180,10 @@ def experiment_for(APPLICATION, EXP_DIR):
         ITERATIONS = 10000
     elif "solvers" in APPLICATION:
         PROBLEM_SIZE = 10000
-        ITERATIONS = 10000
-    elif "ep" in APPLICATION:
-        PROBLEM_SIZE = 22
-        ITERATIONS = 10000
+        ITERATIONS = 1000
+    elif "npb" in APPLICATION:
+        PROBLEM_SIZE = 26
+        ITERATIONS = 1000
     with open(f'{EXP_DIR}/measured_power.csv', mode='w', newline='') as power_file, open(f'{EXP_DIR}/progress.csv', mode='w', newline='') as progress_file, open(f'{EXP_DIR}/energy.csv', mode='w', newline='') as energy_file, open(f'{EXP_DIR}/PCAP_file.csv', mode='w', newline='') as PCAP_file, open(f'{EXP_DIR}/papi.csv', mode='w', newline='') as papi_file:
         power_writer = csv.writer(power_file)
         progress_writer = csv.writer(progress_file)
@@ -227,7 +228,7 @@ def experiment_for(APPLICATION, EXP_DIR):
             process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', 'poor', '100', f'{ITERATIONS}'])
         elif "phases" in APPLICATION:   
             print("phases experiment started") 
-            process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'10', '10000'])
+            process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'5', '1000'])
         else:    
             process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'{ITERATIONS}'])
 
@@ -235,7 +236,7 @@ def experiment_for(APPLICATION, EXP_DIR):
         last_pcap_change = 0
         while True:
             current_time = time.time()
-            if current_time - last_pcap_change >= 2:
+            if current_time - last_pcap_change >= 3:
                 # PCAP = random.choice(ACTIONS)
                 # print(state_dict)
                 if 'state_dict' in globals() and state_dict and state_dict != reference_lib:                    
@@ -254,7 +255,6 @@ def experiment_for(APPLICATION, EXP_DIR):
                 PCAP_writer.writerow([PCAP_time, actuators[0], PCAP])
                 last_pcap_change = current_time
                 state_dict = initialize_state_dict()
-            
             time.sleep(0.1)  # Short sleep to prevent busy-waiting
             if process.poll() is not None:  
                 print("Process has completed.")
@@ -274,20 +274,20 @@ def experiment_for(APPLICATION, EXP_DIR):
 if __name__ == "__main__":
     # Get the current file path
     current_file_path = os.path.abspath(__file__)
-
     # Get the directory containing the current file
     current_dir = os.path.dirname(current_file_path)
 
-
-    for APPLICATION in APPLICATIONS:
-        experiment = 'Control'
-        EXP_DIR = f'{current_dir}/experiment_data/{experiment}/{APPLICATION}'
-        if os.path.exists(EXP_DIR):
-            print(f"Directories {EXP_DIR} exist")
-        else:
-            os.makedirs(EXP_DIR)
-            print(f"Directory {EXP_DIR} created") 
-        experiment_for(APPLICATION, EXP_DIR)
+    for STEP in range(10):  # Execute 10 times
+        print(f">>>>>>>>>>>>>>>>>>>>>>>>>>>{STEP}")
+        for APPLICATION in APPLICATIONS:
+            experiment = 'Control'
+            EXP_DIR = f'{current_dir}/experiment_data/{experiment}/{APPLICATION}'
+            if os.path.exists(EXP_DIR):
+                print(f"Directories {EXP_DIR} exist")
+            else:
+                os.makedirs(EXP_DIR)
+                print(f"Directory {EXP_DIR} created") 
+            experiment_for(APPLICATION, EXP_DIR)
 
 
 

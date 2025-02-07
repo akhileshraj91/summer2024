@@ -56,7 +56,7 @@ with open('measured_power.csv', mode='w', newline='') as power_file, open('progr
     while True:
         actuators = client.list_actuators()
         if switch:
-            client.actuate(actuators[0], 165.0)
+            client.actuate(actuators[0], 78.0)
             switch = False
         else:
             client.actuate(actuators[0], 165.0)

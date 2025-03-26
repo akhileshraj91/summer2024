@@ -11,18 +11,15 @@ import random
 from datetime import datetime
 
 
-
-
-
 ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136.0, 141.0, 147.0, 153.0, 159.0, 165.0]
 # ACTIONS = [78.0]
 
 # argument parser for the application
 
 i = 0
-#APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale', 'ones-npb-ep']
+APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale', 'ones-npb-ep']
 # APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale', 'ones-npb-ep', 'ones-solvers-cg', 'ones-solvers-bicgstab']
-APPLICATIONS = ['ones-npb-ep']
+# APPLICATIONS = ['ones-npb-ep']
 while i < len(sys.argv):
     if sys.argv[i] == '--application':
         APPLICATION = sys.argv[i+1]
@@ -140,19 +137,19 @@ if __name__ == "__main__":
 
     # Get the directory containing the current file
     current_dir = os.path.dirname(current_file_path)
-
+    repeat = 5
 
     for APPLICATION in APPLICATIONS:
-        for ACTION in ACTIONS:
-            experiment = 'identification'
-            EXP_DIR = f'{current_dir}/experiment_data/{experiment}/{APPLICATION}/{ACTION}'
-            if os.path.exists(EXP_DIR):
-                print(f"Directories {EXP_DIR} exist")
-            else:
-                os.makedirs(EXP_DIR)
-                print(f"Directory {EXP_DIR} created") 
-            experiment_for(APPLICATION, EXP_DIR, ACTION)
-
+        for iter in range(repeat):
+            for ACTION in ACTIONS:
+                experiment = 'static_power'
+                EXP_DIR = f'{current_dir}/experiment_data/{experiment}/{APPLICATION}/{ACTION}'
+                if os.path.exists(EXP_DIR):
+                    print(f"Directories {EXP_DIR} exist")
+                else:
+                    os.makedirs(EXP_DIR)
+                    print(f"Directory {EXP_DIR} created") 
+                experiment_for(APPLICATION, EXP_DIR, ACTION)
 
 
 # compress the experiment details for post processing

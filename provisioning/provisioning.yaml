@@ -1,6 +1,6 @@
 ---
 - name: Provisioning a node
-  hosts: main
+  hosts: libnrm
   gather_facts: false
   become: true
 
@@ -64,7 +64,7 @@
         - check
         - libhwloc-dev
         - libpapi-dev
-        - mpich
+        # - mpich
         - libomp-dev
         - libomp5
         - geopm-service
@@ -164,6 +164,8 @@
       echo "CPU_POWER_LIMIT_CONTROL" | sudo geopmaccess -w -c
       sudo geopmaccess -w -c < /tmp/ouraccess
       sudo geopmaccess -w < /tmp/ouraccess
+      sudo geopmaccess -w -c < /tmp/allaccess
+      sudo geopmaccess -w < /tmp/allaccess
       sudo systemctl restart nrmd.service
       sudo systemctl restart geopm.service
       sudo sysctl kernel.perf_event_paranoid=-1

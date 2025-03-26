@@ -1,0 +1,47 @@
+---      
+- name: distribute ssh keypair and /etc/hosts
+  hosts: main_nodes,worker_nodes
+  tasks:
+    - name: set hostname to match inventory hostname
+      become: true
+      hostname:
+        name: "{{ inventory_hostname }}"
+        
+    - name: Add IP address of all hosts to all hosts
+      become: true
+      lineinfile:
+        dest: /etc/hosts
+        regexp: '.*{{ item }}$'
+        line: "{{ hostvars[item].ansible_host }} {{item}}"
+        state: present
+      when: hostvars[item].ansible_host is defined
+      with_items: "{{ groups.all }}"
+
+    - name: generate keypair on master
+      openssh_keypair:
+        path: ~/.ssh/id_ed25519
+        type: ed25519
+        comment: cluster_master
+        state: present
+      when: inventory_hostname in groups["main_nodes"]
+      register: ssh_keys
+      
+    - name: add keypair to authorized_keys
+      vars:
+        master_node: "{{groups['main_nodes'][0]}}"
+      ansible.posix.authorized_key:
+         user: cc
+         key: "{{ hostvars[master_node].ssh_keys.public_key }}"
+         state: present
+      when: inventory_hostname in groups["worker_nodes"]
+      
+    - name: install mpi packages
+      become: true
+      ansible.builtin.package:
+        name: 
+          - clustershell
+          - openmpi-bin
+          - libopenmpi-dev
+        state: present
+
+        

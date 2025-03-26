@@ -41,10 +41,10 @@ class FCNetwork(torch.nn.Module):
 model = FCNetwork(layers=[20, 20])
 
 i = 0
-# APPLICATIONS = ['ones-npb-ep', 'ones-npb-is','ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale', 'phases-stream-full']
-APPLICATIONS = ['ones-npb-is']
+APPLICATIONS = ['ones-npb-ep', 'ones-npb-is','ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale', 'phases-stream-full']
+# APPLICATIONS = ['ones-npb-is']
 # APPLICATIONS = ['phases-stream-full']
-policy_folder = '/home/cc/summer2024/main_codes/results/'  # Default policy file
+policy_folder = '/home/cc/summer2024/main_codes/'  # Default policy file
 # policy_file = os.path.join(policy_folder,'BCQ_SYS_0_20240929_183736.pt')
 while i < len(sys.argv):
     if sys.argv[i] == '--application':
@@ -202,6 +202,7 @@ def experiment_for(APPLICATION, EXP_DIR):
             sensor = sensor.decode("UTF-8")
             timestamp = time/1e9
             # print(f"----------{state_dict}---------")
+            
             if sensor == "nrm.benchmarks.progress":
                 progress_writer.writerow([timestamp, value])
                 state_dict["progress"].append([timestamp,value])

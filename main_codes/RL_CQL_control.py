@@ -70,13 +70,19 @@ def compress_files(iteration):
     tar_file = EXP_DIR+f'/compressed_iteration_{iteration}.tar'
     with tarfile.open(tar_file, 'w:gz') as tarf:
         for root, dirs, files in os.walk(EXP_DIR):
+            print("-"*100,files)
             for file in files:
                 if file.endswith('.csv') or file.endswith('.yaml'):
                     file_path = os.path.join(EXP_DIR, file)
+                    if os.path.exists(file_path):  # Check if the file exists before adding it to the tar
+                        tarf.add(file_path, arcname=os.path.basename(file_path))
+                        os.remove(file_path)  # Remove the file after adding it to the tar
+                    else:
+                        print(f"File {file_path} does not exist, skipping...")
                     # rel_path = os.path.relpath(file_path, EXP_DIR)
-                    tarf.add(file_path, arcname=os.path.basename(file_path))
+                    # print(file,file_path)
                     # tarf.add(os.path.join(root, file), os.path.relpath(os.path.join(root, file), EXP_DIR))
-                    os.remove(file_path)
+                    # os.remove(file_path)
 
     print(f'Compressed files into {tar_file}')
     
@@ -261,6 +267,7 @@ def experiment_for(APPLICATION, EXP_DIR):
                 print("Process has completed.")
                 break
     current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
+    time.sleep(1)
     compress_files(current_time)
     print("----------------------------------")
 
@@ -275,7 +282,7 @@ if __name__ == "__main__":
     # Get the directory containing the current file
     current_dir = os.path.dirname(current_file_path)
 
-    for STEP in range(1):  # Execute 10 times
+    for STEP in range(10):  # Execute 10 times
         print(f">>>>>>>>>>>>>>>>>>>>>>>>>>>{STEP}")
         for APPLICATION in APPLICATIONS:
             experiment = 'Control'

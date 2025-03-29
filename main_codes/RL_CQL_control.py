@@ -41,8 +41,8 @@ class FCNetwork(torch.nn.Module):
 model = FCNetwork(layers=[20, 20])
 
 i = 0
-# APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale', 'phases-stream-full']
-APPLICATIONS = ['ones-npb-ep']
+# APPLICATIONS = ['ones-npb-ep', 'ones-npb-is','ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale', 'phases-stream-full']
+APPLICATIONS = ['ones-npb-is']
 # APPLICATIONS = ['phases-stream-full']
 policy_folder = '/home/cc/summer2024/main_codes/results/'  # Default policy file
 # policy_file = os.path.join(policy_folder,'BCQ_SYS_0_20240929_183736.pt')
@@ -178,9 +178,6 @@ def experiment_for(APPLICATION, EXP_DIR):
     if "stream" in APPLICATION: 
         PROBLEM_SIZE = 33554432
         ITERATIONS = 10000
-    elif "solvers" in APPLICATION:
-        PROBLEM_SIZE = 10000
-        ITERATIONS = 1000
     elif "npb" in APPLICATION:
         PROBLEM_SIZE = 26
         ITERATIONS = 1000
@@ -277,7 +274,7 @@ if __name__ == "__main__":
     # Get the directory containing the current file
     current_dir = os.path.dirname(current_file_path)
 
-    for STEP in range(10):  # Execute 10 times
+    for STEP in range(1):  # Execute 10 times
         print(f">>>>>>>>>>>>>>>>>>>>>>>>>>>{STEP}")
         for APPLICATION in APPLICATIONS:
             experiment = 'Control'

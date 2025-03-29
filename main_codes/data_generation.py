@@ -9,6 +9,7 @@ import os
 import tarfile
 import random
 from datetime import datetime
+import psutil
 
 
 
@@ -21,9 +22,9 @@ ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136
 # argument parser for the application
 
 i = 0
-APPLICATIONS = ['ones-npb-ep']
+# APPLICATIONS = ['ones-npb-ep']
 # APPLICATIONS = ['ones-npb-ep', 'ones-stream-full']
-# APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale','ones-npb-ep', 'phases-stream-full', 'ones-npb-is']
+APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale','ones-npb-ep', 'phases-stream-full', 'ones-npb-is']
 while i < len(sys.argv):
     if sys.argv[i] == '--application':
         APPLICATION = sys.argv[i+1]
@@ -57,13 +58,24 @@ def compress_files(iteration):
 
     print(f'Compressed files into {tar_file}')
 
+def get_pid(application):
+    # Run 'ps aux' without 'grep' to avoid matching the 'grep' command itself
+    result = subprocess.run(['ps', 'aux'], capture_output=True, text=True)
+    
+    pids = []
+    # Iterate over each line of the result
+    for line in result.stdout.strip().split('\n'):
+        if application in line and 'grep' not in line:
+            parts = line.split()
+            pid = parts[1]  # PID is usually the second element
+            pids.append(pid)
+    
+    return pids
+
 
 def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
     if "stream" in APPLICATION:
         PROBLEM_SIZE = 33554432
-        ITERATIONS = 10000
-    elif "solvers" in APPLICATION:
-        PROBLEM_SIZE = 10000
         ITERATIONS = 10000
     elif "npb" in APPLICATION:
         PROBLEM_SIZE = 26
@@ -82,7 +94,7 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
         papi_writer.writerow(['time', 'scope', 'value'])
 
         def cb(*args):
-            # print(args)
+            print(args)
             (sensor, time, scope, value) = args
             scope = scope.get_uuid()
             sensor = sensor.decode("UTF-8")
@@ -90,13 +102,13 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
             if sensor == "nrm.benchmarks.progress":
                 progress_writer.writerow([timestamp, value])
             elif sensor == "nrm.geopm.CPU_POWER":
-                # print(scope[-1])
+                print("-"*100,scope[-1])
                 power_writer.writerow([timestamp, scope[-1], value])
             elif sensor == "nrm.geopm.CPU_ENERGY":
-                # print(scope[-1])
+                print("/"*100,scope[-1])
                 energy_writer.writerow([timestamp, scope[-1], value])
             elif "PAPI" in sensor:
-                # print(args)
+                print("~"*100,args)
                 papi_writer.writerow([timestamp, sensor, value])
 
 
@@ -104,14 +116,22 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
         client.start_event_listener("") 
         if "solvers" in APPLICATION:
             process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', 'poor', '0', f'{ITERATIONS}'])
+            run_command = f'{APPLICATION} '+f'{PROBLEM_SIZE} '+'poor '+'0 '+f'{ITERATIONS}'
         elif "phases" in APPLICATION:    
             print(f"Starting Execution of phases {APPLICATION, PROBLEM_SIZE, ITERATIONS}")
             process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'5', '1000'])
+            run_command = f'{APPLICATION} '+f'{PROBLEM_SIZE} '+'5 '+'1000'
         else:    
             print(f"Starting Execution of {APPLICATION, PROBLEM_SIZE, ITERATIONS}")
             process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'{ITERATIONS}'])
-
-
+            run_command = f'{APPLICATION} {PROBLEM_SIZE} {ITERATIONS}'
+        time.sleep(0.5)
+        PIDS = get_pid(run_command)
+        PAPI_PID = PIDS[0]
+        APP_PID = PIDS[-1]
+        print("/"*100,APP_PID)
+        # APP_process = psutil.Process(int(APP_PID))
+        
         last_pcap_change = 0
         while True:
             current_time = time.time()
@@ -128,6 +148,17 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
             if process.poll() is not None:  
                 print("Process has completed.")
                 break
+            # else:
+            #     try:
+            #         APP_process = psutil.Process(int(APP_PID))
+            #         if not APP_process.is_running():
+            #             os.kill(int(PAPI_PID), signal.SIGTERM)
+            #             break
+            #         else:
+            #             pass
+            #     except Exception as e:
+            #         print(e)
+            #         break
     current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
     compress_files(current_time)
     print("----------------------------------")
@@ -155,8 +186,8 @@ if __name__ == "__main__":
                 else:
                     os.makedirs(EXP_DIR)
                     print(f"Directory {EXP_DIR} created") 
-                # experiment_for(APPLICATION, EXP_DIR, ACTION)
-                experiment_for(APPLICATION,EXP_DIR)
+                experiment_for(APPLICATION, EXP_DIR, ACTION)
+                time.sleep(1)
 
 
 

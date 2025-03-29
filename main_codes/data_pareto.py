@@ -35,7 +35,7 @@ while i < len(sys.argv):
 
 client = nrm.Client()
 actuators = client.list_actuators()
-ACTIONS = actuators[0].list_choices()
+# ACTIONS = actuators[0].list_choices()
 
 
 # For post processing
@@ -62,7 +62,10 @@ def experiment_for(APPLICATION, EXP_DIR, ACT):
         PROBLEM_SIZE = 10000
         ITERATIONS = 10000
     elif "ep" in APPLICATION:
-        PROBLEM_SIZE = 22
+        PROBLEM_SIZE = 26
+        ITERATIONS = 10000
+    elif "ones-npb-is" in APPLICATION:
+        PROBLEM_SIZE = 26
         ITERATIONS = 10000
     with open(f'{EXP_DIR}/measured_power.csv', mode='w', newline='') as power_file, open(f'{EXP_DIR}/progress.csv', mode='w', newline='') as progress_file, open(f'{EXP_DIR}/energy.csv', mode='w', newline='') as energy_file, open(f'{EXP_DIR}/PCAP_file.csv', mode='w', newline='') as PCAP_file, open(f'{EXP_DIR}/papi.csv', mode='w', newline='') as papi_file:
         power_writer = csv.writer(power_file)
@@ -83,16 +86,17 @@ def experiment_for(APPLICATION, EXP_DIR, ACT):
             scope = scope.get_uuid()
             sensor = sensor.decode("UTF-8")
             timestamp = time/1e9
+            # print(sensor)
             if sensor == "nrm.benchmarks.progress":
                 progress_writer.writerow([timestamp, value])
             elif sensor == "nrm.geopm.CPU_POWER":
-                # print(scope[-1])
+                # print("#"*100,scope[-1])
                 power_writer.writerow([timestamp, scope[-1], value])
             elif sensor == "nrm.geopm.CPU_ENERGY":
-                # print(scope[-1])
+                # print("/"*100,scope[-1])
                 energy_writer.writerow([timestamp, scope[-1], value])
             elif "PAPI" in sensor:
-                # print(args)
+                # print("-"*100,args)
                 papi_writer.writerow([timestamp, sensor, value])
 
 
@@ -119,9 +123,9 @@ def experiment_for(APPLICATION, EXP_DIR, ACT):
             if process.poll() is not None:  
                 print("Process has completed.")
                 break
-            if APPLICATION == 'ones-npb-ep' and process.poll() is not None:
-                print("ones-npb-ep process has completed. Exiting...")
-                break
+            # if APPLICATION == 'ones-npb-ep' and process.poll() is not None:
+            #     print("ones-npb-ep process has completed. Exiting...")
+            #     break
     current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
     compress_files(current_time)
     print("----------------------------------")

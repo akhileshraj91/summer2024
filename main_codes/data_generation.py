@@ -14,8 +14,8 @@ from datetime import datetime
 
 
 
-# ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136.0, 141.0, 147.0, 153.0, 159.0, 165.0]
-ACTIONS = [78.0, 165.0]
+ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136.0, 141.0, 147.0, 153.0, 159.0, 165.0]
+# ACTIONS = [78.0, 165.0]
 # ACTIONS = [165.0]
 
 # argument parser for the application
@@ -58,7 +58,7 @@ def compress_files(iteration):
     print(f'Compressed files into {tar_file}')
 
 
-def experiment_for(APPLICATION, EXP_DIR, ACTION):
+def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
     if "stream" in APPLICATION:
         PROBLEM_SIZE = 33554432
         ITERATIONS = 10000
@@ -116,7 +116,8 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION):
         while True:
             current_time = time.time()
             if current_time - last_pcap_change >= 5:
-                PCAP = ACTION
+                if not ACTION: 
+                    PCAP = random.choice(ACTIONS)
                 print(PCAP)
                 client.actuate(actuators[0], PCAP)
                 PCAP_time = time.time()
@@ -142,7 +143,8 @@ if __name__ == "__main__":
 
     # Get the directory containing the current file
     current_dir = os.path.dirname(current_file_path)
-    for REPEAT in range(10):
+    repeat = 1
+    for REPEAT in range(repeat):
         print(f">>>>>>>>>>>>>>>>>>>>>>>>>>{REPEAT}")
         for ACTION in ACTIONS:
             for APPLICATION in APPLICATIONS:
@@ -153,7 +155,8 @@ if __name__ == "__main__":
                 else:
                     os.makedirs(EXP_DIR)
                     print(f"Directory {EXP_DIR} created") 
-                experiment_for(APPLICATION, EXP_DIR, ACTION)
+                # experiment_for(APPLICATION, EXP_DIR, ACTION)
+                experiment_for(APPLICATION,EXP_DIR)
 
 
 

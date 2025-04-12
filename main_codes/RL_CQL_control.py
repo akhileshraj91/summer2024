@@ -41,9 +41,9 @@ class FCNetwork(torch.nn.Module):
 model = FCNetwork(layers=[20, 20])
 
 i = 0
-APPLICATIONS = ['ones-npb-ep', 'ones-npb-is','ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale', 'phases-stream-full']
+# APPLICATIONS = ['ones-npb-ep', 'ones-npb-is','ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale', 'phases-stream-full']
 # APPLICATIONS = ['ones-npb-is']
-# APPLICATIONS = ['phases-stream-full']
+APPLICATIONS = ['ones-stream-full']
 policy_folder = '/home/cc/summer2024/main_codes/'  # Default policy file
 # policy_file = os.path.join(policy_folder,'BCQ_SYS_0_20240929_183736.pt')
 while i < len(sys.argv):
@@ -182,8 +182,8 @@ def experiment_for(APPLICATION, EXP_DIR):
     global state_dict
     state_dict = initialize_state_dict() 
     if "stream" in APPLICATION: 
-        PROBLEM_SIZE = 33554432
-        ITERATIONS = 10000
+        PROBLEM_SIZE = 83613830
+        ITERATIONS = 1000
     elif "npb" in APPLICATION:
         PROBLEM_SIZE = 26
         ITERATIONS = 1000

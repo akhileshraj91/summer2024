@@ -23,7 +23,7 @@ ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136
 
 i = 0
 # APPLICATIONS = ['ones-npb-ep']
-APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale','ones-npb-ep']
+APPLICATIONS = ['ones-stream-full']
 # APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale','ones-npb-ep', 'phases-stream-full', 'ones-npb-is']
 while i < len(sys.argv):
     if sys.argv[i] == '--application':
@@ -75,8 +75,8 @@ def get_pid(application):
 
 def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
     if "stream" in APPLICATION:
-        PROBLEM_SIZE = 33554432
-        ITERATIONS = 10000
+        PROBLEM_SIZE = 83613830
+        ITERATIONS = 1000
     elif "npb" in APPLICATION:
         PROBLEM_SIZE = 26
         ITERATIONS = 1000
@@ -174,13 +174,13 @@ if __name__ == "__main__":
 
     # Get the directory containing the current file
     current_dir = os.path.dirname(current_file_path)
-    repeat = 1
+    repeat = 5
     ACTION = None
     for REPEAT in range(repeat):
         print(f">>>>>>>>>>>>>>>>>>>>>>>>>>{REPEAT}")
         for ACTION in ACTIONS:
             for APPLICATION in APPLICATIONS:
-                experiment = 'data_generation'
+                experiment = 'identification_stream'
                 EXP_DIR = f'{current_dir}/experiment_data/{experiment}/{APPLICATION}'
                 if os.path.exists(EXP_DIR):
                     print(f"Directories {EXP_DIR} exist")

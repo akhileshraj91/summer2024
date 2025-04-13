@@ -146,10 +146,32 @@ def collect_papi(PAPI_data):
     L3_TCM_PER_TCA = L3_TCM/L3_TCA
     TOT_STL_PER_CYC = RES_STL/TOT_CYC
     return [TOT_INS_PER_CYC, L3_TCM_PER_TCA, TOT_STL_PER_CYC]
+
+def measure_power(P0,P1):
+    # print(">"*100, P0)
+    # print("-"*100, P1)
+    power = {}
+
+    power['geopm_power_0'] =[
+                       P0[i][1] for i in range(1, len(P0))
+        ]
+
+    power['geopm_power_1'] = [
+                       P0[i][1] for i in range(1, len(P0))
+        ]
+
+    min_length = min(len(power['geopm_power_0']), len(power['geopm_power_1']))
+    geopm_power_0 = power['geopm_power_0'][:min_length]
+    geopm_power_1 = power['geopm_power_1'][:min_length]
+    # print(geopm_power_0,geopm_power_1)
+    average_power = [(p0 + p1) / 2 for p0, p1 in zip(geopm_power_0, geopm_power_1)]
+    print("-"*100,np.mean(average_power))
+    return np.mean(average_power)
     
 def process_callback(states):
     progress = measure_progress(states['progress'])
-    measured_power = compute_power(states['energy_0'],states['energy_1'])
+    # measured_power = compute_power(states['energy_0'],states['energy_1'])
+    measured_power = measure_power(states['measured_power_0'],states['measured_power_1'])
     PAPI = collect_papi(states)
     # Concatenate the progress, measured_power, and PAPI lists
     combined_data = [progress, measured_power] + PAPI
@@ -166,6 +188,8 @@ def initialize_state_dict():
     state_dict['PAPI_TOT_CYC'] = []
     state_dict['PAPI_RES_STL'] = []
     state_dict['PAPI_L3_TCM'] = []
+    state_dict['measured_power_0'] = []
+    state_dict['measured_power_1'] = []
     return state_dict
 
 reference_lib = {}
@@ -177,6 +201,8 @@ reference_lib['PAPI_TOT_INS'] = []
 reference_lib['PAPI_TOT_CYC'] = []
 reference_lib['PAPI_RES_STL'] = []
 reference_lib['PAPI_L3_TCM'] = []
+reference_lib['measured_power_0'] = []
+reference_lib['measured_power_1'] = []
     
 def experiment_for(APPLICATION, EXP_DIR):
     global state_dict
@@ -215,6 +241,7 @@ def experiment_for(APPLICATION, EXP_DIR):
                 # print("1")
             elif sensor == "nrm.geopm.CPU_POWER":
                 power_writer.writerow([timestamp, scope[-1], value])
+                state_dict[f'measured_power_{scope[-1]}'].append([timestamp,value])
                 # print("2")
             elif sensor == "nrm.geopm.CPU_ENERGY":
                 energy_writer.writerow([timestamp, scope[-1], value])
@@ -240,7 +267,7 @@ def experiment_for(APPLICATION, EXP_DIR):
         last_pcap_change = 0
         while True:
             current_time = time.time()
-            if current_time - last_pcap_change >= 3:
+            if current_time - last_pcap_change >= 2:
                 # PCAP = random.choice(ACTIONS)
                 # print(state_dict)
                 if 'state_dict' in globals() and state_dict and state_dict != reference_lib:                    
@@ -252,7 +279,8 @@ def experiment_for(APPLICATION, EXP_DIR):
                     PCAP = ACTIONS[argmax]
                     # PCAP = min(ACTIONS, key=lambda x: abs(x-PCAP))
                 else: 
-                    PCAP = 78.0
+                    print("."*100, "choosing default")
+                    PCAP = 165.0
                 print(PCAP)
                 client.actuate(actuators[0], PCAP)
                 PCAP_time = time.time()
@@ -282,7 +310,7 @@ if __name__ == "__main__":
     # Get the directory containing the current file
     current_dir = os.path.dirname(current_file_path)
 
-    for STEP in range(10):  # Execute 10 times
+    for STEP in range(1):  # Execute 10 times
         print(f">>>>>>>>>>>>>>>>>>>>>>>>>>>{STEP}")
         for APPLICATION in APPLICATIONS:
             experiment = 'Control'

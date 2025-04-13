@@ -45,12 +45,12 @@ class FCNetwork(torch.nn.Module):
         if param.requires_grad:
             print(f"{name}: {param.data.numpy()}")
             
-model = FCNetwork(layers=[20, 20])
+model = FCNetwork(layers=[10, 10])
 
 i = 0
 # APPLICATIONS = ['ones-npb-ep', 'ones-npb-is','ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale', 'phases-stream-full']
 # APPLICATIONS = ['ones-npb-is']
-APPLICATIONS = ['phases-stream-full']
+APPLICATIONS = ['ones-npb-ep']
 policy_folder = '/home/cc/summer2024/main_codes/'  # Default policy file
 # policy_file = os.path.join(policy_folder,'BCQ_SYS_0_20240929_183736.pt')
 while i < len(sys.argv):

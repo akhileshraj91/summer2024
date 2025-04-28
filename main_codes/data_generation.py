@@ -23,8 +23,8 @@ ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136
 
 i = 0
 # APPLICATIONS = ['ones-npb-ep']
-APPLICATIONS = ['ones-stream-full']
-# APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale','ones-npb-ep', 'phases-stream-full', 'ones-npb-is']
+# APPLICATIONS = ['ones-stream-full']
+APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale','ones-npb-ep', 'phases-stream-full', 'ones-npb-is']
 while i < len(sys.argv):
     if sys.argv[i] == '--application':
         APPLICATION = sys.argv[i+1]
@@ -76,10 +76,10 @@ def get_pid(application):
 def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
     if "stream" in APPLICATION:
         PROBLEM_SIZE = 83613830
-        ITERATIONS = 1000
+        ITERATIONS = 2500
     elif "npb" in APPLICATION:
-        PROBLEM_SIZE = 26
-        ITERATIONS = 1000
+        PROBLEM_SIZE = 20
+        ITERATIONS = 5000
     with open(f'{EXP_DIR}/measured_power.csv', mode='w', newline='') as power_file, open(f'{EXP_DIR}/progress.csv', mode='w', newline='') as progress_file, open(f'{EXP_DIR}/energy.csv', mode='w', newline='') as energy_file, open(f'{EXP_DIR}/PCAP_file.csv', mode='w', newline='') as PCAP_file, open(f'{EXP_DIR}/papi.csv', mode='w', newline='') as papi_file:
         power_writer = csv.writer(power_file)
         progress_writer = csv.writer(progress_file)
@@ -102,13 +102,13 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
             if sensor == "nrm.benchmarks.progress":
                 progress_writer.writerow([timestamp, value])
             elif sensor == "nrm.geopm.CPU_POWER":
-                print("-"*100,scope[-1])
+                # print("-"*100,scope[-1])
                 power_writer.writerow([timestamp, scope[-1], value])
             elif sensor == "nrm.geopm.CPU_ENERGY":
-                print("/"*100,scope[-1])
+                # print("/"*100,scope[-1])
                 energy_writer.writerow([timestamp, scope[-1], value])
             elif "PAPI" in sensor:
-                print("~"*100,args)
+                # print("~"*100,args)
                 papi_writer.writerow([timestamp, sensor, value])
 
 
@@ -120,7 +120,7 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
         elif "phases" in APPLICATION:    
             print(f"Starting Execution of phases {APPLICATION, PROBLEM_SIZE, ITERATIONS}")
             process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'5', '1000'])
-            run_command = f'{APPLICATION} '+f'{PROBLEM_SIZE} '+'5 '+'1000'
+            run_command = f'{APPLICATION} '+f'{PROBLEM_SIZE} '+'5 '+'500'
         else:    
             print(f"Starting Execution of {APPLICATION, PROBLEM_SIZE, ITERATIONS}")
             process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'{ITERATIONS}'])
@@ -129,7 +129,7 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
         PIDS = get_pid(run_command)
         PAPI_PID = PIDS[0]
         APP_PID = PIDS[-1]
-        print("/"*100,APP_PID)
+        # print("/"*100,APP_PID)
         # APP_process = psutil.Process(int(APP_PID))
         
         last_pcap_change = 0
@@ -138,6 +138,8 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
             if current_time - last_pcap_change >= 5:
                 if not ACTION: 
                     PCAP = random.choice(ACTIONS)
+                else:
+                    PCAP = ACTION
                 print(PCAP)
                 client.actuate(actuators[0], PCAP)
                 PCAP_time = time.time()
@@ -175,19 +177,19 @@ if __name__ == "__main__":
     # Get the directory containing the current file
     current_dir = os.path.dirname(current_file_path)
     repeat = 5
-    ACTION = None
+    # ACTION = None
     for REPEAT in range(repeat):
         print(f">>>>>>>>>>>>>>>>>>>>>>>>>>{REPEAT}")
         for ACTION in ACTIONS:
             for APPLICATION in APPLICATIONS:
-                experiment = 'identification_stream'
+                experiment = 'data_generation_83613830'
                 EXP_DIR = f'{current_dir}/experiment_data/{experiment}/{APPLICATION}'
                 if os.path.exists(EXP_DIR):
                     print(f"Directories {EXP_DIR} exist")
                 else:
                     os.makedirs(EXP_DIR)
                     print(f"Directory {EXP_DIR} created") 
-                experiment_for(APPLICATION, EXP_DIR)
+                experiment_for(APPLICATION, EXP_DIR, ACTION=ACTION)
                 time.sleep(1)
 
 

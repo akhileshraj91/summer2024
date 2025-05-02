@@ -38,12 +38,18 @@ class FCNetwork(torch.nn.Module):
         if param.requires_grad:
             print(f"{name}: {param.data.numpy()}")
             
-model = FCNetwork(layers=[20, 20])
+model = FCNetwork(layers=[10, 20])
 
 i = 0
+<<<<<<< HEAD
 APPLICATIONS = ['ones-npb-ep', 'ones-npb-is','ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale', 'phases-stream-full']
 # APPLICATIONS = ['ones-npb-is']
 # APPLICATIONS = ['ones-stream-scale']
+=======
+# APPLICATIONS = ['ones-npb-ep', 'ones-npb-is','ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale', 'phases-stream-full']
+APPLICATIONS = ['ones-npb-mg', 'ones-npb-ft']
+# APPLICATIONS = ['ones-stream-add']
+>>>>>>> c299715e (codes with some changes and trained models obtained before ICPP submission)
 policy_folder = '/home/cc/summer2024/main_codes/'  # Default policy file
 # policy_file = os.path.join(policy_folder,'BCQ_SYS_0_20240929_183736.pt')
 while i < len(sys.argv):
@@ -208,8 +214,13 @@ def experiment_for(APPLICATION, EXP_DIR):
     global state_dict
     state_dict = initialize_state_dict() 
     if "stream" in APPLICATION: 
+<<<<<<< HEAD
         PROBLEM_SIZE = 83613830
         ITERATIONS = 2500
+=======
+        PROBLEM_SIZE = 33554432
+        ITERATIONS = 5000
+>>>>>>> c299715e (codes with some changes and trained models obtained before ICPP submission)
     elif "npb" in APPLICATION:
         PROBLEM_SIZE = 20
         ITERATIONS = 5000
@@ -259,7 +270,15 @@ def experiment_for(APPLICATION, EXP_DIR):
             process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', 'poor', '100', f'{ITERATIONS}'])
         elif "phases" in APPLICATION:   
             print("phases experiment started") 
+<<<<<<< HEAD
             process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'5', '500'])
+=======
+            process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'5', '1000'])
+        elif "ones-npb-ft" in APPLICATION:
+            process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', '500'])
+        elif "ones-npb-mg" in APPLICATION:
+            process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', '1000'])
+>>>>>>> c299715e (codes with some changes and trained models obtained before ICPP submission)
         else:    
             process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'{ITERATIONS}'])
 
@@ -267,7 +286,7 @@ def experiment_for(APPLICATION, EXP_DIR):
         last_pcap_change = 0
         while True:
             current_time = time.time()
-            if current_time - last_pcap_change >= 2:
+            if current_time - last_pcap_change >= 5:
                 # PCAP = random.choice(ACTIONS)
                 # print(state_dict)
                 if 'state_dict' in globals() and state_dict and state_dict != reference_lib:                    

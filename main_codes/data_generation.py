@@ -176,7 +176,7 @@ if __name__ == "__main__":
 
     # Get the directory containing the current file
     current_dir = os.path.dirname(current_file_path)
-    repeat = 5
+    repeat = 1
     # ACTION = None
     for REPEAT in range(repeat):
         print(f">>>>>>>>>>>>>>>>>>>>>>>>>>{REPEAT}")

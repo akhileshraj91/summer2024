@@ -6,6 +6,22 @@ size 91
 
 This repository contains code and resources for data generation, training, and reproduction of reinforcement learning (RL) based control using the Conservative Q-Learning (CQL) algorithm for power and performance management in computing systems.
 
+## Node Provisioning
+
+Before running the main experiments, you may need to provision your node with the required dependencies and environment settings. This repository provides an Ansible script for automated provisioning.
+
+- **Steps:**
+  1. Navigate to the `provisioning` directory:
+     ```bash
+     cd provisioning
+     ```
+  2. Edit the `inventory` file to match your target node(s) and connection details.
+  3. Run the Ansible playbook:
+     ```bash
+     ansible-playbook -i inventory provision.yml
+     ```
+  *Make sure to update the inventory details before running the playbook.*
+
 ## Main Components
 
 ### 1. Data Generation (`main_codes/data_generation.py`)
@@ -51,6 +67,7 @@ This script deploys the trained RL policy to control the power cap of the system
 - `main_codes/` — Main scripts and notebooks for data generation, training, and control.
 - `experiment_data/` — Generated datasets and experiment results.
 - `results/` — Output and logs from experiments.
+- `provisioning/` — Ansible scripts for node provisioning.
 
 ## Requirements
 - Python 3.x
@@ -58,6 +75,7 @@ This script deploys the trained RL policy to control the power cap of the system
 - NumPy, pandas, matplotlib
 - nrm (Node Resource Manager)
 - Jupyter Notebook (for `.ipynb` files)
+- Ansible (for provisioning)
 
 Install dependencies with:
 ```bash

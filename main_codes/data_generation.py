@@ -23,8 +23,8 @@ ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136
 
 i = 0
 # APPLICATIONS = ['ones-npb-ep']
-APPLICATIONS = ['ones-stream-full']
-# APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale','ones-npb-ep', 'phases-stream-full', 'ones-npb-is']
+# APPLICATIONS = ['ones-stream-full']
+APPLICATIONS = ['ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale','ones-npb-ep', 'phases-stream-full', 'ones-npb-is']
 while i < len(sys.argv):
     if sys.argv[i] == '--application':
         APPLICATION = sys.argv[i+1]
@@ -75,7 +75,7 @@ def get_pid(application):
 
 def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
     if "stream" in APPLICATION:
-        PROBLEM_SIZE = 83613830
+        PROBLEM_SIZE = 33554432
         ITERATIONS = 1000
     elif "npb" in APPLICATION:
         PROBLEM_SIZE = 26
@@ -94,7 +94,7 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
         papi_writer.writerow(['time', 'scope', 'value'])
 
         def cb(*args):
-            print(args)
+            # print(args)
             (sensor, time, scope, value) = args
             scope = scope.get_uuid()
             sensor = sensor.decode("UTF-8")
@@ -102,13 +102,13 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
             if sensor == "nrm.benchmarks.progress":
                 progress_writer.writerow([timestamp, value])
             elif sensor == "nrm.geopm.CPU_POWER":
-                print("-"*100,scope[-1])
+                # print("-"*100,scope[-1])
                 power_writer.writerow([timestamp, scope[-1], value])
             elif sensor == "nrm.geopm.CPU_ENERGY":
-                print("/"*100,scope[-1])
+                # print("/"*100,scope[-1])
                 energy_writer.writerow([timestamp, scope[-1], value])
             elif "PAPI" in sensor:
-                print("~"*100,args)
+                # print("~"*100,args)
                 papi_writer.writerow([timestamp, sensor, value])
 
 
@@ -135,7 +135,7 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
         last_pcap_change = 0
         while True:
             current_time = time.time()
-            if current_time - last_pcap_change >= 5:
+            if current_time - last_pcap_change >= 3:
                 if not ACTION: 
                     PCAP = random.choice(ACTIONS)
                 print(PCAP)
@@ -174,13 +174,12 @@ if __name__ == "__main__":
 
     # Get the directory containing the current file
     current_dir = os.path.dirname(current_file_path)
-    repeat = 5
-    ACTION = None
+    repeat = 1
     for REPEAT in range(repeat):
         print(f">>>>>>>>>>>>>>>>>>>>>>>>>>{REPEAT}")
         for ACTION in ACTIONS:
             for APPLICATION in APPLICATIONS:
-                experiment = 'identification_stream'
+                experiment = 'data_generation'
                 EXP_DIR = f'{current_dir}/experiment_data/{experiment}/{APPLICATION}'
                 if os.path.exists(EXP_DIR):
                     print(f"Directories {EXP_DIR} exist")

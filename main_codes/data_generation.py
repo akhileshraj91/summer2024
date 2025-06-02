@@ -24,7 +24,7 @@ ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136
 i = 0
 # APPLICATIONS = ['ones-npb-ep']
 # APPLICATIONS = ['ones-stream-full']
-APPLICATIONS = ['ones-stream-full','ones-npb-ep',]
+APPLICATIONS = ['ones-stream-copy',]
 while i < len(sys.argv):
     if sys.argv[i] == '--application':
         APPLICATION = sys.argv[i+1]
@@ -76,7 +76,7 @@ def get_pid(application):
 def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
     if "stream" in APPLICATION:
         PROBLEM_SIZE = 33554432
-        ITERATIONS = 10000
+        ITERATIONS = 100000
     elif "npb" in APPLICATION:
         PROBLEM_SIZE = 26
         ITERATIONS = 10000

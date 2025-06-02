@@ -38,12 +38,12 @@ class FCNetwork(torch.nn.Module):
         if param.requires_grad:
             print(f"{name}: {param.data.numpy()}")
             
-model = FCNetwork(layers=[10, 20])
+model = FCNetwork(layers=[5,5])
 
 i = 0
-APPLICATIONS = ['ones-npb-ep', 'ones-npb-is','ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale', 'phases-stream-full']
+# APPLICATIONS = ['ones-npb-ep', 'ones-npb-is','ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale', 'phases-stream-full']
 # APPLICATIONS = ['ones-npb-is']
-# APPLICATIONS = ['ones-stream-scale']
+APPLICATIONS = ['ones-npb-ep', 'ones-stream-full']
 policy_folder = '/home/cc/summer2024/main_codes/'  # Default policy file
 # policy_file = os.path.join(policy_folder,'BCQ_SYS_0_20240929_183736.pt')
 while i < len(sys.argv):
@@ -211,7 +211,7 @@ def experiment_for(APPLICATION, EXP_DIR):
         PROBLEM_SIZE = 33554432
         ITERATIONS = 5000
     elif "npb" in APPLICATION:
-        PROBLEM_SIZE = 20
+        PROBLEM_SIZE = 26
         ITERATIONS = 5000
     with open(f'{EXP_DIR}/measured_power.csv', mode='w', newline='') as power_file, open(f'{EXP_DIR}/progress.csv', mode='w', newline='') as progress_file, open(f'{EXP_DIR}/energy.csv', mode='w', newline='') as energy_file, open(f'{EXP_DIR}/PCAP_file.csv', mode='w', newline='') as PCAP_file, open(f'{EXP_DIR}/papi.csv', mode='w', newline='') as papi_file:
         power_writer = csv.writer(power_file)
@@ -271,7 +271,7 @@ def experiment_for(APPLICATION, EXP_DIR):
         last_pcap_change = 0
         while True:
             current_time = time.time()
-            if current_time - last_pcap_change >= 5:
+            if current_time - last_pcap_change >= 2:
                 # PCAP = random.choice(ACTIONS)
                 # print(state_dict)
                 if 'state_dict' in globals() and state_dict and state_dict != reference_lib:                    
@@ -314,7 +314,7 @@ if __name__ == "__main__":
     # Get the directory containing the current file
     current_dir = os.path.dirname(current_file_path)
 
-    for STEP in range(5):  # Execute 10 times
+    for STEP in range(1):  # Execute 10 times
         print(f">>>>>>>>>>>>>>>>>>>>>>>>>>>{STEP}")
         for APPLICATION in APPLICATIONS:
             experiment = 'Control'

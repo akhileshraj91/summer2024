@@ -22,6 +22,8 @@ Before running the main experiments, you may need to provision your node with th
      ```
   *Make sure to update the inventory details before running the playbook.*
 
+To verify the installation and instrumentation, please run the `data_ac.py` script. You should see the power caps being varied between two different levels during the execution.
+
 ## Main Components
 
 ### 1. Data Generation (`main_codes/data_generation.py`)
@@ -65,22 +67,10 @@ This script deploys the trained RL policy to control the power cap of the system
 
 ## Directory Structure
 - `main_codes/` — Main scripts and notebooks for data generation, training, and control.
-- `experiment_data/` — Generated datasets and experiment results.
-- `results/` — Output and logs from experiments.
+- `main_codes/experiment_data/` — Generated datasets and experiment results.
+- `main_codes/trained_models/` — Saves trained models for the experiments.
+- `main_codes/figures/` - Output generated plots and logs from the experiments.
 - `provisioning/` — Ansible scripts for node provisioning.
-
-## Requirements
-- Python 3.x
-- PyTorch
-- NumPy, pandas, matplotlib
-- nrm (Node Resource Manager)
-- Jupyter Notebook (for `.ipynb` files)
-- Ansible (for provisioning)
-
-Install dependencies with:
-```bash
-pip install -r requirements.txt
-```
 
 ## Citation
 If you use this code or data, please cite the corresponding paper or contact the authors for more information.

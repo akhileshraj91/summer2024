@@ -16,15 +16,11 @@ import psutil
 
 
 ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136.0, 141.0, 147.0, 153.0, 159.0, 165.0]
-# ACTIONS = [78.0, 165.0]
-# ACTIONS = [165.0]
 
-# argument parser for the application
 
 i = 0
-# APPLICATIONS = ['ones-npb-ep']
-# APPLICATIONS = ['ones-stream-full']
-APPLICATIONS = ['ones-stream-copy',]
+
+APPLICATIONS = ['ones-npb-ft', 'ones-npb-mg']
 while i < len(sys.argv):
     if sys.argv[i] == '--application':
         APPLICATION = sys.argv[i+1]
@@ -117,14 +113,18 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
             print(f"Starting Execution of phases {APPLICATION, PROBLEM_SIZE, ITERATIONS}")
             process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'5', '200'])
             run_command = f'{APPLICATION} '+f'{PROBLEM_SIZE} '+'5 '+'500'
+        elif "ones-npb-ft" in APPLICATION:
+            process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', '500'])
+        elif "ones-npb-mg" in APPLICATION:
+            process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', '1000'])
         else:    
             print(f"Starting Execution of {APPLICATION, PROBLEM_SIZE, ITERATIONS}")
             process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'{ITERATIONS}'])
             run_command = f'{APPLICATION} {PROBLEM_SIZE} {ITERATIONS}'
         time.sleep(0.5)
-        PIDS = get_pid(run_command)
-        PAPI_PID = PIDS[0]
-        APP_PID = PIDS[-1]
+        # PIDS = get_pid(run_command)
+        # PAPI_PID = PIDS[0]
+        # APP_PID = PIDS[-1]
         
         last_pcap_change = 0
         while True:
@@ -159,20 +159,21 @@ if __name__ == "__main__":
 
     # Get the directory containing the current file
     current_dir = os.path.dirname(current_file_path)
-    repeat = 1
+    repeat = 5
     ACTION = None
-    for REPEAT in range(repeat):
-        print(f">>>>>>>>>>>>>>>>>>>>>>>>>>{REPEAT}")
-        for APPLICATION in APPLICATIONS:
-            experiment = 'data_generation_new'
-            EXP_DIR = f'{current_dir}/experiment_data/{experiment}/{APPLICATION}'
-            if os.path.exists(EXP_DIR):
-                print(f"Directories {EXP_DIR} exist")
-            else:
-                os.makedirs(EXP_DIR)
-                print(f"Directory {EXP_DIR} created") 
-            experiment_for(APPLICATION, EXP_DIR, ACTION=ACTION)
-            time.sleep(1)
+    for ACTION in ACTIONS:
+        for REPEAT in range(repeat):
+            print(f">>>>>>>>>>>>>>>>>>>>>>>>>>{REPEAT}")
+            for APPLICATION in APPLICATIONS:
+                experiment = 'data_generation_experiment'
+                EXP_DIR = f'{current_dir}/experiment_data/{experiment}/{APPLICATION}'
+                if os.path.exists(EXP_DIR):
+                    print(f"Directories {EXP_DIR} exist")
+                else:
+                    os.makedirs(EXP_DIR)
+                    print(f"Directory {EXP_DIR} created") 
+                experiment_for(APPLICATION, EXP_DIR, ACTION=ACTION)
+                time.sleep(1)
 
 
 

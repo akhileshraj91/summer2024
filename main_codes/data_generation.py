@@ -10,6 +10,7 @@ import tarfile
 import random
 from datetime import datetime
 import psutil
+import argparse
 
 
 
@@ -18,24 +19,27 @@ import psutil
 ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136.0, 141.0, 147.0, 153.0, 159.0, 165.0]
 
 
-i = 0
-
 APPLICATIONS = ['ones-stream-scale', 'ones-stream-triad', 'ones-npb-ep']
-while i < len(sys.argv):
-    if sys.argv[i] == '--application':
-        APPLICATION = sys.argv[i+1]
-        APPLICATIONS.append(sys.argv[i+1])
-        i += 1
-    i +=1
 
+parser = argparse.ArgumentParser(description="Add new applications to the list")
+parser.add_argument('-a', '--application', nargs='+', help='List of applications to append')
+parser.add_argument('-e', '--experiment', default='random', help='Choice of experiment - values random and static')
+
+args = parser.parse_args()
+
+if len(sys.argv) == 1:
+    parser.print_help()
+    
+if args.application:
+    APPLICATIONS.extend(args.application)
+
+print(APPLICATIONS)
 
 
 client = nrm.Client()
 actuators = client.list_actuators()
-# ACTIONS = actuators[0].list_choices()
 
 
-# For post processing
 def compress_files(iteration):
     tar_file = EXP_DIR+f'/compressed_iteration_{iteration}.tar'
     with tarfile.open(tar_file, 'w:gz') as tarf:
@@ -43,15 +47,12 @@ def compress_files(iteration):
             for file in files:
                 if file.endswith('.csv') or file.endswith('.yaml'):
                     file_path = os.path.join(EXP_DIR, file)
-                    # rel_path = os.path.relpath(file_path, EXP_DIR)
                     tarf.add(file_path, arcname=os.path.basename(file_path))
-                    # tarf.add(os.path.join(root, file), os.path.relpath(os.path.join(root, file), EXP_DIR))
                     os.remove(file_path)
 
     print(f'Compressed files into {tar_file}')
 
 def get_pid(application):
-    # Run 'ps aux' without 'grep' to avoid matching the 'grep' command itself
     result = subprocess.run(['ps', 'aux'], capture_output=True, text=True)
     
     pids = []
@@ -118,9 +119,7 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
             process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'{ITERATIONS}'])
             run_command = f'{APPLICATION} {PROBLEM_SIZE} {ITERATIONS}'
         time.sleep(0.5)
-        # PIDS = get_pid(run_command)
-        # PAPI_PID = PIDS[0]
-        # APP_PID = PIDS[-1]
+   
         
         last_pcap_change = 0
         while True:
@@ -150,18 +149,15 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
    
 
 if __name__ == "__main__":
-    # Get the current file path
     current_file_path = os.path.abspath(__file__)
-
-    # Get the directory containing the current file
     current_dir = os.path.dirname(current_file_path)
     repeat = 5
     ACTION = None
-    for ACTION in ACTIONS:
+    if args.experiment == 'random':
         for REPEAT in range(repeat):
             print(f">>>>>>>>>>>>>>>>>>>>>>>>>>{REPEAT}")
             for APPLICATION in APPLICATIONS:
-                experiment = 'data_generation_experiment'
+                experiment = 'training_data'
                 EXP_DIR = f'{current_dir}/experiment_data/{experiment}/{APPLICATION}'
                 if os.path.exists(EXP_DIR):
                     print(f"Directories {EXP_DIR} exist")
@@ -170,7 +166,20 @@ if __name__ == "__main__":
                     print(f"Directory {EXP_DIR} created") 
                 experiment_for(APPLICATION, EXP_DIR, ACTION=ACTION)
                 time.sleep(1)
+    elif args.experiment == 'static':
+        for ACTION in ACTIONS:
+            for REPEAT in range(repeat):
+                print(f">>>>>>>>>>>>>>>>>>>>>>>>>>{REPEAT}")
+                for APPLICATION in APPLICATIONS:
+                    experiment = 'plotting_data'
+                    EXP_DIR = f'{current_dir}/experiment_data/{experiment}/{APPLICATION}'
+                    if os.path.exists(EXP_DIR):
+                        print(f"Directories {EXP_DIR} exist")
+                    else:
+                        os.makedirs(EXP_DIR)
+                        print(f"Directory {EXP_DIR} created") 
+                    experiment_for(APPLICATION, EXP_DIR, ACTION=ACTION)
+                    time.sleep(1)
 
 
 
-# compress the experiment details for post processing

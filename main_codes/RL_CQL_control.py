@@ -10,11 +10,11 @@ import tarfile
 import random
 from datetime import datetime
 import torch
+import argparse
 
 class FCNetwork(torch.nn.Module):
   def __init__(self, layers=[20,20]):
     super(FCNetwork, self).__init__()
-    # self.all_observations = torch.tensor(stack_observations(env), dtype=torch.float32)
     dim_input = 5
     dim_output = 16
     net_layers = []
@@ -29,7 +29,6 @@ class FCNetwork(torch.nn.Module):
     self.network = torch.nn.Sequential(*net_layers)
 
   def forward(self, states):
-    # observations = torch.index_select(self.all_observations, 0, states)
     states_tensor = torch.tensor(states, dtype=torch.float32)  # Ensure the correct dtype
     return self.network(states_tensor)
 
@@ -41,30 +40,29 @@ class FCNetwork(torch.nn.Module):
 model = FCNetwork(layers=[10,10])
 
 i = 0
-APPLICATIONS = ['ones-npb-ep', 'ones-npb-is','ones-stream-full', 'ones-stream-triad', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-scale', 'phases-stream-full', 'ones-npb-ft', 'ones-npb-mg']
-# APPLICATIONS = ['ones-npb-is']
-# APPLICATIONS = ['ones-npb-ft', 'ones-npb-mg']
-policy_folder = '/home/cc/summer2024/main_codes/'  # Default policy file
-# policy_file = os.path.join(policy_folder,'BCQ_SYS_0_20240929_183736.pt')
-while i < len(sys.argv):
-    if sys.argv[i] == '--application':
-        APPLICATION = sys.argv[i+1]
-        i += 1
-    elif sys.argv[i] == '--policy':
-        policy_name = sys.argv[i+1]  # Update policy file from argument
-        policy_file = os.path.join(policy_folder, policy_name)
-        i += 1
-    i +=1
+APPLICATIONS = []
 
+parser = argparse.ArgumentParser(description="Add new applications to the list")
+parser.add_argument('-a', '--application', nargs='+', help='List of applications to evaluate')
+parser.add_argument('-p', '--policy', help='Choose the path to the trained model from trained_models directory')
+args = parser.parse_args()
+
+if args.application:
+    APPLICATIONS.extend(args.application)
+
+if len(sys.argv) == 1:
+    parser.print_help()
+
+
+policy_folder = '/home/cc/summer2024/main_codes/' 
+policy_file = policy_folder + args.policy
 
 
 client = nrm.Client()
 actuators = client.list_actuators()
 ACTIONS = actuators[0].list_choices()
-# policy = torch.load(policy_file)  # Load policy from the specified file
 model.load_state_dict(torch.load(policy_file))
 model.eval()
-# max_values = {'PAPI_L3_TCA': 2519860487.0, 'PAPI_TOT_INS': 108949748763.0, 'PAPI_TOT_CYC': 297655869900.0, 'PAPI_RES_STL': 259228596139.0, 'PAPI_L3_TCM': 2370673711.0}
 
 def compress_files(iteration):
     tar_file = EXP_DIR+f'/compressed_iteration_{iteration}.tar'
@@ -317,7 +315,7 @@ if __name__ == "__main__":
     for STEP in range(5):  # Execute 10 times
         print(f">>>>>>>>>>>>>>>>>>>>>>>>>>>{STEP}")
         for APPLICATION in APPLICATIONS:
-            experiment = 'Control'
+            experiment = 'Control_evaluation'
             EXP_DIR = f'{current_dir}/experiment_data/{experiment}/{APPLICATION}'
             if os.path.exists(EXP_DIR):
                 print(f"Directories {EXP_DIR} exist")

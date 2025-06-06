@@ -20,19 +20,15 @@ ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136
 
 i = 0
 
-APPLICATIONS = ['ones-npb-ft', 'ones-npb-mg']
+APPLICATIONS = ['ones-stream-scale', 'ones-stream-triad', 'ones-npb-ep']
 while i < len(sys.argv):
     if sys.argv[i] == '--application':
         APPLICATION = sys.argv[i+1]
+        APPLICATIONS.append(sys.argv[i+1])
         i += 1
     i +=1
 
-# define the problem size and iterations based on the applications
 
-
-
-
-# initialize the nrm clients
 
 client = nrm.Client()
 actuators = client.list_actuators()

@@ -34,6 +34,16 @@ This script automates the process of collecting experimental data from various b
   cd main_codes
   python data_generation.py
   ```
+
+  ```python
+  Add new applications to the list
+  options:
+    -h, --help            show this help message and exit
+    -a APPLICATION [APPLICATION ...], --application APPLICATION [APPLICATION ...]
+                          List of applications to append
+    -e EXPERIMENT, --experiment EXPERIMENT
+                          Choice of experiment - values random and static
+  ```
   *Make sure to run this script from within the `main_codes` directory.*
 - **Purpose:** Generates the dataset required for RL training by running benchmarks and recording system metrics.
 
@@ -55,10 +65,25 @@ This script deploys the trained RL policy to control the power cap of the system
 - **Usage:**
   ```bash
   cd main_codes
-  python RL_CQL_control.py --policy <trained_policy_file>
+  python RL_CQL_control.py --policy trained_models/<trained_policy_file>.pth
   ```
+  ```python
+  Add new applications to the list
+
+  options:
+    -h, --help            show this help message and exit
+    -a APPLICATION [APPLICATION ...], --application APPLICATION [APPLICATION ...]
+                          List of applications to evaluate
+    -p POLICY, --policy POLICY
+                          Choose the path to the trained model from trained_models directory
+  ```
+
   *Make sure to run this script from within the `main_codes` directory.*
 - **Purpose:** Reproduces the RL-based control experiments using the trained CQL policy.
+
+### 4. Plotting (`main_codes/plotting.ipynb`)
+* Run the `plotting.ipynb` notebook to review the results and compare against different `PCAP`s.
+* The figures are saved inside the directory `figures`.
 
 ## Reproducing the Pipeline
 1. **Generate Data:** Change to the `main_codes` directory and run `data_generation.py` to collect training data.

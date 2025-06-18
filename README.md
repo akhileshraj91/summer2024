@@ -45,6 +45,14 @@ This script automates the process of collecting experimental data from various b
                           Choice of experiment - values random and static
   ```
   *Make sure to run this script from within the `main_codes` directory.*
+  
+  *Available applications as of June 18, 2025 are:*
+
+    ones-npb-ep           ones-npb-ft           ones-npb-is
+    ones-npb-mg           ones-solvers-bicgstab ones-solvers-cg
+    ones-stream-add       ones-stream-copy      ones-stream-full
+    ones-stream-scale     ones-stream-triad     phases-stream-full
+
 - **Purpose:** Generates the dataset required for RL training by running benchmarks and recording system metrics.
 
 ### 2. RL Training (`main_codes/CQL_renewed.ipynb`)

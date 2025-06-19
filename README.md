@@ -48,10 +48,8 @@ This script automates the process of collecting experimental data from various b
   
   *Available applications as of June 18, 2025 are:*
 
-    ones-npb-ep           ones-npb-ft           ones-npb-is
-    ones-npb-mg           ones-solvers-bicgstab ones-solvers-cg
-    ones-stream-add       ones-stream-copy      ones-stream-full
-    ones-stream-scale     ones-stream-triad     phases-stream-full
+    ones-npb-ep        |   ones-npb-ft        |   ones-npb-is        |   ones-npb-mg         |  ones-stream-add
+    ones-stream-copy   |   ones-stream-full   |   ones-stream-scale  |   ones-stream-triad   |  phases-stream-full
 
 - **Purpose:** Generates the dataset required for RL training by running benchmarks and recording system metrics.
 

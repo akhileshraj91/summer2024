@@ -69,7 +69,7 @@ def get_pid(application):
 def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
     if "stream" in APPLICATION:
         PROBLEM_SIZE = 33554432
-        ITERATIONS = 100000
+        ITERATIONS = 10000
     elif "npb" in APPLICATION:
         PROBLEM_SIZE = 26
         ITERATIONS = 10000

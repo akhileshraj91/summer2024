@@ -19,8 +19,9 @@ import argparse
 ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136.0, 141.0, 147.0, 153.0, 159.0, 165.0]
 
 
-APPLICATIONS = ['ones-stream-scale', 'ones-stream-triad', 'ones-npb-ep']
+# APPLICATIONS = ['ones-stream-scale', 'ones-stream-triad', 'ones-npb-ep']
 
+APPLICATIONS = []
 parser = argparse.ArgumentParser(description="Add new applications to the list")
 parser.add_argument('-a', '--application', nargs='+', help='List of applications to append')
 parser.add_argument('-e', '--experiment', default='random', help='Choice of experiment - values random and static')
@@ -45,7 +46,7 @@ def compress_files(iteration):
     with tarfile.open(tar_file, 'w:gz') as tarf:
         for root, dirs, files in os.walk(EXP_DIR):
             for file in files:
-                if file.endswith('.csv') or file.endswith('.yaml'):
+                if file.endswith('.csv') or file.endswith('.yaml') or file.endswith('.log'):
                     file_path = os.path.join(EXP_DIR, file)
                     tarf.add(file_path, arcname=os.path.basename(file_path))
                     os.remove(file_path)
@@ -73,7 +74,7 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
     elif "npb" in APPLICATION:
         PROBLEM_SIZE = 26
         ITERATIONS = 10000
-    with open(f'{EXP_DIR}/measured_power.csv', mode='w', newline='') as power_file, open(f'{EXP_DIR}/progress.csv', mode='w', newline='') as progress_file, open(f'{EXP_DIR}/energy.csv', mode='w', newline='') as energy_file, open(f'{EXP_DIR}/PCAP_file.csv', mode='w', newline='') as PCAP_file, open(f'{EXP_DIR}/papi.csv', mode='w', newline='') as papi_file:
+    with open(f'{EXP_DIR}/{APPLICATION}_output.log','w') as log_file, open(f'{EXP_DIR}/measured_power.csv', mode='w', newline='') as power_file, open(f'{EXP_DIR}/progress.csv', mode='w', newline='') as progress_file, open(f'{EXP_DIR}/energy.csv', mode='w', newline='') as energy_file, open(f'{EXP_DIR}/PCAP_file.csv', mode='w', newline='') as PCAP_file, open(f'{EXP_DIR}/papi.csv', mode='w', newline='') as papi_file:
         power_writer = csv.writer(power_file)
         progress_writer = csv.writer(progress_file)
         energy_writer = csv.writer(energy_file)
@@ -104,20 +105,36 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
         client.set_event_listener(cb)
         client.start_event_listener("") 
         if "solvers" in APPLICATION:
-            process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', 'poor', '0', f'{ITERATIONS}'])
-            run_command = f'{APPLICATION} '+f'{PROBLEM_SIZE} '+'poor '+'0 '+f'{ITERATIONS}'
+            process = subprocess.Popen(
+                ['bash', '-c', f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} {PROBLEM_SIZE} poor 0 {ITERATIONS}'],
+                stdout=log_file,
+                stderr=log_file
+            )
         elif "phases" in APPLICATION:    
             print(f"Starting Execution of phases {APPLICATION, PROBLEM_SIZE, ITERATIONS}")
-            process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'5', '200'])
-            run_command = f'{APPLICATION} '+f'{PROBLEM_SIZE} '+'5 '+'500'
+            process = subprocess.Popen(
+                ['bash', '-c', f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} {PROBLEM_SIZE} 5 200'],
+                stdout=log_file,
+                stderr=log_file
+            )
         elif "ones-npb-ft" in APPLICATION:
-            process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', '500'])
+            process = subprocess.Popen(
+                ['bash', '-c', f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} 500'],
+                stdout=log_file,
+                stderr=log_file
+            )
         elif "ones-npb-mg" in APPLICATION:
-            process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', '1000'])
-        else:    
-            print(f"Starting Execution of {APPLICATION, PROBLEM_SIZE, ITERATIONS}")
-            process = subprocess.Popen(['nrm-papiwrapper', '-i', '-e', 'PAPI_L3_TCA', '-e', 'PAPI_TOT_INS', '-e', 'PAPI_TOT_CYC', '-e', 'PAPI_RES_STL', '-e', 'PAPI_L3_TCM', '--', f'{APPLICATION}', f'{PROBLEM_SIZE}', f'{ITERATIONS}'])
-            run_command = f'{APPLICATION} {PROBLEM_SIZE} {ITERATIONS}'
+            process = subprocess.Popen(
+                ['bash', '-c', f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} 10000'],
+                stdout=log_file,
+                stderr=log_file
+            )
+        else:
+            process = subprocess.Popen(
+                ['bash', '-c', 'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {} {} {}'.format(APPLICATION, PROBLEM_SIZE, ITERATIONS)],
+                stdout=log_file,
+                stderr=log_file
+            )
         time.sleep(0.5)
    
         
@@ -151,7 +168,7 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
 if __name__ == "__main__":
     current_file_path = os.path.abspath(__file__)
     current_dir = os.path.dirname(current_file_path)
-    repeat = 5
+    repeat = 1
     ACTION = None
     if args.experiment == 'random':
         for REPEAT in range(repeat):

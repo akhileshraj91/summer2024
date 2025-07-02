@@ -47,8 +47,8 @@ def compress_files(iteration):
         for root, dirs, files in os.walk(EXP_DIR):
             for file in files:
                 if file.endswith('.csv') or file.endswith('.yaml') or file.endswith('.log'):
-                    file_path = os.path.join(EXP_DIR, file)
-                    tarf.add(file_path, arcname=os.path.basename(file_path))
+                    file_path = os.path.join(root, file)  # <-- use root here!
+                    tarf.add(file_path, arcname=os.path.relpath(file_path, EXP_DIR))
                     os.remove(file_path)
 
     print(f'Compressed files into {tar_file}')
@@ -180,7 +180,7 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
 if __name__ == "__main__":
     current_file_path = os.path.abspath(__file__)
     current_dir = os.path.dirname(current_file_path)
-    repeat = 1
+    repeat = 4
     ACTION = None
     if args.experiment == 'random':
         for REPEAT in range(repeat):

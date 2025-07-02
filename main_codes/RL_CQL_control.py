@@ -71,7 +71,7 @@ def compress_files(iteration):
             print("-"*100,files)
             for file in files:
                 if file.endswith('.csv') or file.endswith('.yaml'):
-                    file_path = os.path.join(EXP_DIR, file)
+                    file_path = os.path.join(root, file)
                     if os.path.exists(file_path):  # Check if the file exists before adding it to the tar
                         tarf.add(file_path, arcname=os.path.basename(file_path))
                         os.remove(file_path)  # Remove the file after adding it to the tar

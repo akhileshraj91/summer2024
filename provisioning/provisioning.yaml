@@ -1,8 +1,8 @@
 ---
 - name: Provisioning a node
-  hosts: libnrm
+  hosts: main_nodes,worker_nodes,libnrm
   gather_facts: false
-  become: true
+  become: false
 
 
   tasks:   
@@ -12,7 +12,7 @@
       update_cache: yes
       pkg:
       - curl
-      - python3-pip
+      # - python3-pip
       - apt-transport-https
       - net-tools
       # add other packages here
@@ -67,10 +67,12 @@
         # - mpich
         - libomp-dev
         - libomp5
-        - geopm-service
+        # - geopm-service
+        - geopmd
+        # - libgeopmd-dev
         - libgeopmd-dev
         - libgeopmd2
-        - python3-geopmdpy
+        # - python3-geopmdpy
         - libblas-dev
       state: present
       update_cache: yes

@@ -53,7 +53,7 @@ with open(f'{DATA_DIR}/measured_power.csv', mode='w', newline='') as power_file,
             client.actuate(actuators[0], 165.0)
             switch = True
         print(actuators)
-        time.sleep(3)
+        time.sleep(10)
         if process.poll() is not None:  
             print("Process has completed.")
             break

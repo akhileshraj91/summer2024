@@ -70,7 +70,7 @@ def compress_files(iteration):
         for root, dirs, files in os.walk(EXP_DIR):
             print("-"*100,files)
             for file in files:
-                if file.endswith('.csv') or file.endswith('.yaml'):
+                if file.endswith('.csv') or file.endswith('.yaml') or file.endswith('.log'):
                     file_path = os.path.join(root, file)
                     if os.path.exists(file_path):  # Check if the file exists before adding it to the tar
                         tarf.add(file_path, arcname=os.path.basename(file_path))
@@ -343,7 +343,7 @@ if __name__ == "__main__":
     # Get the directory containing the current file
     current_dir = os.path.dirname(current_file_path)
 
-    for STEP in range(5):  # Execute 10 times
+    for STEP in range(3):  # Execute 10 times
         print(f">>>>>>>>>>>>>>>>>>>>>>>>>>>{STEP}")
         for APPLICATION in APPLICATIONS:
             experiment = 'Control_evaluation'

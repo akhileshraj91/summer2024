@@ -1,6 +1,6 @@
 ---
 - name: Provisioning a node
-  hosts: libnrm
+  hosts: main
   gather_facts: false
   become: true
 

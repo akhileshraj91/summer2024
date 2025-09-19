@@ -10,7 +10,7 @@ HYPERPARAMS = {
         'replay_size':      2000,
         'time_steps':       15000,
         'start_timesteps':  2100,
-        'w_step_size':      0.1,
+        'w_step_size':      0.01,
         'weight_num':       3,
         'expl_noise':       0.1,
         'lr_actor':         3e-4,

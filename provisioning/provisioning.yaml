@@ -2,27 +2,35 @@
 - name: Provisioning a node
   hosts: main_nodes,worker_nodes,libnrm
   gather_facts: false
-  become: false
+  become: True
 
 
-  tasks:   
-  # TODO: we would want to check if the host OS is Debian/Ubuntu
+  tasks:
   - name: Install base packages
+    become: yes
     ansible.builtin.apt:
       update_cache: yes
       pkg:
-      - curl
-      # - python3-pip
-      - apt-transport-https
-      - net-tools
-      # add other packages here
-  
-  - name: Upgrade pip
+        - python3
+        - python3-pip
+        - apt-transport-https
+        - curl
+        - net-tools
+
+  - name: Overlay-upgrade pip from PyPI (bypass PEP 668; skip uninstall)
+    become: yes
     ansible.builtin.pip:
-      name: pip
-      state: latest
+      name: "pip==25.2"                 # or use state: latest if you want the newest available
+      state: present
+      extra_args: "--break-system-packages --ignore-installed"
+      executable: /usr/bin/pip3
+    environment:
+      PIP_ROOT_USER_ACTION: ignore
+
+
 
   - name: Update the pip list
+    become: yes
     ansible.builtin.pip:
       name:
         - numpy
@@ -32,8 +40,10 @@
         - IPython
         - torch
         - gym
+      extra_args: "--break-system-packages --ignore-installed"
+      executable: /usr/bin/pip3
 
-  - name: Add the geopm PPA repository
+  - name: Add the geopm PPA rep ository
     apt_repository:
       repo: 'ppa:geopm/release'
       state: present
@@ -41,6 +51,7 @@
 
   - name: Install apt dependencies
     ansible.builtin.apt:
+      update_cache: yes
       name:
         - libc6
         - libstdc++6
@@ -69,9 +80,9 @@
         - libomp5
         # - geopm-service
         - geopmd
-        # - libgeopmd-dev
         - libgeopmd-dev
-        - libgeopmd2
+        # - libgeopmd-dev
+        # - libgeopmd2
         # - python3-geopmdpy
         - libblas-dev
       state: present
@@ -105,6 +116,7 @@
       ./install.sh /usr
 
   - name: Install libnrm
+    become: yes
     ansible.builtin.shell: |
       cd ~{{ ansible_user }}/dependencies/libnrm
       ./autogen.sh
@@ -191,6 +203,7 @@
       dest: ~{{ ansible_user }}/dependencies/nrm-benchmarks
 
   - name: Install nrm-benchmarks
+    become: yes
     ansible.builtin.shell: |
       cd ~{{ ansible_user }}/dependencies/nrm-benchmarks
       ./autogen.sh

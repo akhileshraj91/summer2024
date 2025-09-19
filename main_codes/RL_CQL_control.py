@@ -13,10 +13,10 @@ import torch
 import argparse
 
 class FCNetwork(torch.nn.Module):
-  def __init__(self, layers=[20,20]):
+  def __init__(self, layers=[10,10]):
     super(FCNetwork, self).__init__()
-    dim_input = 5
-    dim_output = 16
+    dim_input = 7
+    dim_output = 32
     net_layers = []
 
     dim = dim_input
@@ -64,8 +64,8 @@ ACTIONS = actuators[0].list_choices()
 model.load_state_dict(torch.load(policy_file))
 model.eval()
 
-def compress_files(iteration):
-    tar_file = EXP_DIR+f'/compressed_iteration_{iteration}.tar'
+def compress_files(iteration,preference):
+    tar_file = EXP_DIR+f'/compressed_iteration_{iteration}_{preference}.tar'
     with tarfile.open(tar_file, 'w:gz') as tarf:
         for root, dirs, files in os.walk(EXP_DIR):
             print("-"*100,files)
@@ -298,19 +298,39 @@ def experiment_for(APPLICATION, EXP_DIR):
             )
 
         last_pcap_change = 0
+        preference = np.array([0.05,0.95])
         while True:
             current_time = time.time()
             if current_time - last_pcap_change >= 2:
                 # PCAP = random.choice(ACTIONS)
                 # print(state_dict)
-                if 'state_dict' in globals() and state_dict and state_dict != reference_lib:                    
-                    state = process_callback(state_dict)
-                    print(state)
-                    state = np.array(state)
-                    OUT = model(np.array(state))
-                    argmax = np.argmax(OUT.detach().numpy(), axis=-1)
-                    PCAP = ACTIONS[argmax]
-                    # PCAP = min(ACTIONS, key=lambda x: abs(x-PCAP))
+                if 'state_dict' in globals() and state_dict and state_dict != reference_lib:
+                    # 1) Build the (1,7) input = [state(5), preference(2)]
+                    state = process_callback(state_dict)                         # iterable length 5
+                    state_np = np.asarray(state, dtype=np.float32).reshape(-1)   # (5,)
+                    pref_np  = np.asarray(preference, dtype=np.float32).reshape(2,)  # (2,)
+
+                    s_vec = np.concatenate([state_np, pref_np], axis=0)          # (7,)
+                    s_t   = torch.from_numpy(s_vec).unsqueeze(0)                 # (1,7)
+
+                    # 2) Move to model device, run forward
+                    device = next(model.parameters()).device
+                    model.eval()
+                    with torch.no_grad():
+                        out = model(s_t.to(device))                              # (1, 32)
+
+                        # 3) Reshape to (B=1, A=16, L=2)
+                        act_vec = out.view(1, 16, 2)                             # (1,16,2)
+
+                        # 4) Scalarize with preference: (1,1,2) @ (1,2,16) -> (1,1,16)
+                        pref_t    = torch.from_numpy(pref_np).to(device).view(1, 1, 2)  # (1,1,2)
+                        q_for_bmm = act_vec.transpose(1, 2)                              # (1,2,16)
+                        scalarized = torch.bmm(pref_t, q_for_bmm).squeeze(0).squeeze(0)  # (16,)
+
+                        # 5) Pick the best action
+                        argmax = int(torch.argmax(scalarized).item())
+                        PCAP = float(ACTIONS[argmax])
+                        PCAP = 165.0
                 else: 
                     print("."*100, "choosing default")
                     PCAP = 165.0
@@ -320,7 +340,7 @@ def experiment_for(APPLICATION, EXP_DIR):
                 PCAP_writer.writerow([PCAP_time, actuators[0], PCAP])
                 last_pcap_change = current_time
                 state_dict = initialize_state_dict()
-            time.sleep(0.1)  # Short sleep to prevent busy-waiting
+            # time.sleep(0.1)  # Short sleep to prevent busy-waiting
             if process.poll() is not None:  
                 print("Process has completed.")
                 break
@@ -329,7 +349,7 @@ def experiment_for(APPLICATION, EXP_DIR):
                 break
     current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
     time.sleep(1)
-    compress_files(current_time)
+    compress_files(current_time, preference)
     print("----------------------------------")
 
 
@@ -343,7 +363,7 @@ if __name__ == "__main__":
     # Get the directory containing the current file
     current_dir = os.path.dirname(current_file_path)
 
-    for STEP in range(3):  # Execute 10 times
+    for STEP in range(5):  # Execute 10 times
         print(f">>>>>>>>>>>>>>>>>>>>>>>>>>>{STEP}")
         for APPLICATION in APPLICATIONS:
             experiment = 'Control_evaluation'

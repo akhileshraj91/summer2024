@@ -19,7 +19,7 @@ import argparse
 ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136.0, 141.0, 147.0, 153.0, 159.0, 165.0]
 
 
-# APPLICATIONS = ['ones-stream-scale', 'ones-stream-triad', 'ones-npb-ep']
+# APPLICATIONS = ['ones-stream-scale', 'ones-stream-triad', 'ones-npb-ep', 'ones-stream-copy', 'ones-stream-add', 'ones-npb-is', 'ones-npb-cg', 'ones-npb-bt', 'ones-npb-ft']
 
 APPLICATIONS = []
 parser = argparse.ArgumentParser(description="Add new applications to the list")
@@ -73,7 +73,7 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
         ITERATIONS = 10000
     elif "npb" in APPLICATION:
         PROBLEM_SIZE = 26
-        ITERATIONS = 10000
+        ITERATIONS = 1000
     with open(f'{EXP_DIR}/{APPLICATION}_output.log','w') as log_file, open(f'{EXP_DIR}/measured_power.csv', mode='w', newline='') as power_file, open(f'{EXP_DIR}/progress.csv', mode='w', newline='') as progress_file, open(f'{EXP_DIR}/energy.csv', mode='w', newline='') as energy_file, open(f'{EXP_DIR}/PCAP_file.csv', mode='w', newline='') as PCAP_file, open(f'{EXP_DIR}/papi.csv', mode='w', newline='') as papi_file:
         power_writer = csv.writer(power_file)
         progress_writer = csv.writer(progress_file)
@@ -186,7 +186,7 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
 if __name__ == "__main__":
     current_file_path = os.path.abspath(__file__)
     current_dir = os.path.dirname(current_file_path)
-    repeat = 5
+    repeat = 1
     ACTION = None
     if args.experiment == 'random':
         for REPEAT in range(repeat):

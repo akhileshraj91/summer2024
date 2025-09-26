@@ -1,0 +1,31 @@
+/usr/local/lib/python3.10/dist-packages/numpy/_core/fromnumeric.py:3860: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/usr/local/lib/python3.10/dist-packages/numpy/_core/_methods.py:145: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+>>>>>>>>>>>>>>>>>>>>>>>>>>>0
+Directory /home/cc/summer2024/main_codes/experiment_data/Control_evaluation/ones-stream-triad exists
+Traceback (most recent call last):
+  File "/home/cc/summer2024/main_codes/mild_RL_controller.py", line 371, in <module>
+    experiment_for(APPLICATION, EXP_DIR)
+  File "/home/cc/summer2024/main_codes/mild_RL_controller.py", line 344, in experiment_for
+    if process.poll() is not None:
+  File "/usr/lib/python3.10/subprocess.py", line 1181, in poll
+    return self._internal_poll()
+  File "/usr/lib/python3.10/subprocess.py", line 1896, in _internal_poll
+    pid, sts = _waitpid(self.pid, _WNOHANG)
+KeyboardInterrupt
+Exception ignored in atexit callback: <bound method finalize._exitfunc of <class 'weakref.finalize'>>
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/weakref.py", line 667, in _exitfunc
+    f()
+  File "/usr/lib/python3.10/weakref.py", line 591, in __call__
+    return info.func(*info.args, **(info.kwargs or {}))
+  File "/usr/local/lib/python3.10/dist-packages/torch/library.py", line 433, in _del_library
+    handle.destroy()
+  File "/usr/local/lib/python3.10/dist-packages/torch/_library/utils.py", line 41, in destroy
+    self._on_destroy()
+  File "/usr/local/lib/python3.10/dist-packages/torch/_library/fake_impl.py", line 67, in deregister_fake_class
+    self.lib._destroy()
+  File "/usr/local/lib/python3.10/dist-packages/torch/library.py", line 398, in _destroy
+    self.m.reset()
+KeyboardInterrupt: 

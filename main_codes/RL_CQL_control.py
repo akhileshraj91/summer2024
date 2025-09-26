@@ -298,7 +298,7 @@ def experiment_for(APPLICATION, EXP_DIR):
             )
 
         last_pcap_change = 0
-        preference = np.array([0.05,0.95])
+        preference = np.array([0.3,0.7])
         while True:
             current_time = time.time()
             if current_time - last_pcap_change >= 2:

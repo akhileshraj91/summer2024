@@ -1,0 +1,9 @@
+/usr/local/lib/python3.10/dist-packages/numpy/_core/fromnumeric.py:3860: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/usr/local/lib/python3.10/dist-packages/numpy/_core/_methods.py:145: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+>>>>>>>>>>>>>>>>>>>>>>>>>>>0
+Directory /home/cc/summer2024/main_codes/experiment_data/Control_evaluation/ones-stream-copy created
+Process has completed.
+Compressed files into /home/cc/summer2024/main_codes/experiment_data/Control_evaluation/ones-stream-copy/compressed_iteration_20250925_191515_(1.0, 0.0).tar
+----------------------------------

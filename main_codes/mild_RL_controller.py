@@ -47,6 +47,14 @@ parser = argparse.ArgumentParser(description="Evaluate applications with trained
 parser.add_argument('-a', '--application', nargs='+', help='List of applications to evaluate')
 parser.add_argument('-p', '--policy', required=True,
                     help='Relative path of the trained model under the policy folder')
+def parse_array(s):
+    """Parse string like '[0.5,0.5]' into a list of floats"""
+    s = s.strip()
+    if s.startswith('[') and s.endswith(']'):
+        s = s[1:-1]  # Remove brackets
+    return [float(x.strip()) for x in s.split(',')]
+
+parser.add_argument('-r', '--preference', default=[0.5,0.5], type=parse_array, help='Preference needed for the execution (format: [0.5,0.5])')
 args = parser.parse_args()
 
 APPLICATIONS = []
@@ -69,7 +77,7 @@ torch.set_num_interop_threads(1)
 policy_folder = '/home/cc/summer2024/main_codes/'
 policy_file = os.path.join(policy_folder, args.policy)
 
-model = FCNetwork(layers=[10, 10]).to(device)
+model = FCNetwork(layers=[20, 20]).to(device)
 # PyTorch < 2.0 does not support weights_only; try it, then fall back
 try:
     state = torch.load(policy_file, map_location=device, weights_only=True)
@@ -84,7 +92,8 @@ model.eval()
 # model = torch.jit.load(os.path.join(policy_folder, "scripted_model.pt"), map_location=device).eval()
 
 # Global inference preference vector (tweak as needed)
-pref_np = np.array([0.05, 0.95], dtype=np.float32)    # shape (2,)
+# pref_np = np.array([0.17, 0.83], dtype=np.float32)    # shape (2,)
+pref_np = np.array(args.preference, dtype=np.float32)
 pref_t = torch.from_numpy(pref_np).to(device)         # tensor (2,)
 
 # ----------------------------
@@ -102,14 +111,15 @@ def compress_files(iteration, preference):
     tar_file = EXP_DIR + f'/compressed_iteration_{iteration}_{preference}.tar'
     with tarfile.open(tar_file, 'w:gz') as tarf:
         for root, dirs, files in os.walk(EXP_DIR):
-            for file in files:
-                if file.endswith('.csv') or file.endswith('.yaml') or file.endswith('.log'):
-                    file_path = os.path.join(root, file)
-                    if os.path.exists(file_path):
-                        tarf.add(file_path, arcname=os.path.basename(file_path))
-                        os.remove(file_path)
-                    else:
-                        print(f"File {file_path} does not exist, skipping...")
+            if root == EXP_DIR:
+                for file in files:
+                    if file.endswith('.csv') or file.endswith('.yaml') or file.endswith('.log'):
+                        file_path = os.path.join(root, file)
+                        if os.path.exists(file_path):
+                            tarf.add(file_path, arcname=os.path.basename(file_path))
+                            os.remove(file_path)
+                        else:
+                            print(f"File {file_path} does not exist, skipping...")
     print(f'Compressed files into {tar_file}')
 
 

@@ -43,11 +43,11 @@
       extra_args: "--break-system-packages --ignore-installed"
       executable: /usr/bin/pip3
 
-  - name: Add the geopm PPA rep ository
+  - name: Add the geopm PPA repository
     apt_repository:
       repo: 'ppa:geopm/release'
       state: present
-      codename: jammy
+      codename: noble
 
   - name: Install apt dependencies
     ansible.builtin.apt:
@@ -75,15 +75,31 @@
         - check
         - libhwloc-dev
         - libpapi-dev
-        # - mpich
+        - mpich
         - libomp-dev
         - libomp5
+        - libopenblas-dev
         # - geopm-service
-        - geopmd
+        # - geopm-doc
         - libgeopmd-dev
+        - geopmd
+        # - libopenblas
+        # - libgeopm
         # - libgeopmd-dev
         # - libgeopmd2
         # - python3-geopmdpy
+        - geopm-cli
+        - geopmd 
+        - geopmd-cli 
+        - geopmd-doc 
+        - libgeopm-dev 
+        - libgeopm-doc
+        - libgeopm2 
+        - libgeopmd-dev 
+        - libgeopmd-doc 
+        - libgeopmd2
+        - python3-geopmdpy 
+        - python3-geopmpy-doc
         - libblas-dev
       state: present
       update_cache: yes
@@ -135,7 +151,7 @@
         Type=simple
         ExecStart=/usr/bin/nrmd
         Restart=always
-        User=cc
+        User=root
         StandardOutput=journal
         StandardError=journal
 
@@ -154,7 +170,7 @@
         
         ExecStart=/usr/bin/nrm-geopm -e CPU_ENERGY -e CPU_POWER
         Restart=always
-        User=cc
+        User=root
         StandardOutput=journal
         StandardError=journal
 
@@ -175,11 +191,14 @@
       sudo systemctl restart geopm.service 
       echo "CPU_POWER_LIMIT_CONTROL" > /tmp/ouraccess
       sudo geopmaccess -a > /tmp/allaccess
+      sudo geopmaccess -a -c > /tmp/controlaccess
       echo "CPU_POWER_LIMIT_CONTROL" | sudo geopmaccess -w -c
       sudo geopmaccess -w -c < /tmp/ouraccess
       sudo geopmaccess -w < /tmp/ouraccess
-      sudo geopmaccess -w -c < /tmp/allaccess
       sudo geopmaccess -w < /tmp/allaccess
+      sudo geopmaccess -w -c < /tmp/allaccess
+      sudo geopmaccess -w < /tmp/controlaccess
+      sudo geopmaccess -w -c < /tmp/controlaccess
       sudo systemctl restart nrmd.service
       sudo systemctl restart geopm.service
       sudo sysctl kernel.perf_event_paranoid=-1
@@ -194,7 +213,7 @@
     ansible.builtin.lineinfile:
       path: ~{{ ansible_user }}/.bashrc
       regexp: '^export PYTHONPATH='
-      line: 'export PYTHONPATH=/usr/lib/python3.10/site-packages:$PYTHONPATH # Added by ansible'
+      line: 'export PYTHONPATH=/usr/lib/python3.12/site-packages:$PYTHONPATH # Added by ansible'
       state: present
 
   - name: Clone nrm-benchmarks
@@ -205,8 +224,24 @@
   - name: Install nrm-benchmarks
     become: yes
     ansible.builtin.shell: |
+      sudo mkdir -p /usr/local/lib/pkgconfig
+      sudo tee /usr/local/lib/pkgconfig/cblas.pc >/dev/null <<'EOF'
+      prefix=/usr
+      libdir=${prefix}/lib/x86_64-linux-gnu
+      includedir=${prefix}/include
+
+      Name: cblas
+      Description: CBLAS interface provided by OpenBLAS
+      Version: 0
+      Libs: -lopenblas
+      Cflags:
+      EOF
+
+      export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig:${PKG_CONFIG_PATH}
+      pkg-config --exists cblas && echo "cblas.pc available"
+
       cd ~{{ ansible_user }}/dependencies/nrm-benchmarks
       ./autogen.sh
-      ./configure
+      ./configure --disable-post-validation
       make -j
       make install  

@@ -143,7 +143,7 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
             )
         elif "ones-npb-is" in APPLICATION:
             process = subprocess.Popen(
-                ['bash', '-c', f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} 1000'],
+                ['bash', '-c', f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} 26 1000'],
                 stdout=log_file,
                 stderr=log_file
             )

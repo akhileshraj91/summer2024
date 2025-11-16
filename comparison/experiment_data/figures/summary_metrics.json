@@ -1,0 +1,26 @@
+{
+    "npb-cg": {
+        "avg_exec_time": 104.4,
+        "avg_energy": 11247.289
+    },
+    "npb-ep": {
+        "avg_exec_time": 57.0,
+        "avg_energy": 5878.022
+    },
+    "stream-full": {
+        "avg_exec_time": 116.2,
+        "avg_energy": 13077.551
+    },
+    "npb-ft": {
+        "avg_exec_time": 57.0,
+        "avg_energy": 4674.47
+    },
+    "npb-bt": {
+        "avg_exec_time": 294.4,
+        "avg_energy": 22283.955
+    },
+    "npb-is": {
+        "avg_exec_time": 116.2,
+        "avg_energy": 18879.554
+    }
+}

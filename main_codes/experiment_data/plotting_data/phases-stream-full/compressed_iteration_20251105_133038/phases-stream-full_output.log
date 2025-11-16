@@ -1,0 +1,21 @@
+NRM Benchmarks:      phases-stream-full
+Version:             0.1.0
+Description: one progress per iteration, Stream benchmark
+Array size:          33554432 (elements).
+Memory per array:    256.0 MiB.
+Kernel was executed: 1000 times.
+Number of threads:   96
+Progress Time (ns):   18312023200
+Copy Time (s): avg:    0.003743 min:    0.003440 max:    0.012526
+Copy Perf (MiB/s): avg: 143415.934364 best: 156057.508084
+Scale Time (s): avg:    0.003777 min:    0.003636 max:    0.011710
+Scale Perf (MiB/s): avg: 142150.088860 best: 147665.718848
+Add Time (s): avg:    0.005227 min:    0.005024 max:    0.013682
+Add Perf (MiB/s): avg: 154062.139933 best: 160285.013281
+Triad Time (s): avg:    0.005233 min:    0.005029 max:    0.014499
+Triad Perf (MiB/s): avg: 153878.684697 best: 160148.109082
+VALIDATION disabled
+
+real	0m18.680s
+user	0m0.017s
+sys	0m0.080s

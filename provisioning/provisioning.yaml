@@ -124,7 +124,7 @@
     ansible.builtin.git:
       repo: 'https://github.com/anlsys/libnrm.git'
       dest: ~{{ ansible_user }}/dependencies/libnrm
-      version: master
+      version: feature/geopm-freq
   
   - name: Install bats
     ansible.builtin.shell: |

@@ -16,7 +16,7 @@ import argparse
 
 
 
-ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136.0, 141.0, 147.0, 153.0, 159.0, 165.0]
+ACTIONS = [89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136.0, 141.0, 147.0, 153.0, 159.0, 165.0]
 
 
 # APPLICATIONS = ['ones-stream-scale', 'ones-stream-triad', 'ones-npb-ep']
@@ -73,7 +73,7 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
         ITERATIONS = 10000
     elif "npb" in APPLICATION:
         PROBLEM_SIZE = 26
-        ITERATIONS = 10000
+        ITERATIONS = 1000
     with open(f'{EXP_DIR}/{APPLICATION}_output.log','w') as log_file, open(f'{EXP_DIR}/measured_power.csv', mode='w', newline='') as power_file, open(f'{EXP_DIR}/progress.csv', mode='w', newline='') as progress_file, open(f'{EXP_DIR}/energy.csv', mode='w', newline='') as energy_file, open(f'{EXP_DIR}/PCAP_file.csv', mode='w', newline='') as PCAP_file, open(f'{EXP_DIR}/papi.csv', mode='w', newline='') as papi_file:
         power_writer = csv.writer(power_file)
         progress_writer = csv.writer(progress_file)
@@ -86,6 +86,9 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
         PCAP_writer.writerow(['time', 'actuator', 'value'])
         papi_writer.writerow(['time', 'scope', 'value'])
 
+        # Track whether the first progress event has arrived
+        first_progress_arrived = [False]
+
         def cb(*args):
             print(args)
             (sensor, time, scope, value) = args
@@ -93,13 +96,16 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
             sensor = sensor.decode("UTF-8")
             timestamp = time/1e9
             if sensor == "nrm.benchmarks.progress":
+                first_progress_arrived[0] = True
                 progress_writer.writerow([timestamp, value])
-            elif sensor == "nrm.geopm.CPU_POWER":
-                power_writer.writerow([timestamp, scope[-1], value])
-            elif sensor == "nrm.geopm.CPU_ENERGY":
-                energy_writer.writerow([timestamp, scope[-1], value])
-            elif "PAPI" in sensor:
-                papi_writer.writerow([timestamp, sensor, value])
+            # Only collect data after first progress event has arrived
+            elif first_progress_arrived[0]:
+                if sensor == "nrm.geopm.CPU_POWER":
+                    power_writer.writerow([timestamp, scope[-1], value])
+                elif sensor == "nrm.geopm.CPU_ENERGY":
+                    energy_writer.writerow([timestamp, scope[-1], value])
+                elif "PAPI" in sensor:
+                    papi_writer.writerow([timestamp, sensor, value])
 
 
         client.set_event_listener(cb)
@@ -113,7 +119,7 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
         elif "phases" in APPLICATION:    
             print(f"Starting Execution of phases {APPLICATION, PROBLEM_SIZE, ITERATIONS}")
             process = subprocess.Popen(
-                ['bash', '-c', f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} {PROBLEM_SIZE} 5 200'],
+                ['bash', '-c', f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} {PROBLEM_SIZE} 5 1000'],
                 stdout=log_file,
                 stderr=log_file
             )
@@ -137,7 +143,7 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
             )
         elif "ones-npb-cg" in APPLICATION:
             process = subprocess.Popen(
-                ['bash', '-c', f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} 1000'],
+                ['bash', '-c', f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} 10000'],
                 stdout=log_file,
                 stderr=log_file
             )

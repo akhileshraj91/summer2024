@@ -1,10 +1,10 @@
-# python3 data_generation.py -e static -a ones-stream-triad
-# python3 data_generation.py -e static -a ones-stream-scale
-# python3 data_generation.py -e static -a ones-stream-add
-python3 data_generation.py -e static -a ones-npb-ep
-# python3 data_generation.py -e static -a ones-npb-cg
-# python3 data_generation.py -e static -a ones-npb-bt
-# python3 data_generation.py -e static -a ones-npb-ft
-# python3 data_generation.py -e static -a ones-npb-is
-# python3 data_generation.py -e static -a ones-npb-mg
-# python3 data_generation.py -e static -a phases_stream-full
+python3 mild_RL_controller.py -a ones-stream-full ones-stream-add ones-stream-triad ones-stream-copy ones-stream-scale ones-npb-ep ones-npb-mg ones-npb-cg ones-npb-bt ones-npb-ft ones-npb-is phases-stream-full -p trained_models/trained_network_weights_20251124_020441_all_preference_model_based_0.3_0.001.pth -r [0.9,0.1]
+python3 mild_RL_controller.py -a ones-stream-full ones-stream-add ones-stream-triad ones-stream-copy ones-stream-scale ones-npb-ep ones-npb-mg ones-npb-cg ones-npb-bt ones-npb-ft ones-npb-is phases-stream-full -p trained_models/trained_network_weights_20251124_020441_all_preference_model_based_0.3_0.001.pth -r [0.8,0.2]
+python3 mild_RL_controller.py -a ones-stream-full ones-stream-add ones-stream-triad ones-stream-copy ones-stream-scale ones-npb-ep ones-npb-mg ones-npb-cg ones-npb-bt ones-npb-ft ones-npb-is phases-stream-full -p trained_models/trained_network_weights_20251124_020441_all_preference_model_based_0.3_0.001.pth -r [0.7,0.3]
+python3 mild_RL_controller.py -a ones-stream-full ones-stream-add ones-stream-triad ones-stream-copy ones-stream-scale ones-npb-ep ones-npb-mg ones-npb-cg ones-npb-bt ones-npb-ft ones-npb-is phases-stream-full -p trained_models/trained_network_weights_20251124_020441_all_preference_model_based_0.3_0.001.pth -r [0.6,0.4]
+python3 mild_RL_controller.py -a ones-stream-full ones-stream-add ones-stream-triad ones-stream-copy ones-stream-scale ones-npb-ep ones-npb-mg ones-npb-cg ones-npb-bt ones-npb-ft ones-npb-is phases-stream-full -p trained_models/trained_network_weights_20251124_020441_all_preference_model_based_0.3_0.001.pth -r [0.5,0.5]
+python3 mild_RL_controller.py -a ones-stream-full ones-stream-add ones-stream-triad ones-stream-copy ones-stream-scale ones-npb-ep ones-npb-mg ones-npb-cg ones-npb-bt ones-npb-ft ones-npb-is phases-stream-full -p trained_models/trained_network_weights_20251124_020441_all_preference_model_based_0.3_0.001.pth -r [0.4,0.6]
+python3 mild_RL_controller.py -a ones-stream-full ones-stream-add ones-stream-triad ones-stream-copy ones-stream-scale ones-npb-ep ones-npb-mg ones-npb-cg ones-npb-bt ones-npb-ft ones-npb-is phases-stream-full -p trained_models/trained_network_weights_20251124_020441_all_preference_model_based_0.3_0.001.pth -r [0.3,0.7]
+python3 mild_RL_controller.py -a ones-stream-full ones-stream-add ones-stream-triad ones-stream-copy ones-stream-scale ones-npb-ep ones-npb-mg ones-npb-cg ones-npb-bt ones-npb-ft ones-npb-is phases-stream-full -p trained_models/trained_network_weights_20251124_020441_all_preference_model_based_0.3_0.001.pth -r [0.2,0.8]
+python3 mild_RL_controller.py -a ones-stream-full ones-stream-add ones-stream-triad ones-stream-copy ones-stream-scale ones-npb-ep ones-npb-mg ones-npb-cg ones-npb-bt ones-npb-ft ones-npb-is phases-stream-full -p trained_models/trained_network_weights_20251124_020441_all_preference_model_based_0.3_0.001.pth -r [0.1,0.9]
+python3 mild_RL_controller.py -a ones-stream-full ones-stream-add ones-stream-triad ones-stream-copy ones-stream-scale ones-npb-ep ones-npb-mg ones-npb-cg ones-npb-bt ones-npb-ft ones-npb-is phases-stream-full -p trained_models/trained_network_weights_20251124_020441_all_preference_model_based_0.3_0.001.pth -r [0,1]

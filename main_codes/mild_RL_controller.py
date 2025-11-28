@@ -101,8 +101,8 @@ pref_t = torch.from_numpy(pref_np).to(device)         # tensor (2,)
 # ----------------------------
 client = nrm.Client()
 actuators = client.list_actuators()
-ACTIONS = actuators[0].list_choices()   # expected 16 values
-
+# ACTIONS = actuators[0].list_choices()   # expected 16 values
+ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136.0, 141.0, 147.0, 153.0, 159.0, 165.0]
 
 # ----------------------------
 # Utilities
@@ -275,6 +275,9 @@ def experiment_for(APPLICATION, EXP_DIR):
         PCAP_writer.writerow(['time', 'actuator', 'value'])
         papi_writer.writerow(['time', 'scope', 'value'])
 
+        # Track whether the first progress event has arrived
+        first_progress_arrived = [False]
+
         def cb(*args):
             (sensor, time_ns, scope, value) = args
             scope_uuid = scope.get_uuid()
@@ -282,21 +285,24 @@ def experiment_for(APPLICATION, EXP_DIR):
             timestamp = time_ns / 1e9
 
             if sensor == "nrm.benchmarks.progress":
+                first_progress_arrived[0] = True
                 progress_writer.writerow([timestamp, value])
                 state_dict["progress"].append([timestamp, value])
 
-            elif sensor == "nrm.geopm.CPU_POWER":
-                power_writer.writerow([timestamp, scope_uuid[-1], value])
-                state_dict[f'measured_power_{scope_uuid[-1]}'].append([timestamp, value])
+            # Only collect data after first progress event has arrived
+            elif first_progress_arrived[0]:
+                if sensor == "nrm.geopm.CPU_POWER":
+                    power_writer.writerow([timestamp, scope_uuid[-1], value])
+                    state_dict[f'measured_power_{scope_uuid[-1]}'].append([timestamp, value])
 
-            elif sensor == "nrm.geopm.CPU_ENERGY":
-                energy_writer.writerow([timestamp, scope_uuid[-1], value])
-                state_dict[f"energy_{scope_uuid[-1]}"].append((timestamp, value))
+                elif sensor == "nrm.geopm.CPU_ENERGY":
+                    energy_writer.writerow([timestamp, scope_uuid[-1], value])
+                    state_dict[f"energy_{scope_uuid[-1]}"].append((timestamp, value))
 
-            elif "PAPI" in sensor:
-                papi_writer.writerow([timestamp, sensor, value])
-                parts = sensor.split('.')
-                state_dict[parts[3]].append((timestamp, value))
+                elif "PAPI" in sensor:
+                    papi_writer.writerow([timestamp, sensor, value])
+                    parts = sensor.split('.')
+                    state_dict[parts[3]].append((timestamp, value))
 
         client.set_event_listener(cb)
         client.start_event_listener("")
@@ -313,7 +319,7 @@ def experiment_for(APPLICATION, EXP_DIR):
         elif "ones-npb-bt" in APPLICATION:
             cmd = f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} 1000'
         elif "ones-npb-cg" in APPLICATION:
-            cmd = f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} 1000'
+            cmd = f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} 10000'
         else:
             cmd = f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} {PROBLEM_SIZE} {ITERATIONS}'
 
@@ -358,7 +364,7 @@ if __name__ == "__main__":
     current_file_path = os.path.abspath(__file__)
     current_dir = os.path.dirname(current_file_path)
 
-    for STEP in range(1):
+    for STEP in range(5):
         print(f">>>>>>>>>>>>>>>>>>>>>>>>>>>{STEP}")
         for APPLICATION in APPLICATIONS:
             experiment = 'Control_evaluation'

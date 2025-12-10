@@ -1,0 +1,5 @@
+time,actuator,value
+1765022054.993511,Actuator(ptr=c_void_p(234370272)),95.0
+1765022065.049584,Actuator(ptr=c_void_p(234370272)),95.0
+1765022075.100786,Actuator(ptr=c_void_p(234370272)),95.0
+1765022085.1499567,Actuator(ptr=c_void_p(234370272)),95.0

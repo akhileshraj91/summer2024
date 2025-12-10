@@ -1,0 +1,12 @@
+NRM Benchmarks:      ones-npb-is
+Version:             0.1.0
+Description: one progress per iteration, NPB IS benchmark
+Problem size:        26.
+Kernel was executed: 1000 times.
+Number of threads:   96
+Time (s): avg:          0.147482 min:     0.121988 max:    0.182035
+VALIDATION disabled
+
+real	2m27.876s
+user	0m0.094s
+sys	0m0.297s

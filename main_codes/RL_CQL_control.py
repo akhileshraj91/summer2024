@@ -11,6 +11,13 @@ import random
 from datetime import datetime
 import torch
 import argparse
+import psutil
+
+# Set environment variables for OpenMP
+# os.environ['OMP_PLACES'] = 'true'
+# os.environ['OMP_PROC_BIND'] = 'true'
+# os.environ['OMP_NUM_THREADS'] = str(psutil.cpu_count() - 1)
+        
 
 class FCNetwork(torch.nn.Module):
   def __init__(self, layers=[20,20]):
@@ -37,10 +44,11 @@ class FCNetwork(torch.nn.Module):
         if param.requires_grad:
             print(f"{name}: {param.data.numpy()}")
             
-model = FCNetwork(layers=[10,10])
+model = FCNetwork(layers=[20,20])
 
 i = 0
 APPLICATIONS = []
+
 
 parser = argparse.ArgumentParser(description="Add new applications to the list")
 parser.add_argument('-a', '--application', nargs='+', help='List of applications to evaluate')
@@ -210,7 +218,7 @@ def experiment_for(APPLICATION, EXP_DIR):
         ITERATIONS = 10000
     elif "npb" in APPLICATION:
         PROBLEM_SIZE = 26
-        ITERATIONS = 1000
+        ITERATIONS = 10000
     with open(f'{EXP_DIR}/{APPLICATION}_output.log','w') as log_file, open(f'{EXP_DIR}/measured_power.csv', mode='w', newline='') as power_file, open(f'{EXP_DIR}/progress.csv', mode='w', newline='') as progress_file, open(f'{EXP_DIR}/energy.csv', mode='w', newline='') as energy_file, open(f'{EXP_DIR}/PCAP_file.csv', mode='w', newline='') as PCAP_file, open(f'{EXP_DIR}/papi.csv', mode='w', newline='') as papi_file:
         power_writer = csv.writer(power_file)
         progress_writer = csv.writer(progress_file)
@@ -262,7 +270,7 @@ def experiment_for(APPLICATION, EXP_DIR):
         elif "phases" in APPLICATION:    
             print(f"Starting Execution of phases {APPLICATION, PROBLEM_SIZE, ITERATIONS}")
             process = subprocess.Popen(
-                ['bash', '-c', f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} {PROBLEM_SIZE} 5 1000'],
+                ['bash', '-c', f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} {PROBLEM_SIZE} 5 500'],
                 stdout=log_file,
                 stderr=log_file
             )
@@ -287,6 +295,12 @@ def experiment_for(APPLICATION, EXP_DIR):
         elif "ones-npb-cg" in APPLICATION:
             process = subprocess.Popen(
                 ['bash', '-c', f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} 1000'],
+                stdout=log_file,
+                stderr=log_file
+            )
+        elif "ones-npb-is" in APPLICATION:
+            process = subprocess.Popen(
+                ['bash', '-c', f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} 26 1000'],
                 stdout=log_file,
                 stderr=log_file
             )
@@ -343,7 +357,7 @@ if __name__ == "__main__":
     # Get the directory containing the current file
     current_dir = os.path.dirname(current_file_path)
 
-    for STEP in range(3):  # Execute 10 times
+    for STEP in range(4):  # Execute 10 times
         print(f">>>>>>>>>>>>>>>>>>>>>>>>>>>{STEP}")
         for APPLICATION in APPLICATIONS:
             experiment = 'Control_evaluation'

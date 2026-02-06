@@ -1,0 +1,14 @@
+
+libgomp: Invalid value for environment variable OMP_PLACES
+NRM Benchmarks:      ones-npb-cg
+Version:             0.1.0
+Description: one progress per iteration, NPB CG benchmark
+Problem size:        150000.
+Kernel was executed: 1000 times.
+Number of threads:   95
+Time (s): avg:          0.082756 min:     0.077218 max:    0.150229
+VALIDATION disabled
+
+real	1m34.250s
+user	0m0.024s
+sys	0m0.191s

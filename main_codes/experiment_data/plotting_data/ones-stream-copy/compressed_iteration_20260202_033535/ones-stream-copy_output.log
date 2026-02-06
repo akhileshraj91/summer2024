@@ -1,0 +1,14 @@
+NRM Benchmarks:      ones-stream-copy
+Version:             0.1.0
+Description: one progress per iteration, Copy benchmark
+Array size:          33554432 (elements).
+Memory per array:    256.0 MiB.
+Kernel was executed: 10000 times.
+Number of threads:   96
+Time (s): avg:          0.003685 min:     0.003387 max:    0.013444
+Perf (MiB/s): avg:   145684.160924 best: 158503.143811
+VALIDATION disabled
+
+real	0m36.998s
+user	0m0.021s
+sys	0m0.132s

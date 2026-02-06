@@ -1,0 +1,14 @@
+NRM Benchmarks:      ones-npb-ep
+Version:             0.1.0
+Description: one progress per iteration, NPB EP benchmark
+Problem size:        26.
+Gaussian Pairs:      2635814055050000.
+Validation values:       4.205491697898991e+07     4.207021489678347e+07
+Kernel was executed: 10000 times.
+Number of threads:   96
+Time (s): avg:          0.077579 min:     0.065033 max:    0.135974
+VALIDATION disabled
+
+real	12m57.559s
+user	0m0.061s
+sys	0m1.175s

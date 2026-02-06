@@ -12,16 +12,21 @@ from datetime import datetime
 import psutil
 import argparse
 
-
-
+# Set environment variables for OpenMP
+os.environ['OMP_PLACES'] = 'threads'
+os.environ['OMP_PROC_BIND'] = 'true'
+os.environ['OMP_NUM_THREADS'] = str(psutil.cpu_count() - 1)
 
 
 ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136.0, 141.0, 147.0, 153.0, 159.0, 165.0]
+# ACTIONS = [95.0]
 
 
-# APPLICATIONS = ['ones-stream-scale', 'ones-stream-triad', 'ones-npb-ep']
 
+# APPLICATIONS = ['ones-npb-ep', 'ones-npb-cg', 'ones-npb-is', 'ones-npb-bt', 'ones-npb-mg', 'ones-npb-ft']
 APPLICATIONS = []
+# APPLICATIONS = ['ones-stream-full', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-triad', 'ones-stream-scale', 'ones-npb-ep', 'ones-npb-cg', 'ones-npb-is', 'ones-npb-bt', 'ones-npb-mg', 'ones-npb-ft']
+
 parser = argparse.ArgumentParser(description="Add new applications to the list")
 parser.add_argument('-a', '--application', nargs='+', help='List of applications to append')
 parser.add_argument('-e', '--experiment', default='random', help='Choice of experiment - values random and static')
@@ -66,6 +71,38 @@ def get_pid(application):
     
     return pids
 
+
+def get_random_walk_weights(current_action, actions, sigma=2.0, center_bias=0.0):
+    """Generate weights for random walk - higher probability for nearby actions
+    
+    Args:
+        current_action: Current PCAP value
+        actions: List of possible actions
+        sigma: Controls random walk tightness (lower = tighter)
+        center_bias: Controls preference for middle actions (0 = no bias, higher = stronger bias toward center)
+    """
+    current_idx = actions.index(current_action)
+    middle_idx = len(actions) // 2
+    weights = []
+    
+    for i, action in enumerate(actions):
+        # Random walk component: favor nearby actions
+        distance = abs(i - current_idx)
+        walk_weight = np.exp(-(distance ** 2) / (2 * sigma ** 2))
+        
+        # Center bias component: favor middle actions
+        if center_bias > 0:
+            distance_from_center = abs(i - middle_idx)
+            center_weight = np.exp(-(distance_from_center ** 2) / (2 * center_bias ** 2))
+            weight = walk_weight * center_weight
+        else:
+            weight = walk_weight
+            
+        weights.append(weight)
+    
+    # Normalize weights
+    total = sum(weights)
+    return [w / total for w in weights]
 
 def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
     if "stream" in APPLICATION:
@@ -113,7 +150,7 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
         elif "phases" in APPLICATION:    
             print(f"Starting Execution of phases {APPLICATION, PROBLEM_SIZE, ITERATIONS}")
             process = subprocess.Popen(
-                ['bash', '-c', f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} {PROBLEM_SIZE} 5 200'],
+                ['bash', '-c', f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} {PROBLEM_SIZE} 5 500'],
                 stdout=log_file,
                 stderr=log_file
             )
@@ -143,7 +180,7 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
             )
         elif "ones-npb-is" in APPLICATION:
             process = subprocess.Popen(
-                ['bash', '-c', f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} 1000'],
+                ['bash', '-c', f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} 26 1000'],
                 stdout=log_file,
                 stderr=log_file
             )
@@ -157,11 +194,17 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
    
         
         last_pcap_change = 0
+        # current_pcap = random.choice(ACTIONS)  # Initialize with random action
+        const_PCAP = 89.0  # Start from edge for testing
         while True:
             current_time = time.time()
-            if current_time - last_pcap_change >= 2:
+            if current_time - last_pcap_change >= 8:
                 if not ACTION: 
-                    PCAP = random.choice(ACTIONS)
+                    # Random walk: choose next action with weights favoring nearby values
+                    # Increase center_bias (e.g., 3.0) to prefer middle actions more
+                    weights = get_random_walk_weights(const_PCAP, ACTIONS, sigma=2, center_bias=0)
+                    PCAP = random.choices(ACTIONS, weights=weights)[0]
+                    # current_pcap = PCAP  # Update current action
                 else:
                     PCAP = ACTION
                 print(PCAP)
@@ -186,7 +229,7 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
 if __name__ == "__main__":
     current_file_path = os.path.abspath(__file__)
     current_dir = os.path.dirname(current_file_path)
-    repeat = 2
+    repeat = 3
     ACTION = None
     if args.experiment == 'random':
         for REPEAT in range(repeat):
@@ -215,6 +258,5 @@ if __name__ == "__main__":
                         print(f"Directory {EXP_DIR} created") 
                     experiment_for(APPLICATION, EXP_DIR, ACTION=ACTION)
                     time.sleep(1)
-
 
 

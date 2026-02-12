@@ -2,21 +2,22 @@ import time
 import numpy as np
 import sys
 import pandas as pd
-import nrm
 import csv
 import subprocess
 import os
 import tarfile
 import random
 from datetime import datetime
-import torch
 import argparse
 import psutil
+import nrm
+import torch
 
-# Set environment variables for OpenMP
-# os.environ['OMP_PLACES'] = 'true'
-# os.environ['OMP_PROC_BIND'] = 'true'
-# os.environ['OMP_NUM_THREADS'] = str(psutil.cpu_count() - 1)
+# Environment for the application subprocess
+env_for_app = os.environ.copy()
+# env_for_app['OMP_PLACES'] = 'cores'
+env_for_app['OMP_PROC_BIND'] = 'true'
+env_for_app['OMP_NUM_THREADS'] = str(psutil.cpu_count() - 1)
         
 
 class FCNetwork(torch.nn.Module):
@@ -296,7 +297,8 @@ def experiment_for(APPLICATION, EXP_DIR):
             process = subprocess.Popen(
                 ['bash', '-c', f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} 1000'],
                 stdout=log_file,
-                stderr=log_file
+                stderr=log_file,
+                env=env_for_app
             )
         elif "ones-npb-is" in APPLICATION:
             process = subprocess.Popen(

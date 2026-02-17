@@ -1,0 +1,14 @@
+NRM Benchmarks:      ones-stream-triad
+Version:             0.1.0
+Description: one progress per iteration, Triad benchmark
+Array size:          33554432 (elements).
+Memory per array:    256.0 MiB.
+Kernel was executed: 10000 times.
+Number of threads:   94
+Time (s): avg:          0.005919 min:     0.004751 max:    0.027160
+Perf (MiB/s): avg:   136061.111167 best: 169489.690844
+VALIDATION disabled
+
+real	1m0.010s
+user	0m0.036s
+sys	0m0.324s

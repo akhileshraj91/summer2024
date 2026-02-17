@@ -8,7 +8,7 @@ set -e
 
 # Configuration
 SCRIPT_NAME="mild_RL_controller.py"
-MODEL_PATH="trained_models/trained_network_weights_20250924_171320_all_preference_ones-stream-full_0.3_0.001.pth"
+MODEL_PATH="trained_models/trained_network_weights_20260213_142025_all_preference_model_based_0.01_0.001.pth"
 LOG_DIR="experiment_logs"
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 
@@ -18,14 +18,16 @@ mkdir -p "$LOG_DIR"
 # Define applications to test
 declare -a APPLICATIONS=(
     # "ones-stream-full"
-    # "ones-stream-scale"
-    # "ones-stream-triad"
-    # "ones-stream-add"
-    # "ones-stream-copy"
-    # "ones-npb-ep"
-    # "ones-npb-is"
+    "ones-stream-scale"
+    "ones-stream-triad"
+    "ones-stream-add"
+    "ones-stream-copy"
+    "ones-npb-ep"
+    "ones-npb-is"
     "ones-npb-ft"
-    # "ones-npb-bt"
+    "ones-npb-bt"
+    "ones-npb-cg"
+    "ones-npb-mg"
 )
 
 # Define preference ratios to test
@@ -67,7 +69,7 @@ run_experiment() {
     echo "========================================="
     
     # Run the experiment and capture output with timeout
-    if python3 "$SCRIPT_NAME" -a "$app" -p "$MODEL_PATH" -r "$preference" > "$log_file" 2>&1; then
+    if timeout 1800 python3 "$SCRIPT_NAME" -a "$app" -p "$MODEL_PATH" -r "$preference" > "$log_file" 2>&1; then
         echo "✅ Experiment completed successfully"
         echo "Results saved to: $log_file"
     else
@@ -75,11 +77,11 @@ run_experiment() {
         echo "❌ Experiment failed or timed out (exit code: $exit_code)"
         echo "Check log file for details: $log_file"
         
-        # Clean up any stuck Python processes
-        pkill -f "mild_RL_controller.py" 2>/dev/null || true
-        
         return 1
     fi
+    
+    # Clean up any stuck Python processes
+    pkill -f "mild_RL_controller.py" 2>/dev/null || true
     
     echo ""
 }

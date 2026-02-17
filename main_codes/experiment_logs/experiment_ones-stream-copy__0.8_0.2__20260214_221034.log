@@ -1,0 +1,45 @@
+/usr/local/lib/python3.12/dist-packages/numpy/_core/fromnumeric.py:3860: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/usr/local/lib/python3.12/dist-packages/numpy/_core/_methods.py:144: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+/usr/local/lib/python3.12/dist-packages/numpy/_core/fromnumeric.py:3860: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/usr/local/lib/python3.12/dist-packages/numpy/_core/_methods.py:144: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+/usr/local/lib/python3.12/dist-packages/numpy/_core/fromnumeric.py:3860: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/usr/local/lib/python3.12/dist-packages/numpy/_core/_methods.py:144: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+/usr/local/lib/python3.12/dist-packages/numpy/_core/fromnumeric.py:3860: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/usr/local/lib/python3.12/dist-packages/numpy/_core/_methods.py:144: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+/usr/local/lib/python3.12/dist-packages/numpy/_core/fromnumeric.py:3860: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/usr/local/lib/python3.12/dist-packages/numpy/_core/_methods.py:144: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+>>>>>>>>>>>>>>>>>>>>>>>>>>>0
+Directory /home/cc/summer2024/main_codes/experiment_data/Control_evaluation/ones-stream-copy exists
+Process has completed.
+Compressed files into /home/cc/summer2024/main_codes/experiment_data/Control_evaluation/ones-stream-copy/compressed_iteration_20260215_105917_(0.800000011920929, 0.20000000298023224).tar
+----------------------------------
+>>>>>>>>>>>>>>>>>>>>>>>>>>>1
+Directory /home/cc/summer2024/main_codes/experiment_data/Control_evaluation/ones-stream-copy exists
+Process has completed.
+Compressed files into /home/cc/summer2024/main_codes/experiment_data/Control_evaluation/ones-stream-copy/compressed_iteration_20260215_105959_(0.800000011920929, 0.20000000298023224).tar
+----------------------------------
+>>>>>>>>>>>>>>>>>>>>>>>>>>>2
+Directory /home/cc/summer2024/main_codes/experiment_data/Control_evaluation/ones-stream-copy exists
+Process has completed.
+Compressed files into /home/cc/summer2024/main_codes/experiment_data/Control_evaluation/ones-stream-copy/compressed_iteration_20260215_110041_(0.800000011920929, 0.20000000298023224).tar
+----------------------------------
+>>>>>>>>>>>>>>>>>>>>>>>>>>>3
+Directory /home/cc/summer2024/main_codes/experiment_data/Control_evaluation/ones-stream-copy exists
+Process has completed.
+Compressed files into /home/cc/summer2024/main_codes/experiment_data/Control_evaluation/ones-stream-copy/compressed_iteration_20260215_110122_(0.800000011920929, 0.20000000298023224).tar
+----------------------------------
+>>>>>>>>>>>>>>>>>>>>>>>>>>>4
+Directory /home/cc/summer2024/main_codes/experiment_data/Control_evaluation/ones-stream-copy exists
+Process has completed.
+Compressed files into /home/cc/summer2024/main_codes/experiment_data/Control_evaluation/ones-stream-copy/compressed_iteration_20260215_110204_(0.800000011920929, 0.20000000298023224).tar
+----------------------------------

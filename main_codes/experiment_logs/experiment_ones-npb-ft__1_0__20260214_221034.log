@@ -1,0 +1,45 @@
+/usr/local/lib/python3.12/dist-packages/numpy/_core/fromnumeric.py:3860: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/usr/local/lib/python3.12/dist-packages/numpy/_core/_methods.py:144: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+/usr/local/lib/python3.12/dist-packages/numpy/_core/fromnumeric.py:3860: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/usr/local/lib/python3.12/dist-packages/numpy/_core/_methods.py:144: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+/usr/local/lib/python3.12/dist-packages/numpy/_core/fromnumeric.py:3860: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/usr/local/lib/python3.12/dist-packages/numpy/_core/_methods.py:144: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+/usr/local/lib/python3.12/dist-packages/numpy/_core/fromnumeric.py:3860: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/usr/local/lib/python3.12/dist-packages/numpy/_core/_methods.py:144: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+/usr/local/lib/python3.12/dist-packages/numpy/_core/fromnumeric.py:3860: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/usr/local/lib/python3.12/dist-packages/numpy/_core/_methods.py:144: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+>>>>>>>>>>>>>>>>>>>>>>>>>>>0
+Directory /home/cc/summer2024/main_codes/experiment_data/Control_evaluation/ones-npb-ft created
+Process has completed.
+Compressed files into /home/cc/summer2024/main_codes/experiment_data/Control_evaluation/ones-npb-ft/compressed_iteration_20260216_012124_(1.0, 0.0).tar
+----------------------------------
+>>>>>>>>>>>>>>>>>>>>>>>>>>>1
+Directory /home/cc/summer2024/main_codes/experiment_data/Control_evaluation/ones-npb-ft exists
+Process has completed.
+Compressed files into /home/cc/summer2024/main_codes/experiment_data/Control_evaluation/ones-npb-ft/compressed_iteration_20260216_012209_(1.0, 0.0).tar
+----------------------------------
+>>>>>>>>>>>>>>>>>>>>>>>>>>>2
+Directory /home/cc/summer2024/main_codes/experiment_data/Control_evaluation/ones-npb-ft exists
+Process has completed.
+Compressed files into /home/cc/summer2024/main_codes/experiment_data/Control_evaluation/ones-npb-ft/compressed_iteration_20260216_012253_(1.0, 0.0).tar
+----------------------------------
+>>>>>>>>>>>>>>>>>>>>>>>>>>>3
+Directory /home/cc/summer2024/main_codes/experiment_data/Control_evaluation/ones-npb-ft exists
+Process has completed.
+Compressed files into /home/cc/summer2024/main_codes/experiment_data/Control_evaluation/ones-npb-ft/compressed_iteration_20260216_012338_(1.0, 0.0).tar
+----------------------------------
+>>>>>>>>>>>>>>>>>>>>>>>>>>>4
+Directory /home/cc/summer2024/main_codes/experiment_data/Control_evaluation/ones-npb-ft exists
+Process has completed.
+Compressed files into /home/cc/summer2024/main_codes/experiment_data/Control_evaluation/ones-npb-ft/compressed_iteration_20260216_012424_(1.0, 0.0).tar
+----------------------------------

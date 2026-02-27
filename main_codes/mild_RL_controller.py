@@ -319,7 +319,7 @@ def experiment_for(APPLICATION, EXP_DIR):
         elif "ones-npb-bt" in APPLICATION:
             cmd = f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} 1000'
         elif "ones-npb-cg" in APPLICATION:
-            cmd = f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} 10000'
+            cmd = f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} 1000'
         else:
             cmd = f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} {PROBLEM_SIZE} {ITERATIONS}'
 
@@ -364,7 +364,7 @@ if __name__ == "__main__":
     current_file_path = os.path.abspath(__file__)
     current_dir = os.path.dirname(current_file_path)
 
-    for STEP in range(5):
+    for STEP in range(1):
         print(f">>>>>>>>>>>>>>>>>>>>>>>>>>>{STEP}")
         for APPLICATION in APPLICATIONS:
             experiment = 'Control_evaluation'

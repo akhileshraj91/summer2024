@@ -34,56 +34,58 @@ declare -a APPLICATIONS=(
 declare -a PREFERENCES=(
     # "[1,0]"
     # "[0.95,0.05]"
-    "[0.9,0.1]"
-    "[0.85,0.15]"
-    # "[0.8,0.2]"
-    # "[0.75,0.25]"
-    # "[0.7,0.3]"
-    # "[0.65,0.35]"
-    # "[0.6,0.4]"
-    # "[0.55,0.45]"
-    # "[0.5,0.5]"
-    # "[0.45,0.55]"
-    # "[0.4,0.6]"
-    # "[0.35,0.65]"
-    # "[0.3,0.7]"
-    # "[0.25,0.75]"
-    # "[0.2,0.8]"
-    # "[0.15,0.85]"
-    # "[0.1,0.9]"
-    # "[0.05,0.95]"
-    # "[0,1]"
+    # "[0.9,0.1]"
+    # "[0.85,0.15]"
+    "[0.8,0.2]"
+    "[0.75,0.25]"
+    "[0.7,0.3]"
+    "[0.65,0.35]"
+    "[0.6,0.4]"
+    "[0.55,0.45]"
+    "[0.5,0.5]"
+    "[0.45,0.55]"
+    "[0.4,0.6]"
+    "[0.35,0.65]"
+    "[0.3,0.7]"
+    "[0.25,0.75]"
+    "[0.2,0.8]"
+    "[0.15,0.85]"
+    "[0.1,0.9]"
+    "[0.05,0.95]"
+    "[0,1]"
 )
 
 # Function to run a single experiment
 run_experiment() {
     local app="$1"
     local preference="$2"
-    local log_file="$LOG_DIR/experiment_${app}_${preference//[\[\],]/_}_${TIMESTAMP}.log"
     
     echo "========================================="
     echo "Running experiment:"
     echo "  Application: $app"
     echo "  Preference: $preference"
-    echo "  Log file: $log_file"
     echo "========================================="
     
-    # Run the experiment and capture output with timeout
-    if timeout 300 python3 "$SCRIPT_NAME" -a "$app" -p "$MODEL_PATH" -r "$preference" > "$log_file" 2>&1; then
-        echo "✅ Experiment completed successfully"
-        echo "Results saved to: $log_file"
-    else
-        local exit_code=$?
-        echo "❌ Experiment failed or timed out (exit code: $exit_code)"
-        echo "Check log file for details: $log_file"
+    for run in {1..5}; do
+        local log_file="$LOG_DIR/experiment_${app}_${preference//[\[\],]/_}_${TIMESTAMP}_run${run}.log"
         
-        return 1
-    fi
-    
-    # Clean up any stuck Python processes
-    pkill -f "mild_RL_controller.py" 2>/dev/null || true
-    
-    echo ""
+        echo "Run $run/5 - Log file: $log_file"
+        
+        # Run the experiment and capture output with timeout
+        if timeout 300 python3 "$SCRIPT_NAME" -a "$app" -p "$MODEL_PATH" -r "$preference" > "$log_file" 2>&1; then
+            echo "✅ Run $run completed successfully"
+            echo "Results saved to: $log_file"
+        else
+            local exit_code=$?
+            echo "❌ Run $run failed or timed out (exit code: $exit_code)"
+            echo "Check log file for details: $log_file"
+        fi
+        
+        # Clean up any stuck Python processes
+        pkill -f "mild_RL_controller.py" 2>/dev/null || true
+        
+        echo ""
+    done
 }
 
 # Function to run all combinations

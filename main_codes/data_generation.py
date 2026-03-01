@@ -229,7 +229,7 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
 if __name__ == "__main__":
     current_file_path = os.path.abspath(__file__)
     current_dir = os.path.dirname(current_file_path)
-    repeat = 3
+    repeat = 5
     ACTION = None
     if args.experiment == 'random':
         for REPEAT in range(repeat):

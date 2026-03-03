@@ -23,7 +23,7 @@ ACTIONS = [78.0, 83.0, 89.0, 95.0, 101.0, 107.0, 112.0, 118.0, 124.0, 130.0, 136
 
 
 
-# APPLICATIONS = ['ones-npb-ep', 'ones-npb-cg', 'ones-npb-is', 'ones-npb-bt', 'ones-npb-mg', 'ones-npb-ft']
+# APPLICATIONS = ['ones-npb-ep', 'ones-npb-cg', 'ones-npb-is', 'ones-npb-bt', 'ones-npb-mg', 'ones-npb-ft', 'hpccg']
 APPLICATIONS = []
 # APPLICATIONS = ['ones-stream-full', 'ones-stream-add', 'ones-stream-copy', 'ones-stream-triad', 'ones-stream-scale', 'ones-npb-ep', 'ones-npb-cg', 'ones-npb-is', 'ones-npb-bt', 'ones-npb-mg', 'ones-npb-ft']
 
@@ -181,6 +181,12 @@ def experiment_for(APPLICATION, EXP_DIR, ACTION=None):
         elif "ones-npb-is" in APPLICATION:
             process = subprocess.Popen(
                 ['bash', '-c', f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} 26 1000'],
+                stdout=log_file,
+                stderr=log_file
+            )
+        elif "hpccg" in APPLICATION:
+            process = subprocess.Popen(
+                ['bash', '-c', f'time OMP_NUM_THREADS=96 OMP_PLACES=threads nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- /home/cc/dependencies/HPCCG-tasking/hpccg-omp-task-clang++ 432 432 432 100 4 100'],
                 stdout=log_file,
                 stderr=log_file
             )

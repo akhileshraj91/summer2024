@@ -1,0 +1,51 @@
+T1=4
+T2=100
+BS=20155392
+SBS=201554
+Initial Residual = 13848.1
+Iteration=10 Residual=995.831 Tolerance=0
+Iteration=20 Residual=33.3055 Tolerance=0
+Iteration=30 Residual=1.204 Tolerance=0
+Iteration=40 Residual=0.0435419 Tolerance=0
+Iteration=50 Residual=0.00157448 Tolerance=0
+Iteration=60 Residual=5.69265e-05 Tolerance=0
+Iteration=70 Residual=2.05791e-06 Tolerance=0
+Iteration=80 Residual=7.43803e-08 Tolerance=0
+Iteration=90 Residual=2.6878e-09 Tolerance=0
+Iteration=99 Residual=1.35346e-10 Tolerance=0
+Mini-Application Name: hpccg
+Mini-Application Version: 1.0
+Parallelism: 
+  MPI not enabled: 
+  Number of OpenMP threads: 96
+  Number of tasks per loop (T1): 4
+  Number of subtasks per SPMV (T2): 100
+Dimensions: 
+  nx: 432
+  ny: 432
+  nz: 432
+Number of iterations: 99
+Final residual: 1.35346e-10
+#********** Performance Summary (times in sec) ***********: 
+Time Summary: 
+  COMPUTATION               : 60.5938
+  DDOT                      : -1
+  WAXPBY                    : -1
+  SPARSEMV                  : -1
+  GRAPH GENERATION          : 0.369579
+  DEPENDENCY PRE-COMPUTATION: 0.408408
+  GRAPH CANCELLATION        : 0
+FLOPS Summary: 
+  Total   : 5.10818e+11
+  DDOT    : 3.19261e+10
+  WAXPBY  : 4.78892e+10
+  SPARSEMV: 4.31003e+11
+MFLOPS Summary: 
+  Total   : 8430.2
+  DDOT    : -31926.1
+  WAXPBY  : -47889.2
+  SPARSEMV: -431003
+
+real	1m24.604s
+user	0m0.032s
+sys	0m0.365s

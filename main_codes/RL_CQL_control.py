@@ -308,7 +308,7 @@ def experiment_for(APPLICATION, EXP_DIR):
             )
         elif "hpccg" in APPLICATION:
             process = subprocess.Popen(
-                ['bash', '-c', f'time OMP_NUM_THREADS=94 OMP_PLACES=threads nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- /home/cc/dependencies/HPCCG-tasking/hpccg-omp-task-clang++ 300 300 300 100 4 100'],
+                ['bash', '-c', f'time OMP_NUM_THREADS=96 OMP_PLACES=threads nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- /home/cc/dependencies/HPCCG-tasking/hpccg-omp-task-clang++ 432 432 432 100 4 100'],
                 stdout=log_file,
                 stderr=log_file
             )
@@ -331,7 +331,8 @@ def experiment_for(APPLICATION, EXP_DIR):
                     state = np.array(state)
                     OUT = model(np.array(state))
                     argmax = np.argmax(OUT.detach().numpy(), axis=-1)
-                    PCAP = ACTIONS[argmax]
+                    # PCAP = ACTIONS[argmax]
+                    PCAP = float(101.0)
                     # PCAP = min(ACTIONS, key=lambda x: abs(x-PCAP))
                 else: 
                     print("."*100, "choosing default")

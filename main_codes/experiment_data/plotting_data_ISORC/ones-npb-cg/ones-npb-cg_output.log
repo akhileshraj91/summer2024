@@ -1,6 +1,0 @@
-
-libgomp: Invalid value for environment variable OMP_PLACES
-
-real	0m0.762s
-user	0m0.031s
-sys	0m0.048s

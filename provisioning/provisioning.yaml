@@ -107,7 +107,6 @@
 
   - name: Create directory for dependencies
     when: ansible_user is defined
-    become: false
     ansible.builtin.file:
       path: ~{{ ansible_user }}/dependencies
       state: directory
@@ -213,21 +212,29 @@
     ansible.builtin.lineinfile:
       path: ~{{ ansible_user }}/.bashrc
       regexp: '^export PYTHONPATH='
-      line: 'export PYTHONPATH=/usr/lib/python3.12/site-packages:$PYTHONPATH # Added by ansible'
+      line: 'export PYTHONPATH=$HOME/local/lib/python3.12/site-packages:/usr/lib/python3.12/site-packages:$PYTHONPATH # Added by ansible'
+      state: present
+
+  - name: Configure PATH for user
+    ansible.builtin.lineinfile:
+      path: ~{{ ansible_user }}/.bashrc
+      regexp: '^export PATH='
+      line: 'export PATH=$HOME/local/bin:$PATH # Added by ansible'
       state: present
 
   - name: Clone nrm-benchmarks
+    become: false
     ansible.builtin.git:
       repo: 'https://github.com/anlsys/nrm-benchmarks.git'
       dest: ~{{ ansible_user }}/dependencies/nrm-benchmarks
 
   - name: Install nrm-benchmarks
-    become: yes
+    become: false
     ansible.builtin.shell: |
-      sudo mkdir -p /usr/local/lib/pkgconfig
-      sudo tee /usr/local/lib/pkgconfig/cblas.pc >/dev/null <<'EOF'
-      prefix=/usr
-      libdir=${prefix}/lib/x86_64-linux-gnu
+      mkdir -p $HOME/local/lib/pkgconfig
+      tee $HOME/local/lib/pkgconfig/cblas.pc >/dev/null <<'EOF'
+      prefix=$HOME/local
+      libdir=${prefix}/lib
       includedir=${prefix}/include
 
       Name: cblas
@@ -237,11 +244,19 @@
       Cflags:
       EOF
 
-      export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig:${PKG_CONFIG_PATH}
+      export PKG_CONFIG_PATH=$HOME/local/lib/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig:${PKG_CONFIG_PATH}
       pkg-config --exists cblas && echo "cblas.pc available"
 
-      cd ~{{ ansible_user }}/dependencies/nrm-benchmarks
+      cd $HOME/dependencies/nrm-benchmarks
       ./autogen.sh
-      ./configure --disable-post-validation
+      ./configure --prefix=$HOME/local --disable-post-validation
       make -j
       make install  
+    
+   
+
+  - name: Add SSH public key to authorized_keys
+    ansible.posix.authorized_key:
+      user: "{{ ansible_user }}"
+      state: present
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG1QGrNd5cAY5ebgOFQAd5wpnkyMynbFjgNuPpRl92qk akhilesh@LaMasia"

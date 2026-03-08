@@ -306,6 +306,12 @@ def experiment_for(APPLICATION, EXP_DIR):
                 stdout=log_file,
                 stderr=log_file
             )
+        elif "hpccg" in APPLICATION:
+            process = subprocess.Popen(
+                ['bash', '-c', f'time OMP_NUM_THREADS=96 OMP_PLACES=threads nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- /home/cc/dependencies/HPCCG-tasking/hpccg-omp-task-clang++ 432 432 432 100 4 100'],
+                stdout=log_file,
+                stderr=log_file
+            )
         else:
             process = subprocess.Popen(
                 ['bash', '-c', 'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {} {} {}'.format(APPLICATION, PROBLEM_SIZE, ITERATIONS)],
@@ -325,7 +331,8 @@ def experiment_for(APPLICATION, EXP_DIR):
                     state = np.array(state)
                     OUT = model(np.array(state))
                     argmax = np.argmax(OUT.detach().numpy(), axis=-1)
-                    PCAP = ACTIONS[argmax]
+                    # PCAP = ACTIONS[argmax]
+                    PCAP = float(101.0)
                     # PCAP = min(ACTIONS, key=lambda x: abs(x-PCAP))
                 else: 
                     print("."*100, "choosing default")
@@ -359,7 +366,7 @@ if __name__ == "__main__":
     # Get the directory containing the current file
     current_dir = os.path.dirname(current_file_path)
 
-    for STEP in range(4):  # Execute 10 times
+    for STEP in range(5):  # Execute 10 times
         print(f">>>>>>>>>>>>>>>>>>>>>>>>>>>{STEP}")
         for APPLICATION in APPLICATIONS:
             experiment = 'Control_evaluation'

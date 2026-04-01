@@ -1,9 +1,0 @@
-/usr/local/lib/python3.12/dist-packages/numpy/_core/fromnumeric.py:3860: RuntimeWarning: Mean of empty slice.
-  return _methods._mean(a, axis=axis, dtype=dtype,
-/usr/local/lib/python3.12/dist-packages/numpy/_core/_methods.py:144: RuntimeWarning: invalid value encountered in scalar divide
-  ret = ret.dtype.type(ret / rcount)
->>>>>>>>>>>>>>>>>>>>>>>>>>>0
-Directory /home/cc/summer2024/main_codes/experiment_data/Control_evaluation/ones-npb-cg exists
-Process has completed.
-Compressed files into /home/cc/summer2024/main_codes/experiment_data/Control_evaluation/ones-npb-cg/compressed_iteration_20260220_052027_(0.15000000596046448, 0.8500000238418579).tar
-----------------------------------

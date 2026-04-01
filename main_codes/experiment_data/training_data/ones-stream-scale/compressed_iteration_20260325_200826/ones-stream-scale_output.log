@@ -1,0 +1,14 @@
+NRM Benchmarks:      ones-stream-scale
+Version:             0.1.0
+Description: one progress per iteration, Scale benchmark
+Array size:          33554432 (elements).
+Memory per array:    256.0 MiB.
+Kernel was executed: 10000 times.
+Number of threads:   96
+Time (s): avg:          0.003804 min:     0.003363 max:    0.013980
+Perf (MiB/s): avg:   141146.398286 best: 159660.175728
+VALIDATION disabled
+
+real	0m38.677s
+user	0m0.024s
+sys	0m0.137s

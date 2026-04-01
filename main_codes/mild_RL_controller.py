@@ -8,11 +8,36 @@ import subprocess
 import os
 import tarfile
 import random
+import signal
 from datetime import datetime
 import torch
 import argparse
-my_env = os.environ.copy()
-my_env["OMP_NUM_THREADS"] = "94"
+# my_env = os.environ.copy()
+# my_env["OMP_NUM_THREADS"] = "96"
+
+# ----------------------------
+# Signal handling — ensure files are compressed even on timeout (SIGTERM)
+# ----------------------------
+_active_process = None   # set to the benchmark subprocess while it is running
+
+def _sigterm_handler(signum, frame):
+    """
+    Called when `timeout` sends SIGTERM.
+    Terminate the benchmark subprocess so it does not linger, then raise
+    SystemExit so the try/finally in experiment_for() can flush and compress
+    the CSV files before the interpreter exits.
+    """
+    global _active_process
+    if _active_process is not None and _active_process.poll() is None:
+        _active_process.terminate()
+        try:
+            _active_process.wait(timeout=5)
+        except subprocess.TimeoutExpired:
+            _active_process.kill()
+    raise SystemExit(1)
+
+signal.signal(signal.SIGTERM, _sigterm_handler)
+signal.signal(signal.SIGINT,  _sigterm_handler)   # also handle Ctrl-C
 
 # ----------------------------
 # Model definition (lean forward)
@@ -77,7 +102,7 @@ torch.set_num_interop_threads(1)
 policy_folder = '/home/cc/summer2024/main_codes/'
 policy_file = os.path.join(policy_folder, args.policy)
 
-model = FCNetwork(layers=[50, 20]).to(device)
+model = FCNetwork(layers=[20, 20]).to(device)
 # PyTorch < 2.0 does not support weights_only; try it, then fall back
 try:
     state = torch.load(policy_file, map_location=device, weights_only=True)
@@ -242,7 +267,7 @@ def pick_action_from_state5(state5_list):
 # Main experiment runner
 # ----------------------------
 def experiment_for(APPLICATION, EXP_DIR):
-    global EXP_DIR_GLOBAL
+    global EXP_DIR_GLOBAL, _active_process
     EXP_DIR_GLOBAL = EXP_DIR
 
     state_dict = initialize_state_dict()
@@ -323,36 +348,50 @@ def experiment_for(APPLICATION, EXP_DIR):
         else:
             cmd = f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} {PROBLEM_SIZE} {ITERATIONS}'
 
-        process = subprocess.Popen(['bash', '-c', cmd], stdout=log_file, stderr=log_file, env=my_env)
+        process = subprocess.Popen(['bash', '-c', cmd], stdout=log_file, stderr=log_file)
+        _active_process = process
 
-        last_pcap_change = 0.0
+        try:
+            last_pcap_change = 0.0
 
-        while True:
-            now = time.time()
-            if now - last_pcap_change >= 2.0:
-                if state_dict and state_dict != reference_lib and len(state_dict['progress']) >= 2:
-                    try:
-                        state5 = process_callback(state_dict)   # 5 floats
-                        PCAP = pick_action_from_state5(state5)
-                        # PCAP = 165.0
-                    except Exception as e:
-                        print(f"[WARN] Falling back to default PCAP due to error: {e}")
-                        PCAP = 165.0
-                else:
-                    PCAP = 165.0  # default
+            while True:
+                now = time.time()
+                if now - last_pcap_change >= 2.0:
+                    if state_dict and state_dict != reference_lib and len(state_dict['progress']) >= 2:
+                        try:
+                            state5 = process_callback(state_dict)   # 5 floats
+                            PCAP = pick_action_from_state5(state5)
+                            # PCAP = 165.0
+                        except Exception as e:
+                            print(f"[WARN] Falling back to default PCAP due to error: {e}")
+                            PCAP = 165.0
+                    else:
+                        PCAP = 165.0  # default
 
-                client.actuate(actuators[0], PCAP)
-                PCAP_writer.writerow([time.time(), actuators[0], PCAP])
-                last_pcap_change = now
-                state_dict = initialize_state_dict()
+                    client.actuate(actuators[0], PCAP)
+                    PCAP_writer.writerow([time.time(), actuators[0], PCAP])
+                    last_pcap_change = now
+                    state_dict = initialize_state_dict()
 
-            # time.sleep(0.1)
-            if process.poll() is not None:
-                print("Process has completed.")
-                break
+                # time.sleep(0.1)
+                if process.poll() is not None:
+                    print("Process has completed.")
+                    break
 
+        finally:
+            # Ensure the benchmark subprocess is not left running
+            if process.poll() is None:
+                process.terminate()
+                try:
+                    process.wait(timeout=5)
+                except subprocess.TimeoutExpired:
+                    process.kill()
+            # Flush all CSV writers before the context manager closes the files
+            for fh in [power_file, progress_file, energy_file, PCAP_file, papi_file]:
+                fh.flush()
+
+    # Files are now closed by the 'with' block — safe to compress
     current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
-    time.sleep(1)
     compress_files(current_time, tuple(pref_np.tolist()))
     print("----------------------------------")
 

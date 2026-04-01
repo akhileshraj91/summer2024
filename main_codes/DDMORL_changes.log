@@ -1,0 +1,163 @@
+DDMORL_model_based_cosine.ipynb — Change Log
+Session date: 2026-03-27
+================================================================================
+
+CELL 4  — Data loading
+  ADDED:  `if not file.endswith('.tar'): continue` guard at the top of the
+          inner file loop.
+  REASON: `extract_dir` was only defined inside `if file.endswith('.tar'):` but
+          `pd.read_csv()` calls were outside it, causing NameError on any
+          non-tar file present in the directory.
+
+--------------------------------------------------------------------------------
+
+CELL 5  — ACTIONS list + SYS.reward()
+  CHANGED: ACTIONS list from 14 entries [89.0, 95.0, ...165.0] to 16 entries
+           [78.0, 83.0, 89.0, ...165.0] — two lower PCAP levels added.
+  CHANGED: reward_2 from raw `ns` (unnormalized progress, ~0–300) to
+           `ns / max(max_progress, 1e-8)` — normalized to [0,1].
+  REASON:  Raw ns caused Q[:,1] to be ~100× larger than Q[:,0], so all
+           Q-vectors clustered near the same angle and the cosine scalarization
+           could not distinguish between preferences.
+  ADDED:   Fallback for ns==0: `reward = np.array([ACTION_MAX, 0.0])` — worst-
+           case (max power, zero progress) instead of all-zeros.
+
+--------------------------------------------------------------------------------
+
+CELL 8  — Dataset build + reward normalization
+  CHANGED: `t1 = float('-inf')` moved inside the `for trace` loop.
+  REASON:  Was outside the loop, so the state window for the first PCAP
+           interval of each new trace included timestamps from the previous
+           trace, corrupting state features.
+
+  ADDED:   Per-app bounds block — computes MAX_PROGRESS, MIN_PROGRESS,
+           MAX_MPOWER, MIN_MPOWER from actual assembled data (not hardcoded).
+  REASON:  Hardcoded bounds (e.g. 78–165 W) don't match the real observed
+           range per app and per dataset split.
+
+  ADDED:   Full reward normalization to [-1, 1]:
+             reward[0] = -(2*p_norm  - 1)   # low power  → +1
+             reward[1] =  (2*g_norm  - 1)   # high progress → +1
+  REASON:  Without normalization the two reward components had very different
+           scales, making the preference dot-product meaningless.
+
+--------------------------------------------------------------------------------
+
+CELL 12 — Zero-state filter  [NEW CELL ADDED]
+  ADDED:   `is_zero_state()` filter on `training_dataset_loaded`.
+  REMOVES: ~65/381 rows (17%) where all state features are zero, arising from
+           the first PCAP interval before any sensor data has arrived.
+  REASON:  Zero-state rows associate arbitrary PCAP actions with a null state,
+           adding noise and potentially biasing the Q-network.
+
+--------------------------------------------------------------------------------
+
+CELL 15 — get_tensors()
+  ADDED:   Preference augmentation block (aug_prob=0.5): randomly replaces
+           state-derived preference with Uniform(0,1) sample during training.
+  ADDED:   Return signature extended: now returns (s_with_prefs, a,
+           ns_with_prefs, r, prefs_array, s, ns, app).
+
+  ** STATUS: Preference augmentation is PENDING REMOVAL **
+     The user identified this as conceptually wrong for DDMORL: preference is
+     deterministically tied to state progress, so random (state, pref) pairs
+     are impossible at inference time and will never yield optimal transitions.
+     The fix (remove aug_prob block, keep only state-derived preference) was
+     proposed but the tool call was rejected and has not yet been applied.
+
+--------------------------------------------------------------------------------
+
+CELL 17 — project_qvalues_cql_sampled()
+  REPLACED: Old implementation that used only F.smooth_l1_loss with no CQL
+            regularization.
+  ADDED:    CQL loss term:
+              q_norms       = pred.view(B, A, 2).norm(dim=-1)   # [B, A]
+              logsumexp_q   = torch.logsumexp(q_norms, dim=-1)  # [B]
+              cql_loss      = mean(logsumexp_q - dataset_q_norm)
+              loss = td_loss + cql_alpha * cql_loss
+  ADDED:    `optimizer.zero_grad()` — was missing in the original.
+  REASON:   Without CQL the network had no penalty for overestimating Q-values
+            of out-of-dataset actions; logsumexp penalizes high Q-norms across
+            all actions relative to the observed action.
+
+--------------------------------------------------------------------------------
+
+CELL 19 — q_backup_sparse_sampled()
+  TARGET FIX (INCOMPLETE): Replace ratio scalarization with dot-product.
+  ORIGINAL: dot = q_flat[:,0]/(1 + q_flat[:,1])   ← ratio, ignores preference
+  INTENDED: dot = (prefs_bmm_flat * q_flat).sum(dim=1)   ← correct dot product
+  CURRENT STATE: dot = q_flat[:,1]/q_flat[:,0]  with correct line commented out.
+  ** FIX NOT FULLY APPLIED — still uses ratio scalarization **
+
+--------------------------------------------------------------------------------
+
+CELL 20 — conservative_q_iteration()
+  ADDED:   `aug_prob=0.5` parameter in signature, passed through to get_tensors.
+  NOTE:    aug_prob will be removed when Cell 15 augmentation is removed.
+
+--------------------------------------------------------------------------------
+
+CELL 25 — Training call
+  CHANGED: `FCNetwork(env, layers=[20,20])` → `FCNetwork(env, layers=[50,20])`.
+  REASON:  Wider first hidden layer needed for the network to separate
+           preference-conditioned Q-vectors across the 16-action × 2-objective
+           output space.
+
+--------------------------------------------------------------------------------
+
+NOTEBOOK FORMAT CORRUPTION + FIX (same session)
+  CAUSE:   Python script assigned bare str objects to cell['source'] fields
+           instead of list-of-str; some cells' source was stored as a list of
+           individual characters.
+  AFFECTED CELLS: 17, 19, 25 (str instead of list), 20, 22, 27 (char list).
+  FIX:     All cells normalized back to standard list-of-lines format via
+           str.splitlines(keepends=True) and ''.join() + re-split respectively.
+
+================================================================================
+OUTSTANDING ISSUES (not yet fixed):
+  1. Cell 19: dot-product scalarization still uses ratio; correct line commented.
+  2. Cell 15: preference augmentation still present (pending user decision).
+  3. Cell 20: aug_prob parameter still in signature (depends on Cell 15 fix).
+================================================================================
+
+================================================================================
+mild_RL_controller.py — Change Log
+Session date: 2026-03-27
+================================================================================
+
+SIGTERM / timeout handling  [NEW]
+  ADDED:   `import signal`
+  ADDED:   Module-level global `_active_process = None` — tracks the live
+           benchmark subprocess so the signal handler can reach it.
+  ADDED:   `_sigterm_handler(signum, frame)` — registered for both SIGTERM
+           (sent by the bash `timeout` command) and SIGINT (Ctrl-C).
+           On receipt it:
+             1. Terminates `_active_process` (SIGTERM → 5 s grace → SIGKILL).
+             2. Raises SystemExit(1) to unwind the stack through the
+                try/finally block in experiment_for().
+  REASON:  Previously a timeout killed the Python process instantly, leaving
+           CSV files open/uncompressed and the benchmark subprocess running
+           until the bash script's `pkill` cleaned it up.
+
+experiment_for() — subprocess tracking  [CHANGED]
+  ADDED:   `global _active_process` declaration.
+  ADDED:   `_active_process = process` immediately after Popen(), so the
+           signal handler always has a reference to the live subprocess.
+
+experiment_for() — try/finally around control loop  [CHANGED]
+  WRAPPED: The `while True` control loop in a try/finally block.
+  FINALLY: Terminates the benchmark subprocess if still running (SIGTERM →
+           5 s grace → SIGKILL), then flushes all open CSV file handles
+           (power, progress, energy, PCAP, papi) before the `with open()`
+           context manager closes them.
+  MOVED:   `compress_files()` call to after the `with open()` block so files
+           are fully closed before the tar archive is written.
+  REASON:  Guarantees compression runs whether the experiment completes
+           normally, times out (SIGTERM), or raises any other exception.
+
+Control loop — busy-wait fix  [CHANGED]
+  RESTORED: `time.sleep(0.1)` (was commented out).
+  REASON:   Without the sleep the loop spun at 100% CPU, competing with the
+            benchmark process and inflating its runtime.
+
+================================================================================

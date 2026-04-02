@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(jupyter nbconvert:*)",
+      "Bash(ls /Users/akhileshraj/Documents/summer2024/main_codes/figures/cosine_similarity_*.png)",
+      "Bash(python3 -c ':*)"
+    ]
+  }
+}

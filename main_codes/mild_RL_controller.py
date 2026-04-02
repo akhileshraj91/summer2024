@@ -12,8 +12,8 @@ import signal
 from datetime import datetime
 import torch
 import argparse
-# my_env = os.environ.copy()
-# my_env["OMP_NUM_THREADS"] = "96"
+my_env = os.environ.copy()
+my_env["OMP_NUM_THREADS"] = "95"
 
 # ----------------------------
 # Signal handling — ensure files are compressed even on timeout (SIGTERM)
@@ -102,7 +102,7 @@ torch.set_num_interop_threads(1)
 policy_folder = '/home/cc/summer2024/main_codes/'
 policy_file = os.path.join(policy_folder, args.policy)
 
-model = FCNetwork(layers=[50, 20]).to(device)
+model = FCNetwork(layers=[20, 20]).to(device)
 # PyTorch < 2.0 does not support weights_only; try it, then fall back
 try:
     state = torch.load(policy_file, map_location=device, weights_only=True)
@@ -348,7 +348,7 @@ def experiment_for(APPLICATION, EXP_DIR):
         else:
             cmd = f'time nrm-papiwrapper -i -e PAPI_L3_TCA -e PAPI_TOT_INS -e PAPI_TOT_CYC -e PAPI_RES_STL -e PAPI_L3_TCM -- {APPLICATION} {PROBLEM_SIZE} {ITERATIONS}'
 
-        process = subprocess.Popen(['bash', '-c', cmd], stdout=log_file, stderr=log_file)
+        process = subprocess.Popen(['bash', '-c', cmd], stdout=log_file, env=my_env, stderr=log_file)
         _active_process = process
 
         try:

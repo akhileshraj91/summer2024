@@ -1,0 +1,21 @@
+NRM Benchmarks:      ones-stream-full
+Version:             0.1.0
+Description: one progress per iteration, Stream benchmark
+Array size:          33554432 (elements).
+Memory per array:    256.0 MiB.
+Kernel was executed: 10000 times.
+Number of threads:   95
+Progress Time (ns):   182271696598
+Copy Time (s): avg:    0.003815 min:    0.003433 max:    0.015671
+Copy Perf (MiB/s): avg: 140737.961321 best: 156384.394969
+Scale Time (s): avg:    0.003997 min:    0.003607 max:    0.015318
+Scale Perf (MiB/s): avg: 134321.486459 best: 148844.324909
+Add Time (s): avg:    0.005117 min:    0.004776 max:    0.014717
+Add Perf (MiB/s): avg: 157392.622815 best: 168624.345285
+Triad Time (s): avg:    0.005114 min:    0.004812 max:    0.014778
+Triad Perf (MiB/s): avg: 157467.216806 best: 167354.471132
+VALIDATION disabled
+
+real	3m2.383s
+user	0m0.077s
+sys	0m0.655s

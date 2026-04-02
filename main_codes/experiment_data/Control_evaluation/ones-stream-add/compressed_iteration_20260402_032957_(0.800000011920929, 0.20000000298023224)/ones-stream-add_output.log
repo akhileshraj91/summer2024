@@ -1,0 +1,14 @@
+NRM Benchmarks:      ones-stream-add
+Version:             0.1.0
+Description: one progress per iteration, Add benchmark
+Array size:          33554432 (elements).
+Memory per array:    256.0 MiB.
+Kernel was executed: 10000 times.
+Number of threads:   95
+Time (s): avg:          0.005489 min:     0.004759 max:    0.017489
+Perf (MiB/s): avg:   146720.600624 best: 169218.946741
+VALIDATION disabled
+
+real	0m55.007s
+user	0m0.026s
+sys	0m0.224s

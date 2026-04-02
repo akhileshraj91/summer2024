@@ -20,11 +20,12 @@ mkdir -p "$LOG_DIR"
 
 # Define applications to test
 declare -a APPLICATIONS=(
-    # "ones-stream-full"
+    "ones-stream-full"
     "ones-stream-scale"
     "ones-stream-triad"
-    # "ones-stream-add"
-    # "ones-stream-copy"
+    "ones-stream-add"
+    "ones-stream-copy"
+    "phases-stream-full"
     # "ones-npb-ep"
     # "ones-npb-is"
     # "ones-npb-ft"
@@ -37,23 +38,23 @@ declare -a APPLICATIONS=(
 declare -a PREFERENCES=(
     # "[1,0]"
     # "[0.95,0.05]"
-    # "[0.9,0.1]"
+    "[0.9,0.1]"
     # "[0.85,0.15]"
-    # "[0.8,0.2]" 
+    "[0.8,0.2]" 
     # "[0.75,0.25]"
-    # "[0.7,0.3]"
+    "[0.7,0.3]"
     # "[0.65,0.35]"
-    # "[0.6,0.4]"
+    "[0.6,0.4]"
     # "[0.55,0.45]"
-    # "[0.5,0.5]"
+    "[0.5,0.5]"
     # "[0.45,0.55]"
-    # "[0.4,0.6]"
+    "[0.4,0.6]"
     # "[0.35,0.65]"
-    # "[0.3,0.7]"
+    "[0.3,0.7]"
     # "[0.25,0.75]"
-    # "[0.2,0.8]"
+    "[0.2,0.8]"
     # "[0.15,0.85]"
-    "[0.1,0.9]"
+    # "[0.1,0.9]"
     # "[0.05,0.95]"
     # "[0,1]"
 )
@@ -75,7 +76,7 @@ run_experiment() {
         echo "Run $run/5 - Log file: $log_file"
         
         # Run the experiment and capture output with timeout
-        if timeout 900 python3 "$SCRIPT_NAME" -a "$app" -p "$MODEL_PATH" -r "$preference" > "$log_file" 2>&1; then
+        if timeout 300 python3 "$SCRIPT_NAME" -a "$app" -p "$MODEL_PATH" -r "$preference" > "$log_file" 2>&1; then
             echo "✅ Run $run completed successfully"
             echo "Results saved to: $log_file"
         else

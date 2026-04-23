@@ -325,8 +325,8 @@ for app in test_results.keys():
 
     ax.set_title(app_name_mapping.get(app, app), fontsize=14, loc='center', fontweight='bold')
     ax.grid(True)
-    ax.set_xlabel('Execution Time [s]')
-    ax.set_ylabel('Consumed Energy [kJ]')
+    ax.set_xlabel('Execution Time [s]', fontsize=16)
+    ax.set_ylabel('Consumed Energy [kJ]', fontsize=16)
 
     # Add colorbar for PCAP
     cbar = fig.colorbar(smappable, ax=ax, shrink=1.0, pad=0.1)

@@ -92,8 +92,8 @@ es = [p[1] for p in points]
 plt.errorbar(ts, es, yerr=errors, fmt='o-', capsize=5, label='Mean with Std Dev')
 if pareto:
     plt.plot([p[0] for p in pareto], [p[1] for p in pareto], 'r--', label='Pareto front')
-plt.xlabel('Execution Time (seconds)')
-plt.ylabel('Energy Consumption (kJ)')
+plt.xlabel('Execution Time (seconds)', fontsize=16)
+plt.ylabel('Energy Consumption (kJ)', fontsize=16)
 plt.title('Pareto Front: Energy vs Execution Time for ones-stream-full')
 plt.legend()
 plt.grid(True)

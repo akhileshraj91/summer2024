@@ -1,0 +1,316 @@
+
+>>> Step 1/3
+
+[ones-npb-bt]
+  target perf      : 5.4434 Hz
+  coefficients_perf: [-0.0002748882630905589, 0.09680001853476215, -1.348104096123189]
+  feedforward PCAP : 96.73 W  →  95 W (snapped)
+  Perf(u_ff) check : 5.4434 Hz  (should ≈ target)
+  PID gains        : Kp=16.6655 W/Hz  Ki=1.66655 W/(Hz·s)  Kd=0.0000
+[PID] Awaiting data — feedforward PCAP=95W
+[PID] perf=5.040Hz  target=5.443Hz  err=+0.404Hz  corr=+8.07W  u_ff=96.7W  PCAP→107W  power=nanW
+[PID] perf=5.621Hz  target=5.443Hz  err=-0.177Hz  corr=-2.20W  u_ff=96.7W  PCAP→95W  power=101.3W
+[PID] perf=5.022Hz  target=5.443Hz  err=+0.422Hz  corr=+9.19W  u_ff=96.7W  PCAP→107W  power=95.0W
+[PID] perf=5.512Hz  target=5.443Hz  err=-0.069Hz  corr=+0.78W  u_ff=96.7W  PCAP→95W  power=103.1W
+[PID] perf=5.191Hz  target=5.443Hz  err=+0.252Hz  corr=+6.97W  u_ff=96.7W  PCAP→101W  power=90.2W
+[PID] perf=4.772Hz  target=5.443Hz  err=+0.672Hz  corr=+16.21W  u_ff=96.7W  PCAP→112W  power=100.5W
+[PID] perf=5.752Hz  target=5.443Hz  err=-0.308Hz  corr=-1.16W  u_ff=96.7W  PCAP→95W  power=110.9W
+[PID] perf=4.911Hz  target=5.443Hz  err=+0.532Hz  corr=+14.62W  u_ff=96.7W  PCAP→112W  power=92.4W
+[PID] perf=5.666Hz  target=5.443Hz  err=-0.222Hz  corr=+1.31W  u_ff=96.7W  PCAP→101W  power=108.3W
+[PID] perf=5.421Hz  target=5.443Hz  err=+0.023Hz  corr=+5.47W  u_ff=96.7W  PCAP→101W  power=103.3W
+[PID] perf=5.245Hz  target=5.443Hz  err=+0.199Hz  corr=+9.06W  u_ff=96.7W  PCAP→107W  power=98.5W
+[PID] perf=5.675Hz  target=5.443Hz  err=-0.231Hz  corr=+1.13W  u_ff=96.7W  PCAP→95W  power=109.9W
+[PID] perf=4.862Hz  target=5.443Hz  err=+0.582Hz  corr=+16.61W  u_ff=96.7W  PCAP→112W  power=93.5W
+[PID] perf=5.342Hz  target=5.443Hz  err=+0.102Hz  corr=+8.96W  u_ff=96.7W  PCAP→107W  power=109.3W
+[PID] perf=5.568Hz  target=5.443Hz  err=-0.125Hz  corr=+4.76W  u_ff=96.7W  PCAP→101W  power=109.7W
+[PID] perf=5.398Hz  target=5.443Hz  err=+0.046Hz  corr=+7.76W  u_ff=96.7W  PCAP→107W  power=95.3W
+[PID] perf=5.156Hz  target=5.443Hz  err=+0.287Hz  corr=+12.73W  u_ff=96.7W  PCAP→107W  power=105.5W
+[PID] perf=5.212Hz  target=5.443Hz  err=+0.232Hz  corr=+12.58W  u_ff=96.7W  PCAP→107W  power=108.7W
+[PID] perf=5.492Hz  target=5.443Hz  err=-0.049Hz  corr=+7.75W  u_ff=96.7W  PCAP→107W  power=106.5W
+[PID] perf=5.477Hz  target=5.443Hz  err=-0.034Hz  corr=+7.88W  u_ff=96.7W  PCAP→107W  power=109.6W
+[PID] perf=5.208Hz  target=5.443Hz  err=+0.235Hz  corr=+13.16W  u_ff=96.7W  PCAP→112W  power=109.7W
+[PID] perf=5.392Hz  target=5.443Hz  err=+0.052Hz  corr=+10.26W  u_ff=96.7W  PCAP→107W  power=118.5W
+[PID] perf=5.243Hz  target=5.443Hz  err=+0.200Hz  corr=+13.41W  u_ff=96.7W  PCAP→112W  power=103.5W
+[PID] perf=5.553Hz  target=5.443Hz  err=-0.110Hz  corr=+7.88W  u_ff=96.7W  PCAP→107W  power=113.5W
+[PID] perf=5.628Hz  target=5.443Hz  err=-0.185Hz  corr=+6.01W  u_ff=96.7W  PCAP→101W  power=104.9W
+[PID] perf=5.045Hz  target=5.443Hz  err=+0.399Hz  corr=+17.06W  u_ff=96.7W  PCAP→112W  power=105.2W
+[PID] perf=5.073Hz  target=5.443Hz  err=+0.370Hz  corr=+17.82W  u_ff=96.7W  PCAP→112W  power=109.5W
+[PID] perf=5.769Hz  target=5.443Hz  err=-0.326Hz  corr=+5.13W  u_ff=96.7W  PCAP→101W  power=111.6W
+[PID] perf=5.144Hz  target=5.443Hz  err=+0.299Hz  corr=+16.55W  u_ff=96.7W  PCAP→112W  power=100.9W
+[PID] perf=5.502Hz  target=5.443Hz  err=-0.058Hz  corr=+10.40W  u_ff=96.7W  PCAP→107W  power=108.4W
+[PID] perf=5.484Hz  target=5.443Hz  err=-0.040Hz  corr=+10.56W  u_ff=96.7W  PCAP→107W  power=107.5W
+[PID] perf=5.617Hz  target=5.443Hz  err=-0.174Hz  corr=+7.76W  u_ff=96.7W  PCAP→107W  power=105.4W
+[PID] perf=5.847Hz  target=5.443Hz  err=-0.403Hz  corr=+2.59W  u_ff=96.7W  PCAP→101W  power=107.8W
+[PID] perf=5.077Hz  target=5.443Hz  err=+0.366Hz  corr=+16.64W  u_ff=96.7W  PCAP→112W  power=101.4W
+[PID] perf=5.524Hz  target=5.443Hz  err=-0.081Hz  corr=+8.91W  u_ff=96.7W  PCAP→107W  power=116.0W
+[PID] perf=5.888Hz  target=5.443Hz  err=-0.445Hz  corr=+1.36W  u_ff=96.7W  PCAP→101W  power=102.1W
+[PID] perf=5.566Hz  target=5.443Hz  err=-0.122Hz  corr=+6.33W  u_ff=96.7W  PCAP→101W  power=99.3W
+[PID] perf=5.273Hz  target=5.443Hz  err=+0.171Hz  corr=+11.78W  u_ff=96.7W  PCAP→107W  power=101.5W
+[PID] perf=5.291Hz  target=5.443Hz  err=+0.153Hz  corr=+12.00W  u_ff=96.7W  PCAP→107W  power=112.3W
+[PID] perf=5.179Hz  target=5.443Hz  err=+0.264Hz  corr=+14.73W  u_ff=96.7W  PCAP→112W  power=108.4W
+[PID] perf=5.884Hz  target=5.443Hz  err=-0.441Hz  corr=+1.52W  u_ff=96.7W  PCAP→101W  power=119.6W
+[PID] perf=5.678Hz  target=5.443Hz  err=-0.235Hz  corr=+4.16W  u_ff=96.7W  PCAP→101W  power=99.5W
+[PID] perf=5.532Hz  target=5.443Hz  err=-0.089Hz  corr=+6.31W  u_ff=96.7W  PCAP→101W  power=94.4W
+[PID] perf=5.219Hz  target=5.443Hz  err=+0.225Hz  corr=+12.28W  u_ff=96.7W  PCAP→107W  power=100.8W
+[PID] perf=5.408Hz  target=5.443Hz  err=+0.036Hz  corr=+9.24W  u_ff=96.7W  PCAP→107W  power=110.4W
+[PID] perf=5.080Hz  target=5.443Hz  err=+0.364Hz  corr=+15.93W  u_ff=96.7W  PCAP→112W  power=103.6W
+[PID] perf=5.587Hz  target=5.443Hz  err=-0.143Hz  corr=+7.00W  u_ff=96.7W  PCAP→101W  power=108.6W
+[PID] perf=5.427Hz  target=5.443Hz  err=+0.017Hz  corr=+9.72W  u_ff=96.7W  PCAP→107W  power=93.6W
+[PID] perf=5.785Hz  target=5.443Hz  err=-0.342Hz  corr=+2.60W  u_ff=96.7W  PCAP→101W  power=104.1W
+[PID] perf=5.789Hz  target=5.443Hz  err=-0.346Hz  corr=+1.38W  u_ff=96.7W  PCAP→101W  power=103.0W
+[PID] perf=5.362Hz  target=5.443Hz  err=+0.082Hz  corr=+8.78W  u_ff=96.7W  PCAP→107W  power=95.1W
+[PID] perf=5.059Hz  target=5.443Hz  err=+0.385Hz  corr=+15.11W  u_ff=96.7W  PCAP→112W  power=106.1W
+[PID] perf=5.819Hz  target=5.443Hz  err=-0.375Hz  corr=+1.20W  u_ff=96.7W  PCAP→95W  power=112.6W
+[PID] perf=5.287Hz  target=5.443Hz  err=+0.157Hz  corr=+10.59W  u_ff=96.7W  PCAP→107W  power=92.7W
+[PID] perf=5.776Hz  target=5.443Hz  err=-0.333Hz  corr=+1.32W  u_ff=96.7W  PCAP→101W  power=112.1W
+[PID] perf=4.734Hz  target=5.443Hz  err=+0.710Hz  corr=+21.06W  u_ff=96.7W  PCAP→118W  power=103.0W
+[PID] perf=5.890Hz  target=5.443Hz  err=-0.446Hz  corr=+0.31W  u_ff=96.7W  PCAP→95W  power=118.3W
+[PID] perf=4.821Hz  target=5.443Hz  err=+0.622Hz  corr=+20.19W  u_ff=96.7W  PCAP→118W  power=97.8W
+[PID] perf=6.197Hz  target=5.443Hz  err=-0.754Hz  corr=-5.25W  u_ff=96.7W  PCAP→89W  power=119.9W
+[PID] perf=4.838Hz  target=5.443Hz  err=+0.606Hz  corr=+19.42W  u_ff=96.7W  PCAP→118W  power=86.8W
+[PID] perf=6.144Hz  target=5.443Hz  err=-0.700Hz  corr=-4.68W  u_ff=96.7W  PCAP→95W  power=120.5W
+[PID] perf=4.953Hz  target=5.443Hz  err=+0.491Hz  corr=+16.80W  u_ff=96.7W  PCAP→112W  power=89.3W
+[PID] perf=5.721Hz  target=5.443Hz  err=-0.277Hz  corr=+3.08W  u_ff=96.7W  PCAP→101W  power=114.8W
+[PID] perf=5.075Hz  target=5.443Hz  err=+0.369Hz  corr=+15.08W  u_ff=96.7W  PCAP→112W  power=105.5W
+[PID] perf=5.499Hz  target=5.443Hz  err=-0.056Hz  corr=+7.81W  u_ff=96.7W  PCAP→107W  power=110.0W
+[PID] perf=5.507Hz  target=5.443Hz  err=-0.063Hz  corr=+7.48W  u_ff=96.7W  PCAP→107W  power=110.5W
+[PID] perf=5.397Hz  target=5.443Hz  err=+0.047Hz  corr=+9.47W  u_ff=96.7W  PCAP→107W  power=102.9W
+[PID] perf=5.333Hz  target=5.443Hz  err=+0.110Hz  corr=+10.90W  u_ff=96.7W  PCAP→107W  power=103.3W
+[PID] perf=5.433Hz  target=5.443Hz  err=+0.010Hz  corr=+9.26W  u_ff=96.7W  PCAP→107W  power=106.6W
+[PID] perf=5.219Hz  target=5.443Hz  err=+0.225Hz  corr=+13.59W  u_ff=96.7W  PCAP→112W  power=101.8W
+[PID] perf=5.837Hz  target=5.443Hz  err=-0.394Hz  corr=+1.97W  u_ff=96.7W  PCAP→101W  power=114.0W
+[PID] perf=4.765Hz  target=5.443Hz  err=+0.678Hz  corr=+22.09W  u_ff=96.7W  PCAP→118W  power=103.0W
+[PID] perf=5.417Hz  target=5.443Hz  err=+0.026Hz  corr=+11.31W  u_ff=96.7W  PCAP→107W  power=124.0W
+[PID] perf=5.098Hz  target=5.443Hz  err=+0.346Hz  corr=+17.79W  u_ff=96.7W  PCAP→112W  power=102.1W
+[PID] perf=5.327Hz  target=5.443Hz  err=+0.116Hz  corr=+14.35W  u_ff=96.7W  PCAP→112W  power=106.8W
+[PID] perf=5.445Hz  target=5.443Hz  err=-0.002Hz  corr=+12.38W  u_ff=96.7W  PCAP→107W  power=113.6W
+[PID] perf=5.133Hz  target=5.443Hz  err=+0.311Hz  corr=+18.62W  u_ff=96.7W  PCAP→118W  power=101.3W
+[PID] perf=5.433Hz  target=5.443Hz  err=+0.011Hz  corr=+13.66W  u_ff=96.7W  PCAP→112W  power=122.4W
+[PID] perf=5.586Hz  target=5.443Hz  err=-0.142Hz  corr=+10.64W  u_ff=96.7W  PCAP→107W  power=108.2W
+[PID] perf=5.458Hz  target=5.443Hz  err=-0.015Hz  corr=+12.72W  u_ff=96.7W  PCAP→107W  power=100.1W
+[PID] perf=5.126Hz  target=5.443Hz  err=+0.317Hz  corr=+19.30W  u_ff=96.7W  PCAP→118W  power=104.3W
+[PID] perf=5.461Hz  target=5.443Hz  err=-0.018Hz  corr=+13.66W  u_ff=96.7W  PCAP→112W  power=116.0W
+[PID] perf=5.881Hz  target=5.443Hz  err=-0.438Hz  corr=+5.20W  u_ff=96.7W  PCAP→101W  power=113.9W
+[PID] perf=5.103Hz  target=5.443Hz  err=+0.340Hz  corr=+19.30W  u_ff=96.7W  PCAP→118W  power=100.7W
+[PID] perf=5.945Hz  target=5.443Hz  err=-0.502Hz  corr=+3.60W  u_ff=96.7W  PCAP→101W  power=125.8W
+[PID] perf=4.894Hz  target=5.443Hz  err=+0.549Hz  corr=+22.94W  u_ff=96.7W  PCAP→118W  power=100.4W
+[PID] perf=5.790Hz  target=5.443Hz  err=-0.346Hz  corr=+6.87W  u_ff=96.7W  PCAP→101W  power=120.5W
+[PID] perf=5.165Hz  target=5.443Hz  err=+0.279Hz  corr=+18.21W  u_ff=96.7W  PCAP→112W  power=94.0W
+[PID] perf=4.853Hz  target=5.443Hz  err=+0.591Hz  corr=+25.38W  u_ff=96.7W  PCAP→124W  power=115.4W
+[PID] perf=5.286Hz  target=5.443Hz  err=+0.157Hz  corr=+18.68W  u_ff=96.7W  PCAP→118W  power=127.4W
+[PID] perf=5.434Hz  target=5.443Hz  err=+0.010Hz  corr=+16.26W  u_ff=96.7W  PCAP→112W  power=117.8W
+[PID] perf=5.062Hz  target=5.443Hz  err=+0.381Hz  corr=+23.71W  u_ff=96.7W  PCAP→118W  power=118.8W
+Process completed.
+Compressed into /home/cc/summer2024/main_codes/pid_controller/../experiment_data/PID_Control_sweep/ones-npb-bt/compressed_iteration_20260512_094914.tar
+----------------------------------
+
+>>> Step 2/3
+
+[ones-npb-bt]
+  target perf      : 5.4434 Hz
+  coefficients_perf: [-0.0002748882630905589, 0.09680001853476215, -1.348104096123189]
+  feedforward PCAP : 96.73 W  →  95 W (snapped)
+  Perf(u_ff) check : 5.4434 Hz  (should ≈ target)
+  PID gains        : Kp=16.6655 W/Hz  Ki=1.66655 W/(Hz·s)  Kd=0.0000
+[PID] Awaiting data — feedforward PCAP=95W
+[PID] perf=5.105Hz  target=5.443Hz  err=+0.338Hz  corr=+6.77W  u_ff=96.7W  PCAP→101W  power=nanW
+[PID] perf=5.148Hz  target=5.443Hz  err=+0.296Hz  corr=+7.04W  u_ff=96.7W  PCAP→101W  power=101.9W
+[PID] perf=5.205Hz  target=5.443Hz  err=+0.239Hz  corr=+6.89W  u_ff=96.7W  PCAP→101W  power=100.8W
+[PID] perf=4.981Hz  target=5.443Hz  err=+0.462Hz  corr=+12.16W  u_ff=96.7W  PCAP→107W  power=105.4W
+[PID] perf=4.981Hz  target=5.443Hz  err=+0.462Hz  corr=+13.69W  u_ff=96.7W  PCAP→112W  power=103.1W
+[PID] perf=4.967Hz  target=5.443Hz  err=+0.476Hz  corr=+15.52W  u_ff=96.7W  PCAP→112W  power=112.4W
+[PID] perf=5.439Hz  target=5.443Hz  err=+0.004Hz  corr=+7.66W  u_ff=96.7W  PCAP→107W  power=113.7W
+[PID] perf=5.039Hz  target=5.443Hz  err=+0.404Hz  corr=+15.67W  u_ff=96.7W  PCAP→112W  power=106.0W
+[PID] perf=5.567Hz  target=5.443Hz  err=-0.124Hz  corr=+6.47W  u_ff=96.7W  PCAP→101W  power=108.4W
+[PID] perf=5.696Hz  target=5.443Hz  err=-0.252Hz  corr=+3.48W  u_ff=96.7W  PCAP→101W  power=94.2W
+[PID] perf=5.486Hz  target=5.443Hz  err=-0.042Hz  corr=+6.84W  u_ff=96.7W  PCAP→101W  power=102.8W
+[PID] perf=5.343Hz  target=5.443Hz  err=+0.100Hz  corr=+9.55W  u_ff=96.7W  PCAP→107W  power=104.0W
+[PID] perf=5.813Hz  target=5.443Hz  err=-0.370Hz  corr=+0.48W  u_ff=96.7W  PCAP→95W  power=107.6W
+[PID] perf=5.414Hz  target=5.443Hz  err=+0.029Hz  corr=+7.23W  u_ff=96.7W  PCAP→101W  power=92.4W
+[PID] perf=5.411Hz  target=5.443Hz  err=+0.032Hz  corr=+7.39W  u_ff=96.7W  PCAP→107W  power=106.4W
+[PID] perf=5.506Hz  target=5.443Hz  err=-0.062Hz  corr=+5.60W  u_ff=96.7W  PCAP→101W  power=111.3W
+[PID] perf=5.634Hz  target=5.443Hz  err=-0.190Hz  corr=+2.84W  u_ff=96.7W  PCAP→101W  power=102.6W
+[PID] perf=5.353Hz  target=5.443Hz  err=+0.090Hz  corr=+7.81W  u_ff=96.7W  PCAP→107W  power=93.9W
+[PID] perf=5.366Hz  target=5.443Hz  err=+0.078Hz  corr=+7.87W  u_ff=96.7W  PCAP→107W  power=108.4W
+[PID] perf=5.673Hz  target=5.443Hz  err=-0.229Hz  corr=+1.98W  u_ff=96.7W  PCAP→101W  power=106.6W
+[PID] perf=5.311Hz  target=5.443Hz  err=+0.132Hz  corr=+8.45W  u_ff=96.7W  PCAP→107W  power=104.3W
+[PID] perf=5.154Hz  target=5.443Hz  err=+0.289Hz  corr=+12.02W  u_ff=96.7W  PCAP→107W  power=111.8W
+[PID] perf=5.054Hz  target=5.443Hz  err=+0.389Hz  corr=+14.99W  u_ff=96.7W  PCAP→112W  power=109.1W
+[PID] perf=4.974Hz  target=5.443Hz  err=+0.469Hz  corr=+17.89W  u_ff=96.7W  PCAP→112W  power=110.7W
+[PID] perf=5.637Hz  target=5.443Hz  err=-0.194Hz  corr=+6.19W  u_ff=96.7W  PCAP→101W  power=114.6W
+[PID] perf=5.309Hz  target=5.443Hz  err=+0.134Hz  corr=+12.11W  u_ff=96.7W  PCAP→107W  power=105.1W
+[PID] perf=5.302Hz  target=5.443Hz  err=+0.142Hz  corr=+12.71W  u_ff=96.7W  PCAP→107W  power=107.6W
+[PID] perf=5.276Hz  target=5.443Hz  err=+0.167Hz  corr=+13.69W  u_ff=96.7W  PCAP→112W  power=103.2W
+[PID] perf=5.177Hz  target=5.443Hz  err=+0.266Hz  corr=+16.23W  u_ff=96.7W  PCAP→112W  power=106.0W
+[PID] perf=5.249Hz  target=5.443Hz  err=+0.195Hz  corr=+15.68W  u_ff=96.7W  PCAP→112W  power=115.6W
+[PID] perf=5.475Hz  target=5.443Hz  err=-0.031Hz  corr=+11.82W  u_ff=96.7W  PCAP→107W  power=115.1W
+[PID] perf=5.357Hz  target=5.443Hz  err=+0.086Hz  corr=+14.06W  u_ff=96.7W  PCAP→112W  power=108.1W
+[PID] perf=5.470Hz  target=5.443Hz  err=-0.026Hz  corr=+12.09W  u_ff=96.7W  PCAP→107W  power=111.2W
+[PID] perf=5.712Hz  target=5.443Hz  err=-0.269Hz  corr=+7.16W  u_ff=96.7W  PCAP→101W  power=103.8W
+[PID] perf=4.683Hz  target=5.443Hz  err=+0.761Hz  corr=+26.85W  u_ff=96.7W  PCAP→124W  power=104.9W
+[PID] perf=5.876Hz  target=5.443Hz  err=-0.432Hz  corr=+5.53W  u_ff=96.7W  PCAP→101W  power=132.7W
+[PID] perf=4.806Hz  target=5.443Hz  err=+0.637Hz  corr=+25.47W  u_ff=96.7W  PCAP→124W  power=102.7W
+[PID] perf=6.012Hz  target=5.443Hz  err=-0.568Hz  corr=+3.49W  u_ff=96.7W  PCAP→101W  power=125.3W
+[PID] perf=5.287Hz  target=5.443Hz  err=+0.156Hz  corr=+16.09W  u_ff=96.7W  PCAP→112W  power=93.3W
+[PID] perf=5.782Hz  target=5.443Hz  err=-0.339Hz  corr=+6.71W  u_ff=96.7W  PCAP→101W  power=105.2W
+[PID] perf=5.023Hz  target=5.443Hz  err=+0.421Hz  corr=+20.77W  u_ff=96.7W  PCAP→118W  power=104.2W
+[PID] perf=5.943Hz  target=5.443Hz  err=-0.499Hz  corr=+3.78W  u_ff=96.7W  PCAP→101W  power=122.1W
+[PID] perf=5.039Hz  target=5.443Hz  err=+0.404Hz  corr=+20.18W  u_ff=96.7W  PCAP→118W  power=108.4W
+[PID] perf=5.384Hz  target=5.443Hz  err=+0.059Hz  corr=+14.62W  u_ff=96.7W  PCAP→112W  power=117.3W
+[PID] perf=5.775Hz  target=5.443Hz  err=-0.332Hz  corr=+7.01W  u_ff=96.7W  PCAP→101W  power=104.1W
+[PID] perf=5.058Hz  target=5.443Hz  err=+0.386Hz  corr=+20.25W  u_ff=96.7W  PCAP→118W  power=100.1W
+[PID] perf=5.562Hz  target=5.443Hz  err=-0.118Hz  corr=+11.45W  u_ff=96.7W  PCAP→107W  power=122.3W
+[PID] perf=5.215Hz  target=5.443Hz  err=+0.228Hz  corr=+17.99W  u_ff=96.7W  PCAP→112W  power=111.1W
+[PID] perf=5.400Hz  target=5.443Hz  err=+0.044Hz  corr=+15.06W  u_ff=96.7W  PCAP→112W  power=105.8W
+[PID] perf=5.474Hz  target=5.443Hz  err=-0.030Hz  corr=+13.72W  u_ff=96.7W  PCAP→112W  power=114.6W
+[PID] perf=5.319Hz  target=5.443Hz  err=+0.124Hz  corr=+16.71W  u_ff=96.7W  PCAP→112W  power=107.7W
+[PID] perf=5.284Hz  target=5.443Hz  err=+0.159Hz  corr=+17.83W  u_ff=96.7W  PCAP→112W  power=105.6W
+[PID] perf=5.246Hz  target=5.443Hz  err=+0.197Hz  corr=+19.12W  u_ff=96.7W  PCAP→118W  power=108.3W
+[PID] perf=5.649Hz  target=5.443Hz  err=-0.206Hz  corr=+11.72W  u_ff=96.7W  PCAP→107W  power=124.5W
+[PID] perf=5.622Hz  target=5.443Hz  err=-0.178Hz  corr=+11.58W  u_ff=96.7W  PCAP→107W  power=98.8W
+[PID] perf=5.184Hz  target=5.443Hz  err=+0.259Hz  corr=+19.74W  u_ff=96.7W  PCAP→118W  power=111.4W
+[PID] perf=5.402Hz  target=5.443Hz  err=+0.042Hz  corr=+16.25W  u_ff=96.7W  PCAP→112W  power=120.6W
+[PID] perf=5.048Hz  target=5.443Hz  err=+0.396Hz  corr=+23.47W  u_ff=96.7W  PCAP→118W  power=113.7W
+[PID] perf=5.879Hz  target=5.443Hz  err=-0.436Hz  corr=+8.16W  u_ff=96.7W  PCAP→107W  power=114.1W
+[PID] perf=5.621Hz  target=5.443Hz  err=-0.178Hz  corr=+11.87W  u_ff=96.7W  PCAP→107W  power=107.8W
+[PID] perf=5.211Hz  target=5.443Hz  err=+0.232Hz  corr=+19.47W  u_ff=96.7W  PCAP→118W  power=106.3W
+[PID] perf=5.615Hz  target=5.443Hz  err=-0.172Hz  corr=+12.17W  u_ff=96.7W  PCAP→107W  power=116.4W
+[PID] perf=4.748Hz  target=5.443Hz  err=+0.695Hz  corr=+28.93W  u_ff=96.7W  PCAP→124W  power=101.2W
+[PID] perf=5.937Hz  target=5.443Hz  err=-0.493Hz  corr=+7.48W  u_ff=96.7W  PCAP→107W  power=121.9W
+[PID] perf=4.943Hz  target=5.443Hz  err=+0.500Hz  corr=+25.71W  u_ff=96.7W  PCAP→124W  power=110.3W
+[PID] perf=5.905Hz  target=5.443Hz  err=-0.462Hz  corr=+8.14W  u_ff=96.7W  PCAP→107W  power=129.6W
+[PID] perf=5.492Hz  target=5.443Hz  err=-0.048Hz  corr=+14.87W  u_ff=96.7W  PCAP→112W  power=98.1W
+[PID] perf=5.318Hz  target=5.443Hz  err=+0.125Hz  corr=+18.18W  u_ff=96.7W  PCAP→112W  power=109.6W
+[PID] perf=5.439Hz  target=5.443Hz  err=+0.004Hz  corr=+16.17W  u_ff=96.7W  PCAP→112W  power=113.8W
+[PID] perf=5.680Hz  target=5.443Hz  err=-0.237Hz  corr=+11.37W  u_ff=96.7W  PCAP→107W  power=104.5W
+[PID] perf=5.718Hz  target=5.443Hz  err=-0.274Hz  corr=+9.83W  u_ff=96.7W  PCAP→107W  power=102.6W
+[PID] perf=5.670Hz  target=5.443Hz  err=-0.227Hz  corr=+9.87W  u_ff=96.7W  PCAP→107W  power=108.2W
+[PID] perf=5.659Hz  target=5.443Hz  err=-0.216Hz  corr=+9.32W  u_ff=96.7W  PCAP→107W  power=108.8W
+[PID] perf=5.705Hz  target=5.443Hz  err=-0.262Hz  corr=+7.69W  u_ff=96.7W  PCAP→107W  power=105.4W
+[PID] perf=5.795Hz  target=5.443Hz  err=-0.351Hz  corr=+5.02W  u_ff=96.7W  PCAP→101W  power=106.3W
+[PID] perf=5.369Hz  target=5.443Hz  err=+0.075Hz  corr=+12.37W  u_ff=96.7W  PCAP→107W  power=93.6W
+[PID] perf=5.560Hz  target=5.443Hz  err=-0.116Hz  corr=+8.80W  u_ff=96.7W  PCAP→107W  power=110.2W
+[PID] perf=5.292Hz  target=5.443Hz  err=+0.151Hz  corr=+13.77W  u_ff=96.7W  PCAP→112W  power=110.5W
+[PID] perf=5.510Hz  target=5.443Hz  err=-0.067Hz  corr=+9.91W  u_ff=96.7W  PCAP→107W  power=109.8W
+[PID] perf=4.975Hz  target=5.443Hz  err=+0.468Hz  corr=+20.38W  u_ff=96.7W  PCAP→118W  power=110.1W
+[PID] perf=6.014Hz  target=5.443Hz  err=-0.571Hz  corr=+1.17W  u_ff=96.7W  PCAP→95W  power=118.4W
+[PID] perf=5.175Hz  target=5.443Hz  err=+0.268Hz  corr=+16.05W  u_ff=96.7W  PCAP→112W  power=96.3W
+[PID] perf=5.339Hz  target=5.443Hz  err=+0.105Hz  corr=+13.67W  u_ff=96.7W  PCAP→112W  power=117.1W
+[PID] perf=5.910Hz  target=5.443Hz  err=-0.467Hz  corr=+2.59W  u_ff=96.7W  PCAP→101W  power=105.1W
+[PID] perf=5.290Hz  target=5.443Hz  err=+0.153Hz  corr=+13.43W  u_ff=96.7W  PCAP→112W  power=103.7W
+[PID] perf=5.794Hz  target=5.443Hz  err=-0.351Hz  corr=+3.86W  u_ff=96.7W  PCAP→101W  power=113.9W
+[PID] perf=5.311Hz  target=5.443Hz  err=+0.132Hz  corr=+12.35W  u_ff=96.7W  PCAP→107W  power=97.0W
+[PID] perf=5.871Hz  target=5.443Hz  err=-0.428Hz  corr=+1.60W  u_ff=96.7W  PCAP→101W  power=107.0W
+[PID] perf=4.796Hz  target=5.443Hz  err=+0.647Hz  corr=+21.67W  u_ff=96.7W  PCAP→118W  power=103.1W
+[PID] perf=5.841Hz  target=5.443Hz  err=-0.397Hz  corr=+2.94W  u_ff=96.7W  PCAP→101W  power=116.2W
+[PID] perf=5.508Hz  target=5.443Hz  err=-0.065Hz  corr=+8.27W  u_ff=96.7W  PCAP→107W  power=102.4W
+[PID] perf=5.265Hz  target=5.443Hz  err=+0.179Hz  corr=+12.92W  u_ff=96.7W  PCAP→112W  power=103.7W
+Process completed.
+Compressed into /home/cc/summer2024/main_codes/pid_controller/../experiment_data/PID_Control_sweep/ones-npb-bt/compressed_iteration_20260512_095220.tar
+----------------------------------
+
+>>> Step 3/3
+
+[ones-npb-bt]
+  target perf      : 5.4434 Hz
+  coefficients_perf: [-0.0002748882630905589, 0.09680001853476215, -1.348104096123189]
+  feedforward PCAP : 96.73 W  →  95 W (snapped)
+  Perf(u_ff) check : 5.4434 Hz  (should ≈ target)
+  PID gains        : Kp=16.6655 W/Hz  Ki=1.66655 W/(Hz·s)  Kd=0.0000
+[PID] Awaiting data — feedforward PCAP=95W
+[PID] perf=5.053Hz  target=5.443Hz  err=+0.390Hz  corr=+7.81W  u_ff=96.7W  PCAP→107W  power=nanW
+[PID] perf=5.418Hz  target=5.443Hz  err=+0.025Hz  corr=+1.80W  u_ff=96.7W  PCAP→101W  power=107.3W
+[PID] perf=5.454Hz  target=5.443Hz  err=-0.011Hz  corr=+1.17W  u_ff=96.7W  PCAP→95W  power=94.1W
+[PID] perf=4.995Hz  target=5.443Hz  err=+0.448Hz  corr=+10.31W  u_ff=96.7W  PCAP→107W  power=94.5W
+[PID] perf=5.743Hz  target=5.443Hz  err=-0.300Hz  corr=-3.15W  u_ff=96.7W  PCAP→95W  power=100.0W
+[PID] perf=5.169Hz  target=5.443Hz  err=+0.275Hz  corr=+7.34W  u_ff=96.7W  PCAP→107W  power=89.9W
+[PID] perf=5.106Hz  target=5.443Hz  err=+0.338Hz  corr=+9.52W  u_ff=96.7W  PCAP→107W  power=104.1W
+[PID] perf=5.527Hz  target=5.443Hz  err=-0.083Hz  corr=+2.22W  u_ff=96.7W  PCAP→101W  power=107.3W
+[PID] perf=5.094Hz  target=5.443Hz  err=+0.349Hz  corr=+10.60W  u_ff=96.7W  PCAP→107W  power=100.6W
+[PID] perf=5.556Hz  target=5.443Hz  err=-0.113Hz  corr=+2.52W  u_ff=96.7W  PCAP→101W  power=108.7W
+[PID] perf=5.496Hz  target=5.443Hz  err=-0.052Hz  corr=+3.35W  u_ff=96.7W  PCAP→101W  power=98.8W
+[PID] perf=4.969Hz  target=5.443Hz  err=+0.474Hz  corr=+13.71W  u_ff=96.7W  PCAP→112W  power=92.2W
+[PID] perf=5.770Hz  target=5.443Hz  err=-0.327Hz  corr=-0.73W  u_ff=96.7W  PCAP→95W  power=113.3W
+[PID] perf=5.123Hz  target=5.443Hz  err=+0.320Hz  corr=+11.12W  u_ff=96.7W  PCAP→107W  power=92.4W
+[PID] perf=5.316Hz  target=5.443Hz  err=+0.127Hz  corr=+8.32W  u_ff=96.7W  PCAP→107W  power=109.5W
+[PID] perf=5.387Hz  target=5.443Hz  err=+0.057Hz  corr=+7.34W  u_ff=96.7W  PCAP→107W  power=109.2W
+[PID] perf=5.533Hz  target=5.443Hz  err=-0.089Hz  corr=+4.61W  u_ff=96.7W  PCAP→101W  power=102.6W
+[PID] perf=5.052Hz  target=5.443Hz  err=+0.391Hz  corr=+13.93W  u_ff=96.7W  PCAP→112W  power=101.1W
+[PID] perf=5.317Hz  target=5.443Hz  err=+0.126Hz  corr=+9.92W  u_ff=96.7W  PCAP→107W  power=119.9W
+[PID] perf=5.125Hz  target=5.443Hz  err=+0.319Hz  corr=+14.20W  u_ff=96.7W  PCAP→112W  power=106.5W
+[PID] perf=5.631Hz  target=5.443Hz  err=-0.187Hz  corr=+5.14W  u_ff=96.7W  PCAP→101W  power=119.0W
+[PID] perf=5.248Hz  target=5.443Hz  err=+0.196Hz  corr=+12.18W  u_ff=96.7W  PCAP→107W  power=105.3W
+[PID] perf=5.021Hz  target=5.443Hz  err=+0.423Hz  corr=+17.37W  u_ff=96.7W  PCAP→112W  power=104.8W
+[PID] perf=5.621Hz  target=5.443Hz  err=-0.177Hz  corr=+6.77W  u_ff=96.7W  PCAP→101W  power=113.5W
+[PID] perf=5.011Hz  target=5.443Hz  err=+0.433Hz  corr=+18.38W  u_ff=96.7W  PCAP→118W  power=91.9W
+[PID] perf=5.427Hz  target=5.443Hz  err=+0.017Hz  corr=+11.51W  u_ff=96.7W  PCAP→107W  power=119.2W
+[PID] perf=5.480Hz  target=5.443Hz  err=-0.036Hz  corr=+10.50W  u_ff=96.7W  PCAP→107W  power=102.0W
+[PID] perf=4.786Hz  target=5.443Hz  err=+0.657Hz  corr=+24.25W  u_ff=96.7W  PCAP→118W  power=107.2W
+[PID] perf=5.811Hz  target=5.443Hz  err=-0.367Hz  corr=+5.96W  u_ff=96.7W  PCAP→101W  power=119.4W
+[PID] perf=5.011Hz  target=5.443Hz  err=+0.433Hz  corr=+20.73W  u_ff=96.7W  PCAP→118W  power=102.1W
+[PID] perf=5.282Hz  target=5.443Hz  err=+0.162Hz  corr=+16.75W  u_ff=96.7W  PCAP→112W  power=112.0W
+[PID] perf=5.452Hz  target=5.443Hz  err=-0.008Hz  corr=+13.89W  u_ff=96.7W  PCAP→112W  power=114.1W
+[PID] perf=5.612Hz  target=5.443Hz  err=-0.168Hz  corr=+10.67W  u_ff=96.7W  PCAP→107W  power=111.7W
+[PID] perf=5.360Hz  target=5.443Hz  err=+0.084Hz  corr=+15.14W  u_ff=96.7W  PCAP→112W  power=106.6W
+[PID] perf=5.708Hz  target=5.443Hz  err=-0.265Hz  corr=+8.46W  u_ff=96.7W  PCAP→107W  power=112.9W
+[PID] perf=4.799Hz  target=5.443Hz  err=+0.644Hz  corr=+25.75W  u_ff=96.7W  PCAP→124W  power=101.8W
+[PID] perf=5.524Hz  target=5.443Hz  err=-0.081Hz  corr=+13.40W  u_ff=96.7W  PCAP→112W  power=123.3W
+[PID] perf=5.314Hz  target=5.443Hz  err=+0.129Hz  corr=+17.32W  u_ff=96.7W  PCAP→112W  power=114.1W
+[PID] perf=5.277Hz  target=5.443Hz  err=+0.167Hz  corr=+18.51W  u_ff=96.7W  PCAP→118W  power=105.7W
+[PID] perf=5.438Hz  target=5.443Hz  err=+0.005Hz  corr=+15.83W  u_ff=96.7W  PCAP→112W  power=118.4W
+[PID] perf=5.220Hz  target=5.443Hz  err=+0.223Hz  corr=+20.21W  u_ff=96.7W  PCAP→118W  power=115.0W
+[PID] perf=5.216Hz  target=5.443Hz  err=+0.227Hz  corr=+21.03W  u_ff=96.7W  PCAP→118W  power=123.4W
+[PID] perf=5.601Hz  target=5.443Hz  err=-0.157Hz  corr=+14.10W  u_ff=96.7W  PCAP→112W  power=121.9W
+[PID] perf=5.631Hz  target=5.443Hz  err=-0.187Hz  corr=+12.98W  u_ff=96.7W  PCAP→112W  power=117.8W
+[PID] perf=5.231Hz  target=5.443Hz  err=+0.213Hz  corr=+20.35W  u_ff=96.7W  PCAP→118W  power=112.8W
+[PID] perf=5.562Hz  target=5.443Hz  err=-0.118Hz  corr=+14.45W  u_ff=96.7W  PCAP→112W  power=123.9W
+[PID] perf=5.513Hz  target=5.443Hz  err=-0.070Hz  corr=+15.02W  u_ff=96.7W  PCAP→112W  power=117.8W
+[PID] perf=5.624Hz  target=5.443Hz  err=-0.180Hz  corr=+12.57W  u_ff=96.7W  PCAP→107W  power=107.5W
+[PID] perf=4.880Hz  target=5.443Hz  err=+0.564Hz  corr=+26.85W  u_ff=96.7W  PCAP→124W  power=103.8W
+[PID] perf=5.447Hz  target=5.443Hz  err=-0.004Hz  corr=+17.39W  u_ff=96.7W  PCAP→112W  power=127.7W
+[PID] perf=5.309Hz  target=5.443Hz  err=+0.134Hz  corr=+20.13W  u_ff=96.7W  PCAP→118W  power=116.2W
+[PID] perf=5.389Hz  target=5.443Hz  err=+0.055Hz  corr=+18.99W  u_ff=96.7W  PCAP→118W  power=108.7W
+[PID] perf=5.588Hz  target=5.443Hz  err=-0.144Hz  corr=+15.19W  u_ff=96.7W  PCAP→112W  power=114.3W
+[PID] perf=5.574Hz  target=5.443Hz  err=-0.131Hz  corr=+14.98W  u_ff=96.7W  PCAP→112W  power=109.1W
+[PID] perf=5.809Hz  target=5.443Hz  err=-0.365Hz  corr=+9.86W  u_ff=96.7W  PCAP→107W  power=112.9W
+[PID] perf=5.326Hz  target=5.443Hz  err=+0.118Hz  corr=+18.30W  u_ff=96.7W  PCAP→118W  power=101.4W
+[PID] perf=5.662Hz  target=5.443Hz  err=-0.219Hz  corr=+11.96W  u_ff=96.7W  PCAP→107W  power=116.3W
+[PID] perf=5.306Hz  target=5.443Hz  err=+0.138Hz  corr=+18.36W  u_ff=96.7W  PCAP→118W  power=105.0W
+[PID] perf=5.510Hz  target=5.443Hz  err=-0.067Hz  corr=+14.73W  u_ff=96.7W  PCAP→112W  power=120.7W
+[PID] perf=5.505Hz  target=5.443Hz  err=-0.062Hz  corr=+14.60W  u_ff=96.7W  PCAP→112W  power=107.5W
+[PID] perf=5.583Hz  target=5.443Hz  err=-0.140Hz  corr=+12.84W  u_ff=96.7W  PCAP→112W  power=114.0W
+[PID] perf=5.296Hz  target=5.443Hz  err=+0.147Hz  corr=+18.11W  u_ff=96.7W  PCAP→112W  power=111.4W
+[PID] perf=5.371Hz  target=5.443Hz  err=+0.073Hz  corr=+17.12W  u_ff=96.7W  PCAP→112W  power=110.6W
+[PID] perf=5.238Hz  target=5.443Hz  err=+0.205Hz  corr=+20.01W  u_ff=96.7W  PCAP→118W  power=114.8W
+[PID] perf=5.074Hz  target=5.443Hz  err=+0.370Hz  corr=+23.98W  u_ff=96.7W  PCAP→118W  power=111.7W
+[PID] perf=5.521Hz  target=5.443Hz  err=-0.078Hz  corr=+16.27W  u_ff=96.7W  PCAP→112W  power=120.1W
+[PID] perf=5.442Hz  target=5.443Hz  err=+0.001Hz  corr=+17.58W  u_ff=96.7W  PCAP→112W  power=109.0W
+[PID] perf=5.319Hz  target=5.443Hz  err=+0.125Hz  corr=+20.06W  u_ff=96.7W  PCAP→118W  power=103.0W
+[PID] perf=5.649Hz  target=5.443Hz  err=-0.205Hz  corr=+13.87W  u_ff=96.7W  PCAP→112W  power=121.8W
+[PID] perf=5.300Hz  target=5.443Hz  err=+0.143Hz  corr=+20.17W  u_ff=96.7W  PCAP→118W  power=115.4W
+[PID] perf=5.171Hz  target=5.443Hz  err=+0.272Hz  corr=+23.22W  u_ff=96.7W  PCAP→118W  power=122.5W
+[PID] perf=5.459Hz  target=5.443Hz  err=-0.016Hz  corr=+18.36W  u_ff=96.7W  PCAP→118W  power=109.4W
+[PID] perf=5.767Hz  target=5.443Hz  err=-0.324Hz  corr=+12.15W  u_ff=96.7W  PCAP→107W  power=120.3W
+[PID] perf=5.474Hz  target=5.443Hz  err=-0.030Hz  corr=+16.95W  u_ff=96.7W  PCAP→112W  power=113.4W
+[PID] perf=5.512Hz  target=5.443Hz  err=-0.069Hz  corr=+16.07W  u_ff=96.7W  PCAP→112W  power=109.5W
+[PID] perf=5.536Hz  target=5.443Hz  err=-0.092Hz  corr=+15.37W  u_ff=96.7W  PCAP→112W  power=114.8W
+[PID] perf=5.541Hz  target=5.443Hz  err=-0.098Hz  corr=+14.95W  u_ff=96.7W  PCAP→112W  power=112.9W
+[PID] perf=5.662Hz  target=5.443Hz  err=-0.218Hz  corr=+12.22W  u_ff=96.7W  PCAP→107W  power=115.9W
+[PID] perf=5.268Hz  target=5.443Hz  err=+0.175Hz  corr=+19.36W  u_ff=96.7W  PCAP→118W  power=107.1W
+[PID] perf=5.608Hz  target=5.443Hz  err=-0.165Hz  corr=+13.14W  u_ff=96.7W  PCAP→112W  power=124.3W
+[PID] perf=5.336Hz  target=5.443Hz  err=+0.108Hz  corr=+18.05W  u_ff=96.7W  PCAP→112W  power=107.9W
+[PID] perf=5.096Hz  target=5.443Hz  err=+0.347Hz  corr=+23.20W  u_ff=96.7W  PCAP→118W  power=111.5W
+[PID] perf=5.574Hz  target=5.443Hz  err=-0.130Hz  corr=+14.80W  u_ff=96.7W  PCAP→112W  power=121.9W
+[PID] perf=5.544Hz  target=5.443Hz  err=-0.100Hz  corr=+14.97W  u_ff=96.7W  PCAP→112W  power=116.1W
+[PID] perf=4.710Hz  target=5.443Hz  err=+0.734Hz  corr=+31.31W  u_ff=96.7W  PCAP→130W  power=114.0W
+[PID] perf=5.754Hz  target=5.443Hz  err=-0.311Hz  corr=+12.87W  u_ff=96.7W  PCAP→112W  power=132.6W
+[PID] perf=5.357Hz  target=5.443Hz  err=+0.087Hz  corr=+19.78W  u_ff=96.7W  PCAP→118W  power=117.1W
+[PID] perf=5.863Hz  target=5.443Hz  err=-0.420Hz  corr=+9.94W  u_ff=96.7W  PCAP→107W  power=122.5W
+[PID] perf=5.358Hz  target=5.443Hz  err=+0.085Hz  corr=+18.64W  u_ff=96.7W  PCAP→118W  power=107.7W
+[PID] perf=5.832Hz  target=5.443Hz  err=-0.389Hz  corr=+9.45W  u_ff=96.7W  PCAP→107W  power=118.9W
+[PID] perf=5.150Hz  target=5.443Hz  err=+0.293Hz  corr=+21.79W  u_ff=96.7W  PCAP→118W  power=103.0W
+[PID] perf=5.542Hz  target=5.443Hz  err=-0.099Hz  corr=+14.92W  u_ff=96.7W  PCAP→112W  power=117.6W
+[PID] perf=5.634Hz  target=5.443Hz  err=-0.191Hz  corr=+12.76W  u_ff=96.7W  PCAP→107W  power=115.8W
+Process completed.
+Compressed into /home/cc/summer2024/main_codes/pid_controller/../experiment_data/PID_Control_sweep/ones-npb-bt/compressed_iteration_20260512_095527.tar
+----------------------------------

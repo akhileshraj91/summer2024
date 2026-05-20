@@ -8,7 +8,7 @@ set -e
 
 # Configuration
 SCRIPT_NAME="mild_RL_controller.py"
-MODEL_PATH="trained_models/trained_network_weights_20260331_150342_all_preference_model_based_0.01_0.001.pth"
+MODEL_PATH="trained_models/trained_network_weights_20260430_164628_all_preference_model_based_0.01_0.001.pth"
 LOG_DIR="experiment_logs"
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 # OMP_NUM_THREADS=96
@@ -20,16 +20,16 @@ mkdir -p "$LOG_DIR"
 
 # Define applications to test
 declare -a APPLICATIONS=(
-    "ones-stream-full"
-    "ones-stream-scale"
-    "ones-stream-triad"
-    "ones-stream-add"
-    "ones-stream-copy"
-    "phases-stream-full"
-    # "ones-npb-ep"
-    # "ones-npb-is"
-    # "ones-npb-ft"
-    # "ones-npb-bt"
+    # "ones-stream-full"
+    # "ones-stream-scale"
+    # "ones-stream-triad"
+    # "ones-stream-add"
+    # "ones-stream-copy"
+    # "phases-stream-full"
+    "ones-npb-ep"
+    "ones-npb-is"
+    "ones-npb-ft"
+    "ones-npb-bt"
     # "ones-npb-cg"
     # "ones-npb-mg"
 )

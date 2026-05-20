@@ -1,0 +1,12 @@
+NRM Benchmarks:      ones-npb-ft
+Version:             0.1.0
+Description: one progress per iteration, NPB FT benchmark
+Problem size:        512.
+Kernel was executed: 500 times.
+Number of threads:   95
+Time (s): avg:          0.000148 min:    -0.000039 max:    0.075600
+VALIDATION disabled
+
+real	0m36.904s
+user	0m0.029s
+sys	0m0.106s

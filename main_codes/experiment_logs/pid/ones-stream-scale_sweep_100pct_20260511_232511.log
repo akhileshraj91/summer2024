@@ -1,0 +1,93 @@
+
+>>> Step 1/3
+
+[ones-stream-scale]
+  target perf      : 278.4852 Hz
+  coefficients_perf: [-0.007896790674324024, 2.478117841878759, 84.0686381205835]
+  feedforward PCAP : 121.50 W  →  124 W (snapped)
+  Perf(u_ff) check : 268.5856 Hz  (should ≈ target)
+  PID gains        : Kp=0.8941 W/Hz  Ki=0.08941 W/(Hz·s)  Kd=0.0000
+[PID] perf=278.272Hz  target=278.485Hz  err=+0.213Hz  corr=+0.23W  u_ff=121.5W  PCAP→124W  power=nanW
+[PID] perf=267.201Hz  target=278.485Hz  err=+11.284Hz  corr=+12.15W  u_ff=121.5W  PCAP→136W  power=124.4W
+[PID] perf=270.136Hz  target=278.485Hz  err=+8.350Hz  corr=+11.01W  u_ff=121.5W  PCAP→130W  power=136.0W
+[PID] perf=268.292Hz  target=278.485Hz  err=+10.193Hz  corr=+14.49W  u_ff=121.5W  PCAP→136W  power=130.9W
+[PID] perf=271.769Hz  target=278.485Hz  err=+6.716Hz  corr=+12.58W  u_ff=121.5W  PCAP→136W  power=136.9W
+[PID] perf=272.440Hz  target=278.485Hz  err=+6.045Hz  corr=+13.06W  u_ff=121.5W  PCAP→136W  power=135.3W
+[PID] perf=275.060Hz  target=278.485Hz  err=+3.425Hz  corr=+11.33W  u_ff=121.5W  PCAP→130W  power=136.4W
+[PID] perf=272.408Hz  target=278.485Hz  err=+6.078Hz  corr=+14.79W  u_ff=121.5W  PCAP→136W  power=129.5W
+[PID] perf=272.933Hz  target=278.485Hz  err=+5.552Hz  corr=+15.31W  u_ff=121.5W  PCAP→136W  power=137.0W
+[PID] perf=273.087Hz  target=278.485Hz  err=+5.398Hz  corr=+16.14W  u_ff=121.5W  PCAP→136W  power=135.6W
+[PID] perf=272.871Hz  target=278.485Hz  err=+5.614Hz  corr=+17.33W  u_ff=121.5W  PCAP→141W  power=134.9W
+[PID] perf=272.806Hz  target=278.485Hz  err=+5.679Hz  corr=+18.41W  u_ff=121.5W  PCAP→141W  power=140.4W
+[PID] perf=274.164Hz  target=278.485Hz  err=+4.321Hz  corr=+17.97W  u_ff=121.5W  PCAP→141W  power=140.1W
+[PID] perf=276.074Hz  target=278.485Hz  err=+2.411Hz  corr=+16.69W  u_ff=121.5W  PCAP→136W  power=140.7W
+[PID] perf=275.796Hz  target=278.485Hz  err=+2.689Hz  corr=+17.42W  u_ff=121.5W  PCAP→141W  power=134.8W
+[PID] perf=276.563Hz  target=278.485Hz  err=+1.923Hz  corr=+17.08W  u_ff=121.5W  PCAP→141W  power=139.3W
+[PID] perf=275.681Hz  target=278.485Hz  err=+2.804Hz  corr=+18.37W  u_ff=121.5W  PCAP→141W  power=138.8W
+[PID] perf=275.591Hz  target=278.485Hz  err=+2.895Hz  corr=+18.97W  u_ff=121.5W  PCAP→141W  power=141.8W
+[PID] perf=276.417Hz  target=278.485Hz  err=+2.068Hz  corr=+18.60W  u_ff=121.5W  PCAP→141W  power=141.6W
+Process completed.
+Compressed into /home/cc/summer2024/main_codes/pid_controller/../experiment_data/PID_Control_sweep/ones-stream-scale/compressed_iteration_20260512_034946.tar
+----------------------------------
+
+>>> Step 2/3
+
+[ones-stream-scale]
+  target perf      : 278.4852 Hz
+  coefficients_perf: [-0.007896790674324024, 2.478117841878759, 84.0686381205835]
+  feedforward PCAP : 121.50 W  →  124 W (snapped)
+  Perf(u_ff) check : 268.5856 Hz  (should ≈ target)
+  PID gains        : Kp=0.8941 W/Hz  Ki=0.08941 W/(Hz·s)  Kd=0.0000
+[PID] perf=283.770Hz  target=278.485Hz  err=-5.284Hz  corr=-5.67W  u_ff=121.5W  PCAP→118W  power=nanW
+[PID] perf=270.685Hz  target=278.485Hz  err=+7.801Hz  corr=+7.42W  u_ff=121.5W  PCAP→130W  power=119.2W
+[PID] perf=273.506Hz  target=278.485Hz  err=+4.979Hz  corr=+5.79W  u_ff=121.5W  PCAP→130W  power=129.7W
+[PID] perf=272.157Hz  target=278.485Hz  err=+6.328Hz  corr=+8.13W  u_ff=121.5W  PCAP→130W  power=129.2W
+[PID] perf=269.136Hz  target=278.485Hz  err=+9.349Hz  corr=+12.50W  u_ff=121.5W  PCAP→136W  power=130.0W
+[PID] perf=269.667Hz  target=278.485Hz  err=+8.819Hz  corr=+13.61W  u_ff=121.5W  PCAP→136W  power=136.9W
+[PID] perf=268.044Hz  target=278.485Hz  err=+10.441Hz  corr=+16.92W  u_ff=121.5W  PCAP→136W  power=135.5W
+[PID] perf=271.769Hz  target=278.485Hz  err=+6.716Hz  corr=+14.79W  u_ff=121.5W  PCAP→136W  power=136.6W
+[PID] perf=269.205Hz  target=278.485Hz  err=+9.280Hz  corr=+18.75W  u_ff=121.5W  PCAP→141W  power=135.7W
+[PID] perf=270.472Hz  target=278.485Hz  err=+8.013Hz  corr=+19.05W  u_ff=121.5W  PCAP→141W  power=140.1W
+[PID] perf=269.834Hz  target=278.485Hz  err=+8.651Hz  corr=+21.16W  u_ff=121.5W  PCAP→141W  power=141.0W
+[PID] perf=270.191Hz  target=278.485Hz  err=+8.295Hz  corr=+22.33W  u_ff=121.5W  PCAP→141W  power=142.1W
+[PID] perf=270.101Hz  target=278.485Hz  err=+8.384Hz  corr=+23.91W  u_ff=121.5W  PCAP→147W  power=140.6W
+[PID] perf=273.449Hz  target=278.485Hz  err=+5.036Hz  corr=+21.81W  u_ff=121.5W  PCAP→141W  power=147.0W
+[PID] perf=270.772Hz  target=278.485Hz  err=+7.713Hz  corr=+25.59W  u_ff=121.5W  PCAP→147W  power=140.5W
+[PID] perf=271.669Hz  target=278.485Hz  err=+6.816Hz  corr=+26.00W  u_ff=121.5W  PCAP→147W  power=147.0W
+[PID] perf=271.160Hz  target=278.485Hz  err=+7.325Hz  corr=+27.77W  u_ff=121.5W  PCAP→147W  power=147.4W
+[PID] perf=271.502Hz  target=278.485Hz  err=+6.983Hz  corr=+28.71W  u_ff=121.5W  PCAP→153W  power=145.2W
+[PID] perf=273.833Hz  target=278.485Hz  err=+4.652Hz  corr=+27.46W  u_ff=121.5W  PCAP→147W  power=150.8W
+Process completed.
+Compressed into /home/cc/summer2024/main_codes/pid_controller/../experiment_data/PID_Control_sweep/ones-stream-scale/compressed_iteration_20260512_035024.tar
+----------------------------------
+
+>>> Step 3/3
+
+[ones-stream-scale]
+  target perf      : 278.4852 Hz
+  coefficients_perf: [-0.007896790674324024, 2.478117841878759, 84.0686381205835]
+  feedforward PCAP : 121.50 W  →  124 W (snapped)
+  Perf(u_ff) check : 268.5856 Hz  (should ≈ target)
+  PID gains        : Kp=0.8941 W/Hz  Ki=0.08941 W/(Hz·s)  Kd=0.0000
+[PID] perf=278.346Hz  target=278.485Hz  err=+0.139Hz  corr=+0.15W  u_ff=121.5W  PCAP→124W  power=nanW
+[PID] perf=269.047Hz  target=278.485Hz  err=+9.438Hz  corr=+10.15W  u_ff=121.5W  PCAP→130W  power=123.0W
+[PID] perf=274.149Hz  target=278.485Hz  err=+4.336Hz  corr=+6.36W  u_ff=121.5W  PCAP→130W  power=129.9W
+[PID] perf=272.405Hz  target=278.485Hz  err=+6.081Hz  corr=+9.01W  u_ff=121.5W  PCAP→130W  power=129.5W
+[PID] perf=273.449Hz  target=278.485Hz  err=+5.036Hz  corr=+8.98W  u_ff=121.5W  PCAP→130W  power=128.8W
+[PID] perf=273.565Hz  target=278.485Hz  err=+4.920Hz  corr=+9.75W  u_ff=121.5W  PCAP→130W  power=129.4W
+[PID] perf=274.191Hz  target=278.485Hz  err=+4.294Hz  corr=+9.96W  u_ff=121.5W  PCAP→130W  power=129.4W
+[PID] perf=274.808Hz  target=278.485Hz  err=+3.677Hz  corr=+10.07W  u_ff=121.5W  PCAP→130W  power=130.0W
+[PID] perf=275.660Hz  target=278.485Hz  err=+2.825Hz  corr=+9.81W  u_ff=121.5W  PCAP→130W  power=130.1W
+[PID] perf=275.169Hz  target=278.485Hz  err=+3.317Hz  corr=+10.85W  u_ff=121.5W  PCAP→130W  power=130.5W
+[PID] perf=275.899Hz  target=278.485Hz  err=+2.587Hz  corr=+10.65W  u_ff=121.5W  PCAP→130W  power=130.3W
+[PID] perf=275.081Hz  target=278.485Hz  err=+3.404Hz  corr=+11.99W  u_ff=121.5W  PCAP→136W  power=129.8W
+[PID] perf=273.601Hz  target=278.485Hz  err=+4.884Hz  corr=+14.19W  u_ff=121.5W  PCAP→136W  power=137.1W
+[PID] perf=274.442Hz  target=278.485Hz  err=+4.043Hz  corr=+14.16W  u_ff=121.5W  PCAP→136W  power=135.0W
+[PID] perf=274.430Hz  target=278.485Hz  err=+4.055Hz  corr=+14.90W  u_ff=121.5W  PCAP→136W  power=135.1W
+[PID] perf=274.460Hz  target=278.485Hz  err=+4.025Hz  corr=+15.59W  u_ff=121.5W  PCAP→136W  power=136.7W
+[PID] perf=274.209Hz  target=278.485Hz  err=+4.276Hz  corr=+16.58W  u_ff=121.5W  PCAP→136W  power=137.5W
+[PID] perf=275.349Hz  target=278.485Hz  err=+3.136Hz  corr=+16.12W  u_ff=121.5W  PCAP→136W  power=133.9W
+[PID] perf=273.839Hz  target=278.485Hz  err=+4.646Hz  corr=+18.30W  u_ff=121.5W  PCAP→141W  power=137.0W
+Process completed.
+Compressed into /home/cc/summer2024/main_codes/pid_controller/../experiment_data/PID_Control_sweep/ones-stream-scale/compressed_iteration_20260512_035101.tar
+----------------------------------
